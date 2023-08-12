@@ -49,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     prof = models.ForeignKey(Professions, verbose_name="SHifokor Mutaxasisligi", on_delete=models.SET_NULL, null=True)
     prosition = models.ForeignKey(Position, verbose_name="SHifokor lavozimi", on_delete=models.SET_NULL, null=True)
     info = models.TextField("SHifokor haqida qisqacha", null=True)
-    email = models.EmailField("Elektron pochtasi", unique=True)
+    email = models.EmailField("Elektron pochtasi", null=True)
     gender = models.BooleanField("JInsi", default=True)
 
     ut = models.SmallIntegerField("Foydalanuvchi statusi", choices=[
@@ -66,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CstManager()
 
     USERNAME_FIELD = "phone"
-    REQUIRED_FIELD = ['email', "ut"]
+    REQUIRED_FIELD = ['phone', "ut"]
 
     class Meta:
         verbose_name_plural = "1. Duxtirlar"
