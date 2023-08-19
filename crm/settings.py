@@ -138,5 +138,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DASHBOARD_URL = os.getenv("DASHBOARD_URL")
 API_URL = os.getenv("API_URL")
 
-PAGINATE_BY = 15
+PAGINATE_BY = 5
 
