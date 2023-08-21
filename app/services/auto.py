@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from app.models import *
 from app.forms import *
 
-from app.models.doctor import Service, Price
+from app.models.doctor import Service,Price
 
 
 # @login_required(login_url='sign-in')

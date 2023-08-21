@@ -6,6 +6,8 @@ from django.contrib.auth.models import PermissionsMixin, UserManager
 class Professions(models.Model):
     name = models.CharField(max_length=256)
 
+    def __str__(self):
+        return f"{self.name}"
     class Meta:
         verbose_name_plural = "5. Kasblar"
         verbose_name = "Kasb"
@@ -14,6 +16,8 @@ class Professions(models.Model):
 class Position(models.Model):
     name = models.CharField(max_length=256)
 
+    def __str__(self):
+        return f"{self.name}"
     class Meta:
         verbose_name_plural = "6. lavozim"
         verbose_name = "Lavozim"
@@ -67,7 +71,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = "phone"
     REQUIRED_FIELD = ['phone', "ut"]
-
+    def __str__(self):
+        return f"{self.name}"
     class Meta:
         verbose_name_plural = "1. Duxtirlar"
         verbose_name = "Duxtirlar"
