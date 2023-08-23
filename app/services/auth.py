@@ -16,14 +16,18 @@ from methodism import code_decoder
 def sign_in(request):
     if not request.user.is_anonymous:
         return redirect("home")
+    ctx ={
+        'pos' : 'login'
+    }
     if request.POST:
-        data = request.POST
-        user = User.objects.filter(email=data["email"]).first()
+        phone = request.POST.get("phone")
+        password = request.POST.get("password")
+        user = User.objects.filter(email=phone).first()
 
         if not user:
-            return render(request, "page/auth/login.html", {"error": "Parol yoki Email xato"})
+            return render(request, "page/auth/login.html", {"error": "Parol yoki Phone xato"})
 
-        if not user.check_password(data["password"]):
+        if not user.check_password(password):
             return render(request, "page/auth/login.html", {"error": "Parol yoki Email xato"})
 
         if not user.is_active:
@@ -102,7 +106,10 @@ def sign_up(request):
 
 @login_required(login_url='sign-in')
 def sign_out(request):
-    logout(request)
+
+    if request.user.is_anonymous:
+        return redirect('home')
+
     return redirect('sign-in')
 
 
