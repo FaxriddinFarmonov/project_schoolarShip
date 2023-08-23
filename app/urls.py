@@ -1,10 +1,17 @@
 from django.urls import path
 
 from .services.auto import gets, auto_form, auto_del
+from .services.auth import profile
+
 from .views import index
 
 urlpatterns = [
     path("", index, name="home"),
+# user
+#     path("auth/",sign_in, name="sign-in"),
+#     path("auto/regis/", sign_up, name="log-up"),
+#     path("auto/logout/", sign_out, name="log-out"),
+    path("auto/profile/", profile, name="profile"),
 
     #auto
 

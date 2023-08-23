@@ -72,7 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "phone"
     REQUIRED_FIELD = ['phone', "ut"]
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} {self.familya}"
     class Meta:
         verbose_name_plural = "1. Duxtirlar"
         verbose_name = "Duxtirlar"
@@ -81,3 +81,26 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.ut == 4:
             self.position = 2
         return super(User,self).save(*args,**kwargs)
+
+
+class OTP(models.Model):
+    key = models.CharField(max_length=1024)
+    phone = models.CharField(max_length=512)
+    is_expire = models.BooleanField(default=False)
+    tries = models.SmallIntegerField(default=0)
+    extra = models.JSONField(default={})
+    step = models.CharField(max_length=26)
+    by = models.IntegerField(choices=[
+        (1, "By register"),
+        (2, "By login")
+    ])
+    created = models.DateTimeField(auto_now=False, auto_now_add=True, editable=False)
+    created = models.DateTimeField(auto_now=True, auto_now_add=False, editable=False)
+
+    def save(self, *args, **kwargs):
+        if self.tries >= 3:
+            self.is_expire = True
+        return super(OTP, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.phone}"
