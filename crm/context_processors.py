@@ -1,3 +1,6 @@
+from django.conf import settings
+
+
 def user_type(request):
    try:
         types = {
@@ -8,6 +11,11 @@ def user_type(request):
         }.get(request.user.ut, "page/doc/main.html")
    except:
         types = "page/doc/main.html"
-   return {
-        "type" : types
-    }
+
+   ctx = {
+       "type":types,
+       "app_name":settings.APP_NAME
+   }
+   if not request.user.is_anonymous:
+        ctx.update({'ut':request.user.ut})
+   return ctx

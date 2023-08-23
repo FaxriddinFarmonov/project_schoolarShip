@@ -76,3 +76,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name_plural = "1. Duxtirlar"
         verbose_name = "Duxtirlar"
+
+    def save(self, *args, **kwargs):
+        if self.ut == 4:
+            self.position = 2
+        return super(User,self).save(*args,**kwargs)
