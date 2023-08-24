@@ -17,18 +17,18 @@ def sign_in(request):
     if not request.user.is_anonymous:
         return redirect("home")
     ctx ={
-        'pos' : 'login'
+
     }
     if request.POST:
         phone = request.POST.get("phone")
         password = request.POST.get("password")
-        user = User.objects.filter(email=phone).first()
+        user = User.objects.filter(phone=phone).first()
 
         if not user:
             return render(request, "page/auth/login.html", {"error": "Parol yoki Phone xato"})
 
         if not user.check_password(password):
-            return render(request, "page/auth/login.html", {"error": "Parol yoki Email xato"})
+            return render(request, "page/auth/login.html", {"error": "Parol yoki Phone xato"})
 
         if not user.is_active:
             return render(request, "page/auth/login.html", {"error": "Profile Ban Qilingan"})
@@ -39,7 +39,7 @@ def sign_in(request):
 
         otp = OTP.objects.create(
             key=key,
-            email=user.email,
+            phone=user.phone,
             step='login',
             by=2
         )
@@ -50,7 +50,7 @@ def sign_in(request):
         request.session["email"] = user.email
         request.session["otp_token"] = otp.key
 
-        return redirect("otp")
+        # return redirect("otp")
 
         login(request, user)
         return redirect("home")
@@ -61,19 +61,21 @@ def sign_in(request):
 def sign_up(request):
     if request.POST:
         data = request.POST
-        user = User.objects.filter(email=data['email']).first()
+        user = User.objects.filter(phone=data['phone']).first()
+        print(user)
 
         if user:
-            return render(request, "page/auth/regis.html", {"error": "Siz kiritgan email band"})
+            return render(request, "page/auth/regis.html", {"error": "Siz kiritgan phone band"})
 
         if data["pass"] != data["pass_conf"]:
             return render(request, "page/auth/regis.html", {"error": "Parollar mos kelmadi"})
 
-        # user=User.objects.create_user(email=data["email"],
-        #                               password=data["pass"],
-        #                               fname=data["name"],
-        #                               lname=data["familya"]
-        #                               )
+        user=User.objects.create_user(phone=data["phone"],
+                                      name=data['name'],
+                                      email=data['email'],
+                                      password=data["pass"],
+                                      gender=int(data['gender']),
+                                      )
 
         code = random.randint(100000, 999999)
         # send_sms(998951808802,code)
@@ -81,36 +83,38 @@ def sign_up(request):
 
         otp = OTP.objects.create(
             key=key,
-            email=data["email"],
+            phone=data["phone"],
             step='regis',
             by=1,
             extra={
-                'email': data["email"],
-                'password': data["pass"],
+                'phone': data["phone"],
+                'password': code_decoder(data['pass']),
                 'fname': data["name"],
-                'lname': data["familya"]
+
             }
         )
         otp.save()
 
         request.session["code"] = code
-        request.session["email"] = otp.email
+        request.session["email"] =data['email']
+        request.session["phone"] = otp.phone
         request.session["otp_token"] = otp.key
 
-        return redirect("otp")
+        # return redirect("otp")
         authenticate(request)
         login(request, user)
         return redirect('home')
 
     return render(request, "page/auth/regis.html")
 
-@login_required(login_url='sign-in')
+@login_required(login_url='login')
 def sign_out(request):
 
     if request.user.is_anonymous:
         return redirect('home')
+    logout(request)
 
-    return redirect('sign-in')
+    return redirect('login')
 
 
 def profile(request):

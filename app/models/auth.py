@@ -49,11 +49,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField("ismi", max_length=128)
     familya = models.CharField("familya", max_length=128)
     phone = models.CharField("Telefon raqami", max_length=20, unique=True)
-    img = models.ImageField("rasm", upload_to="docs", null=True)
-    prof = models.ForeignKey(Professions, verbose_name="SHifokor Mutaxasisligi", on_delete=models.SET_NULL, null=True)
-    prosition = models.ForeignKey(Position, verbose_name="SHifokor lavozimi", on_delete=models.SET_NULL, null=True)
-    info = models.TextField("SHifokor haqida qisqacha", null=True)
-    email = models.EmailField("Elektron pochtasi", null=True)
+    img = models.ImageField("rasm", upload_to="docs", blank=True, null=True)
+    prof = models.ForeignKey(Professions, verbose_name="SHifokor Mutaxasisligi", on_delete=models.SET_NULL, blank=True, null=True)
+    prosition = models.ForeignKey(Position, verbose_name="SHifokor lavozimi", on_delete=models.SET_NULL, blank=True, null=True)
+    info = models.TextField("SHifokor haqida qisqacha", blank=True, null=True)
+    email = models.EmailField("Elektron pochtasi", blank=True, null=True)
     gender = models.BooleanField("JInsi", default=True)
 
     ut = models.SmallIntegerField("Foydalanuvchi statusi", choices=[

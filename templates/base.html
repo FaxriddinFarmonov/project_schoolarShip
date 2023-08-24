@@ -199,10 +199,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           {% endif %}
           <li class="nav-item">
-              <a data-toggle="modal" data-target="#logoutModal" class="nav-link">
+              <a  data-toggle="modal" data-target="#logoutModal" class="nav-link">
               <i class="fas fa-sign-out-alt"></i>
               <p>
-               Logout
+              Logout
               </p>
             </a>
           </li>
@@ -266,7 +266,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="modal-body">Ro'stdan ham rostan ham sayttan chiqasizmi?</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Yo'q</button>
-                <a class="btn btn-primary" href="   ">Ha</a>
+                <a class="btn btn-primary" href="{% url 'logout' %}" >Ha</a>
             </div>
         </div>
     </div>
