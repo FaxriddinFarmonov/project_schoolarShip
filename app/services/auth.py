@@ -34,7 +34,7 @@ def sign_in(request):
             return render(request, "page/auth/login.html", {"error": "Profile Ban Qilingan"})
 
         code = random.randint(100000, 999999)
-        # send_sms(998951808802,code)
+        send_sms(998951808802,code)
         key = code_decoder(code)
 
         otp = OTP.objects.create(
@@ -116,6 +116,6 @@ def sign_out(request):
 
     return redirect('login')
 
-
+@login_required(login_url='login')
 def profile(request):
     return render(request,'page/auth/profile.html')

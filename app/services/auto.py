@@ -9,7 +9,7 @@ from app.forms import *
 from app.models.doctor import Service,Price
 
 
-# @login_required(login_url='sign-in')
+@login_required(login_url='sign-in')
 def gets(requests, key, pk=None):
     try:
         Model = {
@@ -42,7 +42,7 @@ def gets(requests, key, pk=None):
 
 
 
-# @login_required(login_url='sign-in')
+@login_required(login_url='sign-in')
 def auto_form(requests, key, pk=None):
 
     try:
@@ -75,7 +75,7 @@ def auto_form(requests, key, pk=None):
     return render(requests, f'page/{key}.html', ctx)
 
 
-# @login_required(login_url='sign-in')
+@login_required(login_url='sign-in')
 def auto_del(requests, key, pk):
     try:
         Model = {
@@ -91,3 +91,5 @@ def auto_del(requests, key, pk):
         return render(requests, f'pages/{key}.html', ctx)
     root.delete()
     return redirect('dashboard-auto-list', key=key)
+
+
