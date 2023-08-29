@@ -27,8 +27,8 @@ def user_type(request):
 
 def count(request):
 
-   sql= """
-   select(selectCOUNT(*)from app_user where ut = 3 ) as cnt_doc,
+   sql = """
+   select(select COUNT(*)from app_user where ut = 3 ) as cnt_doc,
    (select COUNT( *)  from app_user where ut = 2 ) as cnt_admin,
    (select COUNT( *) from app_user where ut = 4 ) as cnt_client,
    (select COUNT( *)  from app_service ) as cnt_service
@@ -38,7 +38,7 @@ def count(request):
 
 
    with closing(connection.cursor()) as cursor:
-       cursor.execute()
+       cursor.execute(sql)
        result = dictfetchone(cursor)
 
    return {
