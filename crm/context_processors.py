@@ -1,4 +1,8 @@
+from contextlib import closing
+
 from django.conf import settings
+from django.db import connection
+from methodism import dictfetchone
 
 
 def user_type(request):
@@ -19,3 +23,29 @@ def user_type(request):
    if not request.user.is_anonymous:
         ctx.update({'ut':request.user.ut})
    return ctx
+
+
+def count(request):
+
+   sql= """
+   select(selectCOUNT(*)from app_user where ut = 3 ) as cnt_doc,
+   (select COUNT( *)  from app_user where ut = 2 ) as cnt_admin,
+   (select COUNT( *) from app_user where ut = 4 ) as cnt_client,
+   (select COUNT( *)  from app_service ) as cnt_service
+   from django_session limit 1   
+   """
+
+
+
+   with closing(connection.cursor()) as cursor:
+       cursor.execute()
+       result = dictfetchone(cursor)
+
+   return {
+       "count": result
+   }
+
+ 
+ 
+
+
