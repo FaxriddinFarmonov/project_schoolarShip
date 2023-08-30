@@ -1,18 +1,21 @@
 from contextlib import closing
 
 from django.conf import settings
+from django.contrib.auth import logout
 from django.db import connection
+from django.shortcuts import redirect,render
 from methodism import dictfetchone
 
 
 def user_type(request):
    try:
-        types = {
+
+       types = {
             1: "page/direct/main.html",
             2: "page/admin/main.html",
             3: "page/doc/main.html",
             4: "page/client/main.html"
-        }.get(request.user.ut, "page/doc/main.html")
+       }.get(request.user.ut, "page/doc/main.html")
    except:
         types = "page/doc/main.html"
 

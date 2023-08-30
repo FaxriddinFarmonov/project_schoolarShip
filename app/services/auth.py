@@ -27,6 +27,12 @@ def sign_in(request):
         if not user:
             return render(request, "page/auth/login.html", {"error": "Parol yoki Phone xato"})
 
+        if not user.is_active:
+            ctx['error'] = 'Uzur siz blokdasiz sizga kirish mumkin emas'
+            ctx['etype'] = 'ban'
+            return render(request, "page/auth/login.html", ctx)
+
+
         if not user.check_password(password):
             return render(request, "page/auth/login.html", {"error": "Parol yoki Phone xato"})
 
@@ -34,7 +40,7 @@ def sign_in(request):
             return render(request, "page/auth/login.html", {"error": "Profile Ban Qilingan"})
 
         code = random.randint(100000, 999999)
-        send_sms(998951808802,code)
+        # send_sms(998951808802,code)
         key = code_decoder(code)
 
         otp = OTP.objects.create(

@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Dorilar</h1>
+            <h1>Azolar</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -32,25 +32,70 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+              {% if roots %}
+              	
+
+            
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>№</th>
                     <th>Nomi</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ i }}</td>
+
+                    {% if  not i.is_active %}
+                    	  <td class="text-danger">{{ i }} <sup> <span class="badge badge-danger ">banned</span></sup></td>
+                    {% else %}
+                         <td>{{ i }}</td>
+                    {% endif %}
+
+                    <td>{{ i.phone }}</td>
                     <td>
                         <a href="" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-info-circle"></i>
                         </a>
-                        <a href="" title="O'zgartirish" class="btn btn-warning btn-circle btn-sm">
-                            <i class="fas fa-pen"></i>
-                        </a>
+
+                      {% if i.is_active  %}
+                      	 </a> <a href="{% url 'banned' user_id=i.id tpe=i.ut status=0 %}" title="Ban"  class="btn btn-danger btn-circle btn-sm">
+                            <i class="fas fa-thumbs-down"></i>
+                         </a>
+
+                      {% else %}
+                           </a> <a href="{% url 'banned' user_id=i.id tpe=i.ut status=1 %}"  title="Unban" class="btn btn-success btn-circle btn-sm">
+                            <i class="fas fa-thumbs-up"></i>
+                           </a>
+
+                      {% endif %}
+                      {% if i.ut == 3 %}
+                          <a href="{% url 'grader' pk=i.id ut=2 dut=i.ut %}" title="GradeUp to Admin"  class="btn btn-primary btn-circle btn-sm">
+                                <i class="fas fa-arrow-up "></i>
+                          </a>
+                          <a href="{% url 'grader' pk=i.id ut=4 dut=i.ut %}" title="GradeDown to member"  class="btn btn-danger btn-circle btn-sm">
+                                <i class="fas fa-arrow-down"></i>
+                          </a>
+                      {% elif i.ut == 2 %}
+                          <a href="{% url 'grader' pk=i.id ut=3 dut=i.ut %}" title="GradeDown to Doc"  class="btn btn-danger btn-circle btn-sm">
+                                <i class="fas fa-arrow-down "></i>
+                          </a>
+                          <a href="{% url 'grader' pk=i.id ut=4 dut=i.ut %}" title="GradeDown to member"  class="btn btn-danger btn-circle btn-sm">
+                                   <i class="fa-solid fa-angles-down"></i>
+                          </a>
+                     {% else %}
+                           <a href="{% url 'grader' pk=i.id ut=3 dut=i.ut %}" title="GradeUp to Doc"  class="btn btn-primary btn-circle btn-sm">
+                                <i class="fas fa-arrow-up "></i>
+                          </a>
+                          <a href="{% url 'grader' pk=i.id ut=2 dut=i.ut %}" title="GradeUp to Admin"  class="btn btn-success btn-circle btn-sm">
+                                <i class="fa-solid fa-angles-up"></i>
+                          </a>
+
+                     {% endif %}
                     </td>
 
                 </tr>
@@ -78,6 +123,9 @@
                         {% endif %}
                     </span>
                 </div>
+                {% else %}
+                  <h3 class="text-danger">Uzur bu bo'limdan xech narsa topilmadi</h3>
+                {% endif %}
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
