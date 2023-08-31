@@ -52,6 +52,9 @@
 
                     {% if  not i.is_active %}
                     	  <td class="text-danger">{{ i }} <sup> <span class="badge badge-danger ">banned</span></sup></td>
+                    {% elif user.new %}
+                    	  <td>{{ i }} <sup> <span class="badge badge-success ">new</span></sup></td>
+
                     {% else %}
                          <td>{{ i }}</td>
                     {% endif %}

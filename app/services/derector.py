@@ -1,3 +1,10 @@
+
+from contextlib import closing
+
+
+from django.db import connection
+from methodism import dictfetchone, dictfetchall
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites import requests
 from django.core.paginator import Paginator
@@ -9,7 +16,16 @@ from app.models import User
 
 def list_members(request,tpe=None):
     kwargs = {"ut":tpe} if tpe else {}
+    sql = " select id, name, familya, phone from app_user where new=true and not ut = 1"
+    cnt = "SELECT COUNT(*) as cnt from app_user WHERE new=TRUE and not ut = 1 "
 
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(sql)
+        result = dictfetchall(cursor)
+
+    with closing(connection.cursor()) as cursor:
+        cursor.execute(cnt)
+        cnt_result = dictfetchone(cursor)
 
     pagination = User.objects.filter(**kwargs).order_by('-pk')
     paginator = Paginator(pagination, settings.PAGINATE_BY)
@@ -24,7 +40,9 @@ def list_members(request,tpe=None):
 
     ctx = {
         "roots" : paginated,
-        "root_type" : types.get(tpe,'all')
+        "root_type" : types.get(tpe,'all'),
+        "notifis" : result,
+        "cntNot" : cnt_result
     }
     return render(request,'page/members.html',ctx)
 
@@ -54,3 +72,4 @@ def grader(request,pk,ut,dut):
         pass
 
     return redirect('members', tpe=dut)
+

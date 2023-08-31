@@ -55,6 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     info = models.TextField("SHifokor haqida qisqacha", blank=True, null=True)
     email = models.EmailField("Elektron pochtasi", blank=True, null=True)
     gender = models.BooleanField("JInsi", default=True)
+    new = models.BooleanField(default=True)
 
     ut = models.SmallIntegerField("Foydalanuvchi statusi", choices=[
         (1, "Boshliq"),
@@ -104,3 +105,5 @@ class OTP(models.Model):
 
     def __str__(self):
         return f"{self.phone}"
+
+
