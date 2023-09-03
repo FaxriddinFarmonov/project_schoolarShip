@@ -47,12 +47,15 @@
                 </thead>
                 <tbody>
                 {% for i in roots %}
+                {% if i.ut == 1  %}
+                {% else %}
+                {% endif %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
 
                     {% if  not i.is_active %}
                     	  <td class="text-danger">{{ i }} <sup> <span class="badge badge-danger ">banned</span></sup></td>
-                    {% elif user.new %}
+                    {% elif i.new %}
                     	  <td>{{ i }} <sup> <span class="badge badge-success ">new</span></sup></td>
 
                     {% else %}

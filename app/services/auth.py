@@ -125,4 +125,6 @@ def sign_out(request):
 @login_required(login_url='login')
 def profile(request):
     return render(request,'page/auth/profile.html')
-
+@login_required(login_url='login')
+def search(request,q):
+    return render(request,'search.html')

@@ -13,10 +13,8 @@ from django.shortcuts import render,redirect
 
 from app.models import User
 
-
-def list_members(request,tpe=None):
-    kwargs = {"ut":tpe} if tpe else {}
-    sql = " select id, name, familya, phone from app_user where new=true and not ut = 1"
+def notifis():
+    sql = " select id, name, familya, phone from app_user where new=true and not ut = 1 limit 3"
     cnt = "SELECT COUNT(*) as cnt from app_user WHERE new=TRUE and not ut = 1 "
 
     with closing(connection.cursor()) as cursor:
@@ -26,6 +24,15 @@ def list_members(request,tpe=None):
     with closing(connection.cursor()) as cursor:
         cursor.execute(cnt)
         cnt_result = dictfetchone(cursor)
+    return {
+        "notifis": result,
+        "cntNot": cnt_result
+    }
+
+def list_members(request,tpe=None,new=False):
+    kwargs = {"ut":tpe} if tpe else {}
+    if new:
+        kwargs['new']=new
 
     pagination = User.objects.filter(**kwargs).order_by('-pk')
     paginator = Paginator(pagination, settings.PAGINATE_BY)
@@ -40,10 +47,12 @@ def list_members(request,tpe=None):
 
     ctx = {
         "roots" : paginated,
-        "root_type" : types.get(tpe,'all'),
-        "notifis" : result,
-        "cntNot" : cnt_result
+        "root_type" : types.get(tpe,'New'),
+
+
     }
+    print(pagination,'============')
+    ctx.update(notifis())
     return render(request,'page/members.html',ctx)
 
 @login_required(login_url='login')
@@ -53,6 +62,7 @@ def banned(request,user_id,tpe,status=False):
     try:
         user = User.objects.filter(id=user_id).first()
         user.is_active = status
+        user.new = False
         user.save()
     except:
         pass
@@ -66,6 +76,7 @@ def grader(request,pk,ut,dut):
         kwargs = {"id" :pk}
         user = User.objects.filter(**kwargs).first()
         user.ut = ut
+        user.new = False
         user.save()
 
     except:
