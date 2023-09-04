@@ -15,7 +15,7 @@ from app.models import User
 
 def notifis():
     sql = " select id, name, familya, phone from app_user where new=true and not ut = 1 limit 3"
-    cnt = "SELECT COUNT(*) as cnt from app_user WHERE new=TRUE and not ut = 1 "
+    cnt = "SELECT COUNT(*) as cnt from app_user WHERE new=TRUE and not ut = 1 limit 1 "
 
     with closing(connection.cursor()) as cursor:
         cursor.execute(sql)
@@ -41,6 +41,13 @@ def list_members(request,tpe=None,new=False):
     page_number = request.GET.get("page", 1)
     paginated = paginator.get_page(page_number)
 
+    uzunlik = len(pagination) // settings.PAGINATE_BY
+    if len(pagination) % settings.PAGINATE_BY:
+        uzunlik += 1
+    length = [x for x in range(1,uzunlik+1)]
+
+
+
     types ={
         3 : "doctor",
         2 : "admin",
@@ -50,6 +57,9 @@ def list_members(request,tpe=None,new=False):
     ctx = {
         "roots" : paginated,
         "root_type" : types.get(tpe,'New'),
+        "page_len" : length,
+        "current_page" : int(page_number),
+        "uzunlik" : uzunlik
 
 
     }

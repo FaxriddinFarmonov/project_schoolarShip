@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{#faxriddin#}
+
 <!--
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
@@ -67,36 +67,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
     </form>
 
-    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
 
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
           <span class="badge badge-info navbar-badge">{{ cntNot.cnt }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-header">{{ cntNot.cnt }} Notifications</span>
-          <div class="dropdown-divider"></div>
 
          {% for i in notifis %}
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item">
                 <i class="fas fa-users mr-2"></i>{{ i.name }} {{ i.familiya }}
-                <sup><span class="badge badge-success ">new</span></sup>
+                <sup> <span class="badge badge-success ">new</span></sup>
                 <span class="float-right text-muted text-sm">{{ i.phone }}</span>
               </a>
          {% endfor %}
 
           <div class="dropdown-divider"></div>
-        {% if request.user.ut == 1 %}
-            <a href="{% url 'members-new' new=1 %}" class="dropdown-item dropdown-footer">See All Notifications</a>
-
-        {% else %}
-            <a href="" class="dropdown-item dropdown-footer">See All Notifications</a>
-
-        {% endif %}
+          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
       <li class="nav-item">
