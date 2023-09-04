@@ -31,6 +31,8 @@ def notifis():
 
 def list_members(request,tpe=None,new=False):
     kwargs = {"ut":tpe} if tpe else {}
+    if  request.user.ut != 1:
+        return redirect('home')
     if new:
         kwargs['new']=new
 
@@ -51,13 +53,12 @@ def list_members(request,tpe=None,new=False):
 
 
     }
-    print(pagination,'============')
     ctx.update(notifis())
     return render(request,'page/members.html',ctx)
 
 @login_required(login_url='login')
 def banned(request,user_id,tpe,status=False):
-    if not request.user.ut == 1:
+    if request.user.ut != 1:
         return redirect('home')
     try:
         user = User.objects.filter(id=user_id).first()
@@ -70,7 +71,7 @@ def banned(request,user_id,tpe,status=False):
 
 @login_required(login_url='login')
 def grader(request,pk,ut,dut):
-    if not request.user.ut == 1:
+    if  request.user.ut != 1:
         return redirect('home')
     try:
         kwargs = {"id" :pk}
