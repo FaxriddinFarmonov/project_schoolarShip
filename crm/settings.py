@@ -39,12 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'app',
-
-    # #internal
     "app",
-    # external
-
     "rest_framework.authtoken",
     "bootstrap4",
 ]
@@ -142,5 +137,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DASHBOARD_URL = os.getenv("DASHBOARD_URL")
 API_URL = os.getenv("API_URL")
 
-PAGINATE_BY = 1
+PAGINATE_BY = 4
 

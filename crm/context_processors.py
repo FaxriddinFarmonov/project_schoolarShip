@@ -1,11 +1,11 @@
+import datetime
 from contextlib import closing
-
 from django.conf import settings
 from django.contrib.auth import logout
 from django.db import connection
 from django.shortcuts import redirect,render
 from methodism import dictfetchone
-
+from app.models.doctor import Spam
 
 def user_type(request):
    try:
@@ -48,7 +48,12 @@ def count(request):
        "count": result
    }
 
-
- 
-
-
+def check_spam(request):
+    spam_user = Spam.objects.filter(user_id=request.user.id,active=True)
+    if spam_user:
+        if (spam_user.date-datetime.datetime.now()).total_seconds()>300:
+            spam_user.active = False
+            spam_user.save()
+            return {'spam':False,"spam_user":{}}
+        return  {'spam':True,"spam_user":spam_user}
+    return {'spam':False,"spam_user":{}}

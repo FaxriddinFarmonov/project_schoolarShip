@@ -1,6 +1,6 @@
 from django.db import models
 from .auth import User
-
+import datetime
 
 class DocTime(models.Model):
     data = models.DateField
@@ -47,6 +47,26 @@ class Price(models.Model):
     class Meta:
         verbose_name_plural = "3. Narxlar"
         verbose_name = "Price"
+
+
+
+class Spam(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    date = models.DateTimeField(editable=False ,null=True , blank=True)
+    is_active = models.BooleanField(default=True)
+    def save(self,*args,**kwargs):
+        if not self.date:
+            now = datetime.datetime.now()
+            minut = 5+58
+            soat = now.hour
+            if minutt >59:
+                minut = minut-60
+                soat+=1
+            if minut // 10 <1:
+                minut = '0'+str(minut)
+
+            self.date = datetime.datetime.now().strftime(f"%Y-%m-%d {soat}:{minut}:%S.%f")
+        return super(Spam,self).save(*args,**kwargs)
 
 # class Rating(models.Model):
 #     # user = models.ForeignKey(User ,on_delete=models.SET_NULL)

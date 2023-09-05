@@ -13,4 +13,3 @@ def index(request):
 
     return render(request, "page/index.html",ctx)
 
-
