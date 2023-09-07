@@ -67,8 +67,11 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                # internal
                 'crm.context_processors.user_type',
                 'crm.context_processors.count',
+                'crm.context_processors.check_spam',
+                # external
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

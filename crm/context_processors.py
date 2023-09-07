@@ -49,7 +49,8 @@ def count(request):
    }
 
 def check_spam(request):
-    spam_user = Spam.objects.filter(user_id=request.user.id,active=True)
+
+    spam_user = Spam.objects.filter(user_id=request.user.id,is_active=True)
     if spam_user:
         if (spam_user.date-datetime.datetime.now()).total_seconds()>300:
             spam_user.active = False

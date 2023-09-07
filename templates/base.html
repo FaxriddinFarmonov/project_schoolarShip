@@ -188,7 +188,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 {% if error == 404 %}
    {% include '404.html' %}
-
+{% elif spam %}
+    {% include "spam.html" %}
 {% endif %}
 
 

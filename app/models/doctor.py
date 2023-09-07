@@ -59,7 +59,7 @@ class Spam(models.Model):
             now = datetime.datetime.now()
             minut = 5+58
             soat = now.hour
-            if minutt >59:
+            if minut >59:
                 minut = minut-60
                 soat+=1
             if minut // 10 <1:

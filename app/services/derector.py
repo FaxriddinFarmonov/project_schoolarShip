@@ -12,6 +12,7 @@ from django.conf import   settings
 from django.shortcuts import render,redirect
 
 from app.models import User
+from app.models import Spam
 
 def notifis():
     sql = " select id, name, familya, phone from app_user where new=true and not ut = 1 limit 3"
@@ -95,3 +96,15 @@ def grader(request,pk,ut,dut):
 
     return redirect('members', tpe=dut)
 
+
+@login_required(login_url="login")
+def spammer(request,pk,dut):
+    print(request.POST)
+    if request.user != 1:
+        return redirect("home")
+    try:
+        user = User.objects.filter(id=pk).first()
+        Spam.objects.create(user=user)
+    except:
+        pass
+    return redirect("home",tpe=dut)

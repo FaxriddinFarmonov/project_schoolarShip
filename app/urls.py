@@ -2,7 +2,7 @@ from django.urls import path
 
 from .services.auto import gets, auto_form, auto_del
 from .services.auth import profile,sign_up,sign_in,sign_out,search
-from .services.derector import list_members,banned,grader
+from .services.derector import list_members,banned,grader,spammer
 
 from .views import index
 
@@ -29,6 +29,7 @@ urlpatterns = [
     path("member/new/<int:new>/",list_members,name='members-new'),
     path("banner/u-<int:user_id>/t-<int:tpe>/s-<int:status>/",banned,name='banned'),
     path("grader/<int:pk>/<int:ut>/<int:dut>/",grader,name='grader'),
+    path("spammer/<int:pk>/<int:dut>/",spammer,name='spammer'),
     #search
     path("search/",search,name="search_wor")
 
