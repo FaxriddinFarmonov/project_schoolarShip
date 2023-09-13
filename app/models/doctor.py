@@ -54,7 +54,14 @@ class Spam(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     date = models.DateTimeField(editable=False ,null=True , blank=True)
     is_active = models.BooleanField(default=True)
+    isba = models.BooleanField(default=True)
     def save(self,*args,**kwargs):
+        try:
+            self.user.is_spam = True
+            self.user.save()
+        except:
+            pass
+
         if not self.date:
             now = datetime.datetime.now()
             minut = 5+58

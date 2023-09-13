@@ -1,3 +1,4 @@
+import datetime
 
 from contextlib import closing
 
@@ -99,12 +100,17 @@ def grader(request,pk,ut,dut):
 
 @login_required(login_url="login")
 def spammer(request,pk,dut):
-    print(request.POST)
-    if request.user != 1:
+    print((datetime.datetime.now()).total_seconds())
+
+
+    print(request.POST.get(pk))
+    print(request.user)
+    if request.user.ut != 1:
+        print('faxriddin=====')
         return redirect("home")
     try:
         user = User.objects.filter(id=pk).first()
         Spam.objects.create(user=user)
     except:
         pass
-    return redirect("home",tpe=dut)
+    return redirect("home")
