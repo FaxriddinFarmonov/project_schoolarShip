@@ -97,15 +97,16 @@ def grader(request,pk,ut,dut):
     return redirect('members', tpe=dut)
 
 
-@login_required(login_url="login")
-def spammer(request,pk,dut):
-    # print(datetime.datetime.now(),'=========')
-    print(request.POST)
-    if request.user.ut != 1:
-        return redirect("home")
-    try:
-        user = User.objects.filter(id=pk).first()
-        Spam.objects.create(user=user)
-    except:
-        pass
-    return redirect("members",tpe=dut)
+# @login_required(login_url="login")
+# def spammer(request,pk,dut):
+#     spam_user = Spam.objects.filter(user_id=request.user.id,active=True ).first()
+#     print(spam_user)
+#     print(request.POST)
+#     if request.user.ut != 1:
+#         return redirect("home")
+#     try:
+#         user = User.objects.filter(id=pk).first()
+#         Spam.objects.create(user=user)
+#     except:
+#         pass
+#     return redirect("members",tpe=dut)

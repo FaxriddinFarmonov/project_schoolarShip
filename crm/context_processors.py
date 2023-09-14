@@ -48,16 +48,16 @@ def count(request):
        "count": result
    }
 
-def check_spam(request):
-    spam_user = Spam.objects.filter(user_id=request.user.id,active=True ).first()
-    print(spam_user)
-    if spam_user:
-        if (spam_user.date-datetime.datetime.now()).total_seconds()>300:
-            spam_user.active = False
-            spam_user.user.is_spam = False
-            spam_user.user.save()
-            spam_user.save()
-            return {'spam':False,"spam_user":{}}
-        return  {'spam':True,"spam_user":spam_user}
-    return {'spam':False,"spam_user":{}}
-
+# def check_spam(request):
+#     spam_user = Spam.objects.filter(user_id=request.user.id,active=True ).first()
+#
+#     if spam_user:
+#         if (spam_user.date-datetime.datetime.now()).total_seconds()>300:
+#             spam_user.active = False
+#             spam_user.user.is_spam = False
+#             spam_user.user.save()
+#             spam_user.save()
+#             return {'spam':False,"spam_user":{}}
+#         return  {'spam':True,"spam_user":spam_user}
+#     return {'spam':False,"spam_user":{}}
+#

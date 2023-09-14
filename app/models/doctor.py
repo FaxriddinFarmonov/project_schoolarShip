@@ -52,7 +52,7 @@ class Price(models.Model):
 
 class Spam(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateTimeField(editable=False ,null=True , blank=True)
+    date = models.DateTimeField(auto_now=True,blank=True,null = True)
     active = models.BooleanField(default=True)
 
     def __str__(self):
