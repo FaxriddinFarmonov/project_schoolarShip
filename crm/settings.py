@@ -70,7 +70,7 @@ TEMPLATES = [
                 # internal
                 'crm.context_processors.user_type',
                 'crm.context_processors.count',
-                # 'crm.context_processors.check_spam',
+                'crm.context_processors.check_spam',
                 # external
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',

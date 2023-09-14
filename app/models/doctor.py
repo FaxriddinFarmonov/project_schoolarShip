@@ -53,8 +53,10 @@ class Price(models.Model):
 class Spam(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     date = models.DateTimeField(editable=False ,null=True , blank=True)
-    is_active = models.BooleanField(default=True)
-    isba = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.user.name
     def save(self,*args,**kwargs):
         try:
             self.user.is_spam = True
@@ -64,7 +66,7 @@ class Spam(models.Model):
 
         if not self.date:
             now = datetime.datetime.now()
-            minut = 5+58
+            minut = 5+now.minute
             soat = now.hour
             if minut >59:
                 minut = minut-60

@@ -38,11 +38,9 @@ def sign_in(request):
 
         if not user.is_active:
             return render(request, "page/auth/login.html", {"error": "Profile Ban Qilingan"})
-
         code = random.randint(100000, 999999)
         # send_sms(998951808802,code)
         key = code_decoder(code)
-
         otp = OTP.objects.create(
             key=key,
             phone=user.phone,
@@ -50,7 +48,6 @@ def sign_in(request):
             by=2
         )
         otp.save()
-
         request.session["id"] = user.id
         request.session["code"] = code
         request.session["email"] = user.email

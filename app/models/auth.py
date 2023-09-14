@@ -56,6 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField("Elektron pochtasi", blank=True, null=True)
     gender = models.BooleanField("JInsi", default=True)
     new = models.BooleanField(default=True)
+    is_spam = models.BooleanField(default=False)
 
     ut = models.SmallIntegerField("Foydalanuvchi statusi", choices=[
         (1, "Boshliq"),

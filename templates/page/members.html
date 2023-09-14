@@ -61,7 +61,7 @@
                         </a>
                   {% if not i.is_spam %}
 
-                        <a href="{% url 'spammer' pk=i.pk dut=i.ut %}" title="Spam" class="btn btn-warning btn-circle btn-sm">
+                        <a href="{% url 'spammer' pk=i.id dut=i.ut %}" title="Spam" class="btn btn-warning btn-circle btn-sm">
                             <i class="fas fa-hand"></i>
                         </a>
 
