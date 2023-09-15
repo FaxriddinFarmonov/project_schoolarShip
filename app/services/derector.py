@@ -42,6 +42,7 @@ def list_members(request,tpe=None,new=False):
     page_number = request.GET.get("page", 1)
     paginated = paginator.get_page(page_number)
 
+
     uzunlik = len(pagination) // settings.PAGINATE_BY
     if len(pagination) % settings.PAGINATE_BY:
         uzunlik += 1
