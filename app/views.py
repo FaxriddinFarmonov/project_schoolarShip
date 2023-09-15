@@ -12,7 +12,7 @@ def index(request):
     ctx = {
         "services": service
     }
-    ctx = {}
+
     if request.user.ut == 1:
         ctx.update(notifis())
 

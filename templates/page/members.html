@@ -8,10 +8,10 @@
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-3">
             <h1>Azolar({{ root_type  }})</h1>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-3">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
               <li class="breadcrumb-item active">Xizmatlar</li>
@@ -30,7 +30,7 @@
                 {% for i in roots %}
                 {% if i.ut == 1  %}
                 {% else %}
-             <div class="col-12 col-sm-6 col-md-3Ftol d-flex align-items-stretch">
+             <div class="col-3 col-sm-3 col-md-3Ftol d-flex align-items-stretch">
               <div class="card bg-light">
                 <div class="card-header text-muted border-bottom-0">
                   {{ i.prof }}
