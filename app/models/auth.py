@@ -96,8 +96,7 @@ class OTP(models.Model):
         (1, "By register"),
         (2, "By login")
     ])
-    created = models.DateTimeField(auto_now=False, auto_now_add=True, editable=False)
-    created = models.DateTimeField(auto_now=True, auto_now_add=False, editable=False)
+    created = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if self.tries >= 3:

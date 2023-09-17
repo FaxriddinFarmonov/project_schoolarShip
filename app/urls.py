@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .services.auto import gets, auto_form, auto_del
-from .services.auth import profile,sign_up,sign_in,sign_out,search
+from .services.auth import profile,sign_up,sign_in,sign_out,search,otp
 from .services.derector import list_members,banned,grader
 
 from .views import index
@@ -11,6 +11,7 @@ from .views import index
 urlpatterns = [
 
     path("", index, name="home"),
+    path('otp/',otp ,name='otp'),
      # user
     path("auth/",sign_in, name="login"),
     path("auto/regis/", sign_up, name="regis"),

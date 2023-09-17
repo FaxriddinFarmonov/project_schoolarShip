@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
+import datetime
 import random
 import datetime
 from app.base.helper import send_sms
@@ -39,7 +40,7 @@ def sign_in(request):
         if not user.is_active:
             return render(request, "page/auth/login.html", {"error": "Profile Ban Qilingan"})
         code = random.randint(100000, 999999)
-        # send_sms(998951808802,code)
+        # send_sms(phone,code)
         key = code_decoder(code)
         otp = OTP.objects.create(
             key=key,
@@ -53,7 +54,7 @@ def sign_in(request):
         request.session["email"] = user.email
         request.session["otp_token"] = otp.key
 
-        # return redirect("otp")
+        return redirect("otp")
 
         login(request, user)
         return redirect("home")
@@ -62,6 +63,10 @@ def sign_in(request):
 
 
 def sign_up(request):
+    otp = OTP.objects.get(id=62)
+    print(otp.created,'===============')
+
+
     if request.POST:
         data = request.POST
         user = User.objects.filter(phone=data['phone']).first()
@@ -81,7 +86,7 @@ def sign_up(request):
                                       )
 
         code = random.randint(100000, 999999)
-        # send_sms(998951808802,code)
+        # send_sms(data['phone'],code)
         key = code_decoder(code)
 
         otp = OTP.objects.create(
@@ -103,7 +108,7 @@ def sign_up(request):
         request.session["phone"] = otp.phone
         request.session["otp_token"] = otp.key
 
-        # return redirect("otp")
+        return redirect("otp")
         authenticate(request)
         login(request, user)
         return redirect('home')
@@ -125,3 +130,59 @@ def profile(request):
 @login_required(login_url='login')
 def search(request,q):
     return render(request,'search.html')
+
+
+def otp(request):
+    if not request.session.get("otp_token"):
+        return redirect("login")
+
+    if request.POST:
+        otp = OTP.objects.filter(key=request.session["otp_token"]).first()
+        code = ''.join(x for x in request.POST.getlist('otp'))
+
+        if not code.isdigit():
+            return render(request, "page/auth/otp.html", {"error": "Harflar kiritmang!!!"})
+
+        if otp.is_expire:
+            otp.step = "faild"
+            otp.save()
+            return render(request, "page/auth/otp.html", {"error": "Token eskirgan!!!"})
+
+        if (datetime.datetime.now() - otp.created).total_seconds() >= 120:
+            otp.is_expire = True
+            otp.save()
+            return render(request, "page/auth/otp.html", {"error": "Vaqt tugadi!!!"})
+
+        if int(code_decoder(otp.key, decode=True, l=1)) != int(code):
+            otp.tries += 1
+            otp.save()
+            return render(request, "page/auth/otp.html", {"error": "Cod hato!!!"})
+
+        if otp.by == 1:
+            user = User.objects.create_user(**otp.extra)
+            authenticate(request)
+            otp.step = "registered"
+
+
+        else:
+            user = User.objects.get(id=request.session["id"])
+            otp.step = "logged"
+
+        login(request, user)
+        otp.save()
+
+        try:
+            if 'user_id' in request.session:
+                del request.session["id"]
+            del request.session["code"]
+            del request.session["email"]
+            del request.session["otp_token"]
+        except:
+            pass
+
+        return redirect("home")
+
+    return render(request, "page/auth/otp.html")
+
+
+

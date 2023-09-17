@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Otp-Verification</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'otp/style.css' %}" />
+  </head>
+  <body>
+    <div class="d-flex justify-content-center align-items-center continer">
+      <form class="card py-5 mt-5 px-3" method="post">
+        {% csrf_token %}
+        <h5 class="m-0">Email tekshiruvi</h5>
+        <span class="mobile-text"><b>Emailga code yuborildi ({{ request.session.code }})</b><br>
+          <b class="text-color">Email:{{ request.session.email}}</b><br>
+          <b class="text-color-red">{{ error }}</b>
+        </span>
+        <div id="otp" class="inputs d-flex flex-row mt-5">
+          <input type="text" name="otp" class="form-control" autofocus="" id="first" maxlength="1" minlength="1" />
+          <input type="text" name="otp" class="form-control" autofocus="" id="second" maxlength="1" minlength="1" />
+          <input type="text" name="otp" class="form-control" autofocus="" id="third" maxlength="1" minlength="1" />
+          <input type="text" name="otp" class="form-control" autofocus="" id="fourth" maxlength="1" minlength="1" />
+          <input type="text" name="otp" class="form-control" autofocus="" id="fifth" maxlength="1" minlength="1" />
+          <input type="text" name="otp" class="form-control" autofocus="" id="sixth" maxlength="1" minlength="1" />
+        </div>
+        {% if error %}
+          <div class="text-center mt-5">
+
+            <button type="submit" style="border:none; backgraund;none" class="text-center"
+                <span style="border:none;" class="d-block mobile-text" >Tekshirish</span>
+            </button><br>
+
+                Qanaqadir muommo bormi?
+                <a href="{% url 're-otp' %}">
+                  <button  style="border:none; backgraund;none" type='button' class="text-center"
+                    <span style="border:none;" class="d-block mobile-text" >Qayta yuborish</span>
+                  </button>
+                </a>
+          </div>
+
+        {% else %}
+          <button type="submit" style="border:none; backgraund;none" class="text-center mt-5"
+              <span style="border:none;" class="d-block mobile-text" >Tekshirish</span>
+          </button>
+        {% endif %}
+      </form>
+    </div>
+    {% comment %} <script src="{% static 'otp/main.js' %}"></script> {% endcomment %}
+    <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+    function OTPInput() {
+    const inputs = document.querySelectorAll('#otp > *[id]');
+    for (let i = 0; i < inputs.length; i++)
+    { inputs[i].addEventListener('keydown',
+    function(event) { if (event.key=="Backspace" )
+    { inputs[i].value='' ; if (i !==0)
+     inputs[i - 1].focus(); }
+      else {
+        if (i==inputs.length - 1 && inputs[i].value !=='' )
+      { return true; }
+      else if (event.keyCode> 0 && event.keyCode < 61541561)
+       { inputs[i].value=event.key; if (i !==inputs.length - 1) inputs[i + 1].focus(); event.preventDefault(); }
+
+        else if (event.keyCode> 64&& event.keyCode <91) { inputs[i].value=String.fromCharCode(event.keyCode);
+          inputs[i].value==String.fromCharCode(event.keyCode);
+        if (i !==inputs.length - 1) inputs[i + 1].focus(); event.preventDefault(); } } }); } } OTPInput();
+
+
+    });
+  </script>
+
+  </body>
+</html>
