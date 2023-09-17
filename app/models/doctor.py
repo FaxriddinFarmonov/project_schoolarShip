@@ -77,6 +77,13 @@ class Spam(models.Model):
             self.date = datetime.datetime.now().strftime(f"%Y-%m-%d {soat}:{minut}:%S.%f")
         return super(Spam,self).save(*args,**kwargs)
 
+class ServiceDoc(models.Model):
+    doc  = models.ForeignKey(User,on_delete=models.CASCADE)
+    service = models.ForeignKey(Service,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.doc.name} -- {self.service.name}"
+
 # class Rating(models.Model):
 #     # user = models.ForeignKey(User ,on_delete=models.SET_NULL)
 #     doc = models.ForeignKey(Doctor, on_delete=models.CASCADE)
