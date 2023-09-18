@@ -40,6 +40,7 @@ def sign_in(request):
         if not user.is_active:
             return render(request, "page/auth/login.html", {"error": "Profile Ban Qilingan"})
         code = random.randint(100000, 999999)
+
         # send_sms(phone,code)
         key = code_decoder(code)
         otp = OTP.objects.create(
@@ -63,8 +64,6 @@ def sign_in(request):
 
 
 def sign_up(request):
-    otp = OTP.objects.get(id=62)
-    print(otp.created,'===============')
 
 
     if request.POST:
@@ -86,6 +85,7 @@ def sign_up(request):
                                       )
 
         code = random.randint(100000, 999999)
+
         # send_sms(data['phone'],code)
         key = code_decoder(code)
 
@@ -96,13 +96,13 @@ def sign_up(request):
             by=1,
             extra={
                 'phone': data["phone"],
-                'password': code_decoder(data['pass']),
+                'password':key,
                 'fname': data["name"],
 
             }
         )
         otp.save()
-
+        request.session["id"] = user.id
         request.session["code"] = code
         request.session["email"] =data['email']
         request.session["phone"] = otp.phone
@@ -159,7 +159,7 @@ def otp(request):
             return render(request, "page/auth/otp.html", {"error": "Cod hato!!!"})
 
         if otp.by == 1:
-            user = User.objects.create_user(**otp.extra)
+            user = User.objects.get(id=request.session['id'])
             authenticate(request)
             otp.step = "registered"
 
@@ -174,9 +174,9 @@ def otp(request):
         try:
             if 'user_id' in request.session:
                 del request.session["id"]
-            del request.session["code"]
-            del request.session["email"]
-            del request.session["otp_token"]
+                del request.session["code"]
+                del request.session["email"]
+                del request.session["otp_token"]
         except:
             pass
 
