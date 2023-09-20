@@ -12,7 +12,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-3">
-            <h1>Azolar({{ root_type  }})</h1>
+            <h1>Xizmat Ko'rsatuvchi Doctorlar</h1>
           </div>
           <div class="col-sm-3">
             <ol class="breadcrumb float-sm-right">
@@ -30,9 +30,8 @@
         <div class="card-body pb-0">
           <div class="row d-flex align-items-stretch">
           {% if roots %}
-                {% for i in roots %}
-                {% if i.ut == 1  %}
-                {% else %}
+              {% for i in roots %}
+
              <div class="col-3 col-sm-3 col-md-3Ftol d-flex align-items-stretch">
               <div class="card bg-light">
                 <div class="card-header text-muted border-bottom-0">
@@ -62,53 +61,12 @@
                         <a href="" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-info-circle"></i>
                         </a>
-{#                  {% if not i.is_spam %}#}
-{##}
-{#                        <a href="{% url 'spammer' pk=i.id dut=i.ut %}" title="Spam" class="btn btn-warning btn-circle btn-sm">#}
-{#                            <i class="fas fa-hand"></i>#}
-{#                        </a>#}
-{##}
-{#                   {% endif %}#}
-                      {% if i.is_active  %}
-                      	 </a> <a href="{% url 'banned' user_id=i.id tpe=i.ut status=0 %}" title="Ban"  class="btn btn-danger btn-circle btn-sm">
-                            <i class="fas fa-thumbs-down"></i>
-                         </a>
-
-                      {% else %}
-                           </a> <a href="{% url 'banned' user_id=i.id tpe=i.ut status=1 %}"  title="Unban" class="btn btn-success btn-circle btn-sm">
-                            <i class="fas fa-thumbs-up"></i>
-                           </a>
-
-                      {% endif %}
-                      {% if i.ut == 3 %}
-                          <a href="{% url 'grader' pk=i.id ut=2 dut=i.ut %}" title="GradeUp to Admin"  class="btn btn-primary btn-circle btn-sm">
-                                <i class="fas fa-arrow-up "></i>
-                          </a>
-                          <a href="{% url 'grader' pk=i.id ut=4 dut=i.ut %}" title="GradeDown to member"  class="btn btn-danger btn-circle btn-sm">
-                                <i class="fas fa-arrow-down"></i>
-                          </a>
-                      {% elif i.ut == 2 %}
-                          <a href="{% url 'grader' pk=i.id ut=3 dut=i.ut %}" title="GradeDown to Doc"  class="btn btn-danger btn-circle btn-sm">
-                                <i class="fas fa-arrow-down "></i>
-                          </a>
-                          <a href="{% url 'grader' pk=i.id ut=4 dut=i.ut %}" title="GradeDown to member"  class="btn btn-danger btn-circle btn-sm">
-                                   <i class="fa-solid fa-angles-down"></i>
-                          </a>
-                     {% else %}
-                           <a href="{% url 'grader' pk=i.id ut=3 dut=i.ut %}" title="GradeUp to Doc"  class="btn btn-primary btn-circle btn-sm">
-                                <i class="fas fa-arrow-up "></i>
-                          </a>
-                          <a href="{% url 'grader' pk=i.id ut=2 dut=i.ut %}" title="GradeUp to Admin"  class="btn btn-success btn-circle btn-sm">
-                                <i class="fa-solid fa-angles-up"></i>
-                          </a>
-
-                     {% endif %}
 
                   </div>
                 </div>
               </div>
             </div>
-                {% endif %}
+
                 {% endfor %}
 
          {% else %}

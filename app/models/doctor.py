@@ -78,7 +78,9 @@ class Spam(models.Model):
         return super(Spam,self).save(*args,**kwargs)
 
 class ServiceDoc(models.Model):
-    doc  = models.ForeignKey(User,on_delete=models.CASCADE)
+    doc  = models.ForeignKey(User,on_delete=models.CASCADE ,limit_choices_to = {
+        "ut" :3
+    })
     service = models.ForeignKey(Service,on_delete=models.CASCADE)
 
     def __str__(self):
