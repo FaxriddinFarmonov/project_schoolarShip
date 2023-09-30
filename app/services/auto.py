@@ -11,7 +11,7 @@ from app.models.doctor import Service,Price
 
 @login_required(login_url='login')
 def gets(requests, key, pk=None):
-    if requests.user.ut != 1:
+    if requests.user.ut != 1 or  2:
         return redirect("login")
     try:
         Model = {
@@ -46,7 +46,7 @@ def gets(requests, key, pk=None):
 
 @login_required(login_url='login')
 def auto_form(requests, key, pk=None):
-    if requests.user.ut != 1:
+    if requests.user.ut != 1 or 2:
         return redirect("login")
     try:
         Model = {
@@ -80,7 +80,7 @@ def auto_form(requests, key, pk=None):
 
 @login_required(login_url='sign-in')
 def auto_del(requests, key, pk):
-    if requests.user.ut != 1:
+    if requests.user.ut != 1 or 2:
         return redirect("login")
     try:
         Model = {
