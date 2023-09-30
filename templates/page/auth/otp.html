@@ -10,14 +10,14 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" type="text/css" href="{% static 'static/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'otp/style.css' %}" />
   </head>
   <body>
     <div class="d-flex justify-content-center align-items-center continer">
       <form class="card py-5 mt-5 px-3" method="post">
         {% csrf_token %}
-        <h5 class="m-0">Email tekshiruvi</h5>
-        <span class="mobile-text"><b>Emailga code yuborildi ({{ request.session.code }})</b><br>
+        <h5 class="m-0"><code></code> tekshiruvi</h5>
+        <span class="mobile-text"><b>tel nomerga  code yuborildi ({{ request.session.code }})</b><br>
           <b class="text-color">Email:{{ request.session.email}}</b><br>
           <b class="text-color-red">{{ error }}</b>
         </span>
@@ -37,7 +37,7 @@
             </button><br>
 
                 Qanaqadir muommo bormi?
-{#                <a href="{% url 're-otp' %}">#}
+{#
                   <button  style="border:none; backgraund;none" type='button' class="text-center"
                     <span style="border:none;" class="d-block mobile-text" >Qayta yuborish</span>
                   </button>
@@ -51,7 +51,7 @@
         {% endif %}
       </form>
     </div>
- <script src="{% static 'static/main.js' %}"></script>
+    {% comment %} <script src="{% static 'otp/main.js' %}"></script> {% endcomment %}
     <script>
     document.addEventListener("DOMContentLoaded", function(event) {
 

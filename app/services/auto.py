@@ -9,8 +9,10 @@ from app.forms import *
 from app.models.doctor import Service,Price
 
 
-@login_required(login_url='sign-in')
+@login_required(login_url='login')
 def gets(requests, key, pk=None):
+    if requests.user.ut != 1:
+        return redirect("login")
     try:
         Model = {
             "service": Service,
@@ -42,9 +44,10 @@ def gets(requests, key, pk=None):
 
 
 
-@login_required(login_url='sign-in')
+@login_required(login_url='login')
 def auto_form(requests, key, pk=None):
-
+    if requests.user.ut != 1:
+        return redirect("login")
     try:
         Model = {
             "service": "Service",
@@ -77,6 +80,8 @@ def auto_form(requests, key, pk=None):
 
 @login_required(login_url='sign-in')
 def auto_del(requests, key, pk):
+    if requests.user.ut != 1:
+        return redirect("login")
     try:
         Model = {
             "service": Service,
