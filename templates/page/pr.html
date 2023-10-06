@@ -222,7 +222,9 @@
                 {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ i }}</td>
+                    <td>{{ i.doc }}</td>
+                    <td>{{ i.service }}</td>
+                    <td>{{ i.price }}</td>
                     <td>
                         <a href="{% url 'dashboard-auto-detail' key='pr' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-info-circle"></i>

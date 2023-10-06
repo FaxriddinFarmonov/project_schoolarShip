@@ -32,10 +32,8 @@ def notifis():
 
 def list_members(request,tpe=None,new=False):
     kwargs = {"ut":tpe} if tpe else {}
-    if  request.user.ut not in [1,2]:
-        return redirect('home')
-    print(request.user.ut,'================')
-
+    if request.user.ut  not in  [1,2]:
+        return redirect("login")
     if new:
         kwargs['new']=new
 
@@ -55,8 +53,7 @@ def list_members(request,tpe=None,new=False):
     types ={
         3 : "doctor",
         2 : "admin",
-        4 : "member",
-        1 : "boshliq"
+        4 : "member"
     }
 
     ctx = {
@@ -73,8 +70,8 @@ def list_members(request,tpe=None,new=False):
 
 @login_required(login_url='login')
 def banned(request,user_id,tpe,status=False):
-    if request.user.ut not in [1, 2]:
-        return redirect('home')
+    if request.user.ut  not in  [1,2]:
+        return redirect("login")
     try:
         user = User.objects.filter(id=user_id).first()
         user.is_active = status
@@ -86,16 +83,21 @@ def banned(request,user_id,tpe,status=False):
 
 @login_required(login_url='login')
 def grader(request,pk,ut,dut):
-    if request.user.ut not in [1, 2]:
-        return redirect('home')
-    try:
-        kwargs = {"id" :pk}
-        user = User.objects.filter(**kwargs).first()
-        user.ut = ut
-        user.new = False
-        user.save()
 
-    except:
+    if request.user.ut  not in  [1,2]:
+        return redirect("login")
+
+    if request.user.ut == 1:
+        try:
+            kwargs = {"id" :pk}
+            user = User.objects.filter(**kwargs).first()
+            user.ut = ut
+            user.new = False
+            user.save()
+
+        except:
+            pass
+    else:
         pass
 
     return redirect('members', tpe=dut)

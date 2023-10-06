@@ -77,13 +77,19 @@
                            </a>
 
                       {% endif %}
+
                       {% if i.ut == 3 %}
-                          <a href="{% url 'grader' pk=i.id ut=2 dut=i.ut %}" title="GradeUp to Admin"  class="btn btn-primary btn-circle btn-sm">
-                                <i class="fas fa-arrow-up "></i>
-                          </a>
-                          <a href="{% url 'grader' pk=i.id ut=4 dut=i.ut %}" title="GradeDown to member"  class="btn btn-danger btn-circle btn-sm">
-                                <i class="fas fa-arrow-down"></i>
-                          </a>
+
+                              <a href="{% url 'grader' pk=i.id ut=2 dut=i.ut %}" title="GradeUp to Admin"  class="btn btn-primary btn-circle btn-sm">
+                                    <i class="fas fa-arrow-up "></i>
+                              </a>
+                              <a href="{% url 'grader' pk=i.id ut=4 dut=i.ut %}" title="GradeDown to member"  class="btn btn-danger btn-circle btn-sm">
+                                    <i class="fas fa-arrow-down"></i>
+                              </a>
+
+
+
+
                       {% elif i.ut == 2 %}
                           <a href="{% url 'grader' pk=i.id ut=3 dut=i.ut %}" title="GradeDown to Doc"  class="btn btn-danger btn-circle btn-sm">
                                 <i class="fas fa-arrow-down "></i>
@@ -99,7 +105,8 @@
                                 <i class="fa-solid fa-angles-up"></i>
                           </a>
 
-                     {% endif %}
+
+                      {% endif %}
 
                   </div>
                 </div>
