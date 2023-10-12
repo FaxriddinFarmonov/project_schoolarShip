@@ -149,8 +149,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Prices</p>
                 </a>
               </li>
+
+                    <a href="#menuEcommerce" data-bs-toggle="collapse" class="menu-link">
+                        <span class="menu-icon"><i data-feather="shopping-cart"></i></span>
+                        <span class="menu-text"> Bo'limlar </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="menuEcommerce">
+                        <ul class="sub-menu">
+                            <div class="collapse" id="menuEcommerce">
+                                {% for p in pro %}
+                                    <li class="menu-item">
+                                        <a href="#{{p.id}}" data-bs-toggle="collapse" class="menu-link">
+
+                                            <span class="menu-text"> {{ p.title }} </span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <div class="collapse" id="{{p.id}}">
+                                            <ul class="sub-menu">
+                                                {% for sub in p.subprovince_set.all %}
+                                                    <li class="menu-item">
+                                                        <a href="{% url 'report' pk=sub.pk %}" class="menu-link">
+                                                            <span class="menu-text">{{sub.title}}</span>
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </div>
+                        </ul>
+                    </div>
             </ul>
           </li>
+
           {% endif %}
           <li class="nav-item">
               <a  data-toggle="modal" data-target="#logoutModal" class="nav-link">
@@ -160,6 +193,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+
+
+
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -226,8 +263,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
     </div>
 </div>
-
-
 
 <!-- REQUIRED SCRIPTS -->
 
