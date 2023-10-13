@@ -75,7 +75,7 @@ def auto_form(requests, key, pk=None):
         "pos": 'form'
     }
 
-
+    print(key,'=======')
     return render(requests, f'page/{key}.html', ctx)
 
 

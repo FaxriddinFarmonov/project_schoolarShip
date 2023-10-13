@@ -33,7 +33,7 @@
 </div>
 <div class="card mb-4 border-left-warning">
     <div class="card-body">
-        <h4>Xizmat Narxi: <mark><i>{{ root.price }}</i></mark></h4>
+        <h4>Xizmat Narxi: <mark><i>{{ root.price  }}</i></mark></h4>
     </div>
 </div>
 <div class="card mb-4 border-left-warning">
@@ -188,7 +188,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Dorilar</h1>
+            <h1>Ko'rsatilgan xizmatlar</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -215,7 +215,10 @@
                 <thead>
                 <tr>
                     <th>№</th>
-                    <th>Nomi</th>
+                    <th>Doctor</th>
+                    <th>Bo'lim</th>
+                    <th>Narx</th>
+                    <th>Taxrirlash</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -266,7 +269,7 @@
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
                             </span>
-                            <span class="text">Yangi Tabletka qo'shish</span>
+                            <span class="text">Xizmat Qo'shish</span>
                         </a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">
