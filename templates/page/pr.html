@@ -256,6 +256,7 @@
                             Page {{ roots.number }} of {{ roots.paginator.num_pages }}.
                         </span>
 
+
                         {% if roots.has_next %}
                             <a href="?page={{ roots.next_page_number }}" class="btn btn-primary btn-sm">next</a>
                             <a href="?page={{ roots.paginator.num_pages }}" class="btn btn-primary btn-sm">last&raquo;</a>

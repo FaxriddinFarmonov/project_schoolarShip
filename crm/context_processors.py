@@ -6,6 +6,9 @@ from django.db import connection
 from django.shortcuts import redirect,render
 from methodism import dictfetchone
 from app.models.doctor import Spam
+from app.models.auth import Professions
+
+
 
 def user_type(request):
    try:
@@ -61,3 +64,10 @@ def count(request):
 #         return  {'spam':True,"spam_user":spam_user}
 #     return {'spam':False,"spam_user":{}}
 #
+def sektion(request):
+    model = Professions.objects.all()
+    ctx = {
+        'professions':model
+    }
+
+    return ctx

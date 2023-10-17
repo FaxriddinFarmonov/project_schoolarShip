@@ -7,6 +7,7 @@ from app.models import *
 from app.forms import *
 
 from app.models.doctor import Service,Price
+from app.models.auth import Professions
 
 
 @login_required(login_url='login')
@@ -24,9 +25,11 @@ def gets(requests, key, pk=None):
         return render(requests, 'base.html', {"error": 404})
     if pk:
         root = Model.objects.filter(pk=pk).first()
+
         ctx = {
             "pos": "one",
             'root': root,
+
         }
         if not root:
             ctx['error'] = 404
@@ -36,9 +39,11 @@ def gets(requests, key, pk=None):
         page_number = requests.GET.get("page", 1)
         paginated = paginator.get_page(page_number)
 
+
         ctx = {
             "roots": paginated,
-            "pos": "list"
+            "pos": "list",
+
         }
 
     return render(requests, f'page/{key}.html', ctx)
@@ -99,3 +104,9 @@ def auto_del(requests, key, pk):
     return redirect('dashboard-auto-list', key=key)
 
 
+def bolimlar(request):
+    model = Professions.objects.all()
+    ctx = {
+        'professions':model
+    }
+    return render(request,'base.html',ctx)

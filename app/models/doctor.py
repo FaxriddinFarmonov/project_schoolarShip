@@ -32,6 +32,11 @@ class Price(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     price = models.CharField(max_length=123, default="50 000 uzs")
     pr = models.IntegerField(editable=False, null=True, blank=True)
+    name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    year = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return f"{self.doc.name} {self.service.name} {self.price}"
