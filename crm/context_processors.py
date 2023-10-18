@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.db import connection
 from django.shortcuts import redirect,render
 from methodism import dictfetchone
-from app.models.doctor import Spam
+from app.models.doctor import Spam,Service
 from app.models.auth import Professions
 
 
@@ -65,7 +65,7 @@ def count(request):
 #     return {'spam':False,"spam_user":{}}
 #
 def sektion(request):
-    model = Professions.objects.all()
+    model = Service.objects.all()
     ctx = {
         'professions':model
     }

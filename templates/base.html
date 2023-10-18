@@ -126,9 +126,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           {% if ut == 1 or ut == 2  or ut == 3 %}
-          	
 
-             <li class="nav-item has-treeview menu-open">
+          <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -149,41 +148,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Prices</p>
                 </a>
               </li>
-
-
-                    <a href="#menuEcommerce" data-bs-toggle="collapse" class="menu-link">
-                        <span class="menu-icon"><i data-feather="shopping-cart"></i></span>
-                        <span class="menu-text"> Bo'limlar </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="menuEcommerce">
-                        <ul class="sub-menu">
-                            <div class="collapse" id="menuEcommerce">
-                                {% for p in professions %}
-                                    <li class="menu-item">
-                                        <a href="{{p.id}}" data-bs-toggle="collapse" class="menu-link">
-
-                                            <span class="menu-text"> {{ p.name }} </span>
-                                            <span class="menu-arrow"></span>
-                                        </a>
-{#                                        <div class="collapse" id="{{p.id}}">#}
-{#                                            <ul class="sub-menu">#}
-{#                                                {% for sub in professions %}#}
-{#                                                    <li class="menu-item">#}
-{#                                                        <a href="{% url 'report' pk=sub.pk %}" class="menu-link">#}
-{#                                                            <span class="menu-text">{{sub.title}}</span>#}
-{#                                                        </a>#}
-{#                                                    </li>#}
-{#                                                {% endfor %}#}
-{#                                            </ul>#}
-{#                                        </div>#}
-                                    </li>
-                                {% endfor %}
-                            </div>
-                        </ul>
-                    </div>
             </ul>
           </li>
+
+
+         <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Bo'limlar
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+            {% for prof in professions %}
+                <a href="{% url 'dashboard-auto-list' key='service' %}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>{{ prof.name }}</p>
+                </a>
+            {% endfor %}
+              </li>
+            </ul>
+          </li>
+
+
 
           {% endif %}
           <li class="nav-item">

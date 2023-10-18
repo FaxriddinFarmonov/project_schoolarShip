@@ -35,7 +35,7 @@ class Price(models.Model):
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     year = models.IntegerField()
-    date = models.DateTimeField(auto_now_add=True)
+    data = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
