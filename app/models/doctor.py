@@ -93,7 +93,7 @@ class ServiceDoc(models.Model):
 
 # class Rating(models.Model):
 #     # user = models.ForeignKey(User ,on_delete=models.SET_NULL)
-#     doc = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+#     # doc = models.ForeignKey(Doctor, on_delete=models.CASCADE)
 #     star = models.SmallIntegerField(choices=[
 #         (1, " * "),
 #         (2, " ** "),

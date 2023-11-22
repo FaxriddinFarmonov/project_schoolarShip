@@ -18,3 +18,13 @@ def index(request):
 
     return render(request, "page/index.html",ctx)
 
+def index212(request):
+    service = Service.objects.all()
+    ctx = {
+        "services": service
+    }
+
+    if request.user.ut == 1:
+        ctx.update(notifis())
+
+    # return render(request, "page/index.html",ctx)

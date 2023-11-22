@@ -9,7 +9,7 @@
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="db [2]" uuid="76360d3e-d5e0-4fc5-80ad-aa78a96baeb4">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>a5f382fa-6f4e-4bd6-81e4-ade1ecde7586</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db.sqlite3</jdbc-url>
@@ -21,7 +21,7 @@
       </libraries>
     </data-source>
     <data-source source="LOCAL" name="db [3]" uuid="1bb031f6-0dca-48e5-a0f5-a8d07f3123bf">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>a5f382fa-6f4e-4bd6-81e4-ade1ecde7586</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db.sqlite3</jdbc-url>
