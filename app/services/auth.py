@@ -39,6 +39,7 @@ def sign_in(request):
 
         if not user.is_active:
             return render(request, "page/auth/login.html", {"error": "Profile Ban Qilingan"})
+
         code = random.randint(100000, 999999)
 
         # send_sms(phone,code)
@@ -114,6 +115,7 @@ def sign_up(request):
         return redirect('home')
 
     return render(request, "page/auth/regis.html")
+
 
 @login_required(login_url='login')
 def sign_out(request):

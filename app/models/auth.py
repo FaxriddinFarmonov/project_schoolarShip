@@ -3,24 +3,6 @@ from django.db import models
 from django.contrib.auth.models import PermissionsMixin, UserManager
 
 
-class Professions(models.Model):
-    name = models.CharField(max_length=256)
-
-    def __str__(self):
-        return f"{self.name}"
-    class Meta:
-        verbose_name_plural = "5. Kasblar"
-        verbose_name = "Kasb"
-
-
-class Position(models.Model):
-    name = models.CharField(max_length=256)
-
-    def __str__(self):
-        return f"{self.name}"
-    class Meta:
-        verbose_name_plural = "6. lavozim"
-        verbose_name = "Lavozim"
 
 
 class CstManager(UserManager):
@@ -50,8 +32,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     familya = models.CharField("familya", max_length=128)
     phone = models.CharField("Telefon raqami", max_length=20, unique=True)
     img = models.ImageField("rasm", upload_to="docs", blank=True, null=True)
-    prof = models.ForeignKey(Professions, verbose_name="SHifokor Mutaxasisligi", on_delete=models.SET_NULL, blank=True, null=True)
-    prosition = models.ForeignKey(Position, verbose_name="SHifokor lavozimi", on_delete=models.SET_NULL, blank=True, null=True)
     info = models.TextField("SHifokor haqida qisqacha", blank=True, null=True)
     email = models.EmailField("Elektron pochtasi", blank=True, null=True)
     gender = models.BooleanField("JInsi", default=True)

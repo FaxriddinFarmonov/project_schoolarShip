@@ -13,7 +13,8 @@ urlpatterns = [
 
     path("", index, name="home"),
     path('otp/',otp ,name='otp'),
-     # user
+
+    # user
     path("auth/",sign_in, name="login"),
     path("auto/regis/", sign_up, name="regis"),
     path("auto/logout/", sign_out, name="logout"),

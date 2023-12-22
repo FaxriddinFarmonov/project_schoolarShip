@@ -1,17 +1,17 @@
 from django import forms
 
-from app.models import Service, Price
+from app.models import Kafedra
 
 
-class ServiceForm(forms.ModelForm):
-
-    class Meta:
-        fields = "__all__"
-        model = Service
-
-
-class PriceForm(forms.ModelForm):
+class KafedraForm(forms.ModelForm):
 
     class Meta:
         fields = "__all__"
-        model = Price
+        model =Kafedra
+
+
+# class PriceForm(forms.ModelForm):
+#
+#     class Meta:
+#         fields = "__all__"
+#         model = Price

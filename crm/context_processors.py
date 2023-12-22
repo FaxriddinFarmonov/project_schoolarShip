@@ -5,8 +5,8 @@ from django.contrib.auth import logout
 from django.db import connection
 from django.shortcuts import redirect,render
 from methodism import dictfetchone
-from app.models.doctor import Spam,Service
-from app.models.auth import Professions
+from app.models.doctor import Spam,Kafedra
+
 
 
 
@@ -37,7 +37,7 @@ def count(request):
    select(select COUNT(*)from app_user where ut = 3 ) as cnt_doc,
    (select COUNT( *)  from app_user where ut = 2 ) as cnt_admin,
    (select COUNT( *) from app_user where ut = 4 ) as cnt_client,
-   (select COUNT( *)  from app_service ) as cnt_service
+   (select COUNT( *)  from app_kafedra ) as cnt_service
    from django_session limit 1   
    """
 
@@ -65,7 +65,7 @@ def count(request):
 #     return {'spam':False,"spam_user":{}}
 #
 def sektion(request):
-    model = Service.objects.all()
+    model = Kafedra.objects.all()
     ctx = {
         'professions':model
     }

@@ -4,7 +4,7 @@ from contextlib import closing
 from django.db import connection
 from methodism import dictfetchall
 
-from app.models import Service,User
+from app.models import Kafedra,User
 from django.shortcuts import render,redirect
 
 def skorost(funksiya):

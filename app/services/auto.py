@@ -6,8 +6,8 @@ from django.shortcuts import render, redirect
 from app.models import *
 from app.forms import *
 
-from app.models.doctor import Service,Price
-from app.models.auth import Professions
+from app.models.doctor import Kafedra
+
 
 
 @login_required(login_url='login')
@@ -17,8 +17,7 @@ def gets(requests, key, pk=None):
         return redirect("login")
     try:
         Model = {
-            "service": Service,
-            "pr": Price,
+            "service": Kafedra,
 
         }[key]
     except:
@@ -56,7 +55,7 @@ def auto_form(requests, key, pk=None):
         return redirect("login")
     try:
         Model = {
-            "service": "Service",
+            "service": "Kafedra",
             "pr": "Price",
         }[key]
 
@@ -66,11 +65,12 @@ def auto_form(requests, key, pk=None):
     root = None
     if pk:
         root = eval(Model).objects.filter(pk=pk).first()
+        print(root,"++++++++++++++++++++")
         if not root:
             ctx = {"error": 404}
             return render(requests, f'pages/{key}.html', ctx)
 
-    form = eval(f"{Model}Form")(requests.POST or None, requests.FILES or None, instance=root)
+    form = eval(f"{Model}Form")(requests.POST or None,instance=root )
     if form.is_valid():
         form.save()
         return redirect('dashboard-auto-list', key=key)
@@ -80,23 +80,27 @@ def auto_form(requests, key, pk=None):
         "pos": 'form'
     }
 
-    print(key,'=======')
     return render(requests, f'page/{key}.html', ctx)
 
 
 @login_required(login_url='sign-in')
 def auto_del(requests, key, pk):
+
     if requests.user.ut  not in  [1,2]:
         return redirect("login")
+
     try:
+        
         Model = {
-            "service": Service,
-            "pr": Price
+            "service": Kafedra,
+
         }[key]
+
     except:
         return render(requests, 'base.html', {"error": 404})
 
     root = Model.objects.filter(pk=pk).first()
+
     if not root:
         ctx = {"error": 404}
         return render(requests, f'pages/{key}.html', ctx)
@@ -104,9 +108,9 @@ def auto_del(requests, key, pk):
     return redirect('dashboard-auto-list', key=key)
 
 
-def bolimlar(request):
-    model = Professions.objects.all()
-    ctx = {
-        'professions':model
-    }
-    return render(request,'base.html',ctx)
+# def bolimlar(request):
+#     model = Professions.objects.all()
+#     ctx = {
+#         'professions':model
+#     }
+#     return render(request,'base.html',ctx)
