@@ -1,5 +1,5 @@
 from django.db import models
-from .auth import User
+from app.models.auth import *
 import datetime
 
 
@@ -20,7 +20,7 @@ class Kafedra(models.Model):
 
 
 class Spam(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+
     date = models.DateTimeField(auto_now=True,blank=True,null = True)
     active = models.BooleanField(default=True)
 
@@ -46,14 +46,22 @@ class Spam(models.Model):
             self.date = datetime.datetime.now().strftime(f"%Y-%m-%d {soat}:{minut}:%S.%f")
         return super(Spam,self).save(*args,**kwargs)
 
-class ServiceDoc(models.Model):
-    doc  = models.ForeignKey(User,on_delete=models.CASCADE ,limit_choices_to = {
-        "ut" :3
-    })
 
+class Teacher_info(models.Model):
+    teacher_id = models.CharField(max_length=250,blank=True,null=True)
+    kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
+    hindex = models.CharField(max_length=10,blank=True,null=True)
+    citedby = models.CharField(max_length=10,blank=True,null=True)
+    year = models.CharField(max_length=10,blank=True,null=True)
 
-    def __str__(self):
-        return f"{self.doc.name}"
+# class ServiceDoc(models.Model):
+#     doc  = models.ForeignKey(User,on_delete=models.CASCADE ,limit_choices_to = {
+#         "ut" :3
+#     })
+#
+#
+#     def __str__(self):
+#         return f"{self.doc.name}"
 
 # class Rating(models.Model):
 #     # user = models.ForeignKey(User ,on_delete=models.SET_NULL)

@@ -1,7 +1,7 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin, UserManager
-
+from app.models.doctor import Kafedra
 
 
 
@@ -37,6 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.BooleanField("JInsi", default=True)
     new = models.BooleanField(default=True)
     is_spam = models.BooleanField(default=False)
+    kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
 
     ut = models.SmallIntegerField("Foydalanuvchi statusi", choices=[
         (1, "Boshliq"),
@@ -85,5 +86,6 @@ class OTP(models.Model):
 
     def __str__(self):
         return f"{self.phone}"
+
 
 

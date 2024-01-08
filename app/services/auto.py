@@ -12,12 +12,13 @@ from app.models.doctor import Kafedra
 
 @login_required(login_url='login')
 def gets(requests, key, pk=None):
-    print(requests.user.ut,'===========================')
+
     if requests.user.ut not in  [1,2]:
         return redirect("login")
     try:
         Model = {
             "service": Kafedra,
+            "add_teach" : Teacher_info
 
         }[key]
     except:
@@ -57,6 +58,8 @@ def auto_form(requests, key, pk=None):
         Model = {
             "service": "Kafedra",
             "pr": "Price",
+            "add_teach": "Teacher_info"
+
         }[key]
 
 
@@ -65,7 +68,7 @@ def auto_form(requests, key, pk=None):
     root = None
     if pk:
         root = eval(Model).objects.filter(pk=pk).first()
-        print(root,"++++++++++++++++++++")
+
         if not root:
             ctx = {"error": 404}
             return render(requests, f'pages/{key}.html', ctx)
