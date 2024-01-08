@@ -14,15 +14,25 @@ from pprint import pprint
 # result_json = result
 # pprint(result)
 # pprint(result['profiles'][1]['name'])
-autor_id = ["U-g-oPkAAAAJ",'xkDOZigAAAAJ','3qiBXeQAAAAJ','toJ8jHYAAAAJ']
-for i in autor_id:
-    search = GoogleSearch({
+# autor_id = ["U-g-oPkAAAAJ",'xkDOZigAAAAJ','3qiBXeQAAAAJ','toJ8jHYAAAAJ']
+# for i in autor_id:
+#     search = GoogleSearch({
+#         "engine": "google_scholar_author",
+#         "author_id": i,
+#         "api_key": "acca4dcb415645c1b19ed5cc6ba845fb2df00b00925bb1545d4005f842030f46"
+#       })
+#     result = search.get_dict()
+#
+#     pprint(result)
+#
+# # pprint(result['profiles'][0]['interests'])
+
+search = GoogleSearch({
         "engine": "google_scholar_author",
-        "author_id": i,
+        "author_id": 'dzMOlfYAAAAJ',
         "api_key": "acca4dcb415645c1b19ed5cc6ba845fb2df00b00925bb1545d4005f842030f46"
       })
-    result = search.get_dict()
+result = search.get_dict()
 
-    pprint(result)
+pprint(result)
 
-# pprint(result['profiles'][0]['interests'])

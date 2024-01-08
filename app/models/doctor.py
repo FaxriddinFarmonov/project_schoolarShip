@@ -48,7 +48,7 @@ class Spam(models.Model):
 
 
 class Teacher_info(models.Model):
-    teacher_id = models.CharField(max_length=250,blank=True,null=True)
+    teacher_id = models.CharField(max_length=250,unique=True,blank=True,null=True)
     kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
     hindex = models.CharField(max_length=10,blank=True,null=True)
     citedby = models.CharField(max_length=10,blank=True,null=True)

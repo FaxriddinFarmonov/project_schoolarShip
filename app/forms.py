@@ -6,7 +6,7 @@ from app.models import Kafedra,Teacher_info
 class KafedraForm(forms.ModelForm):
 
     class Meta:
-        fields = "__all__"
+        fields = ['name']
         model =Kafedra
 
 
