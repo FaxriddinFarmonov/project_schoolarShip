@@ -16,38 +16,38 @@
     <br>
 <div class="card mb-4 border-left-warning bg-info">
         <div class="card-body text-center">
-            <h4>Dorining ma'lumotlari sahifasi</h4>
+            <h4>Teacher info </h4>
         </div>
     </div>
 
 
 <div class="card mb-4 border-left-warning">
     <div class="card-body">
-        <h4>Nomi: <mark><i>{{ root.name }}</i></mark></h4>
+        <h4>Teacher id : <mark><i>{{ root.teacher_id }}</i></mark></h4>
     </div>
 </div>
 <div class="card mb-4 border-left-warning">
     <div class="card-body">
-        <h4>Turi: <mark><i>{{ root.info }}</i></mark></h4>
+        <h4>Kafedra: <mark><i>{{ root.kafedra }}</i></mark></h4>
     </div>
 </div>
 
-    <div class="card mb-4 border-left-warning">
-        <div class="card-body">
-            <h4>Rasm: <img src="{{ root.icon.url }}" alt="Rasm topilmadi!" width="150px"></h4>
-        </div>
-    </div>
+{#    <div class="card mb-4 border-left-warning">#}
+{#        <div class="card-body">#}
+{#            <h4>Rasm: <img src="{{ root.icon.url }}" alt="Rasm topilmadi!" width="150px"></h4>#}
+{#        </div>#}
+{#    </div>#}
 
 
 <div class="card mb-4 border-bottom-warning">
     <div class="card-body">
-        <a href="{% url 'dashboard-auto-edit' key='service' pk=root.id %}" class="btn btn-success btn-icon-split">
+        <a href="{% url 'dashboard-auto-edit' key='add_teach' pk=root.id %}" class="btn btn-success btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-edit"></i>
             </span>
             <span class="text">Tahrirlash</span>
         </a>
-        <a href="{% url 'dashboard-auto-list' key='service' %}" class="btn btn-warning btn-icon-split">
+        <a href="{% url 'dashboard-auto-list' key='add_teach' %}" class="btn btn-warning btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-arrow-left"></i>
             </span>
@@ -85,7 +85,7 @@
             <div class="modal-body">Ro'stdan ham ushbu {{ root.FIO }} ni o'chirmoqchimisz?</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Yo'q</button>
-                <a class="btn btn-primary" href="{% url 'dashboard-auto-delete' key='service' pk=root.id %}">Ha</a>
+                <a class="btn btn-primary" href="{% url 'dashboard-auto-delete' key='add_teach' pk=root.id %}">Ha</a>
             </div>
         </div>
     </div>
@@ -184,7 +184,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Dorilar</h1>
+            <h1>Teacher schoolar</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -203,7 +203,7 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Xizmatlarlar ro'yxati ro'yxati</h3>
+              <h3 class="card-title">Xizmatlarlar ro'yxati </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -220,10 +220,10 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ i.teacher_id }}</td>
                     <td>
-                        <a href="{% url 'dashboard-auto-detail' key='service' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">
+                        <a href="{% url 'dashboard-auto-detail' key='add_teach' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-info-circle"></i>
                         </a>
-                        <a href="{% url 'dashboard-auto-edit' key='service' pk=i.id %}" title="O'zgartirish" class="btn btn-warning btn-circle btn-sm">
+                        <a href="{% url 'dashboard-auto-edit' key='add_teach' pk=i.id %}" title="O'zgartirish" class="btn btn-warning btn-circle btn-sm">
                             <i class="fas fa-pen"></i>
                         </a>
                     </td>

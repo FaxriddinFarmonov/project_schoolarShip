@@ -96,6 +96,7 @@ def auto_del(requests, key, pk):
         
         Model = {
             "service": Kafedra,
+            "add_teach": Teacher_info
 
         }[key]
 

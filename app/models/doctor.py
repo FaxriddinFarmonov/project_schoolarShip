@@ -50,9 +50,21 @@ class Spam(models.Model):
 class Teacher_info(models.Model):
     teacher_id = models.CharField(max_length=250,unique=True,blank=True,null=True)
     kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
-    hindex = models.CharField(max_length=10,blank=True,null=True)
-    citedby = models.CharField(max_length=10,blank=True,null=True)
-    year = models.CharField(max_length=10,blank=True,null=True)
+
+
+class Cited_by(models.Model):
+    teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE)
+    citations = models.CharField(max_length=10, blank=True, null=True)
+    h_index = models.CharField(max_length=10, blank=True, null=True)
+    i10_index = models.CharField(max_length=10, blank=True, null=True)
+    article = models.CharField(max_length=500, blank=True, null=True)
+    look = models.CharField(max_length=100,blank=True, null=True)
+    year = models.CharField(max_length=20,blank=True, null=True)
+
+
+
+
+
 
 # class ServiceDoc(models.Model):
 #     doc  = models.ForeignKey(User,on_delete=models.CASCADE ,limit_choices_to = {
