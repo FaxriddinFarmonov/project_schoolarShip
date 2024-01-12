@@ -41,3 +41,4 @@ def client_doc(request,service:int = None):
     }
 
     return render(request,'page/client/client_doc.html',ctx)
+

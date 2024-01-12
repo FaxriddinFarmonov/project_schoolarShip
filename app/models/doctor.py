@@ -53,7 +53,8 @@ class Teacher_info(models.Model):
 
 
 class Cited_by(models.Model):
-    teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE)
+    name = models.CharField(max_length=250, blank=True, null=True)
+    teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
     citations = models.CharField(max_length=10, blank=True, null=True)
     h_index = models.CharField(max_length=10, blank=True, null=True)
     i10_index = models.CharField(max_length=10, blank=True, null=True)

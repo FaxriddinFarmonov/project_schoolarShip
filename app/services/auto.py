@@ -5,7 +5,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from app.models import *
 from app.forms import *
-
+from serpapi import GoogleSearch
+from pprint import pprint
 from app.models.doctor import Kafedra
 
 
@@ -52,8 +53,10 @@ def gets(requests, key, pk=None):
 
 @login_required(login_url='login')
 def auto_form(requests, key, pk=None):
+
     if requests.user.ut not in  [1,2]:
         return redirect("login")
+
     try:
         Model = {
             "service": "Kafedra",
@@ -76,12 +79,30 @@ def auto_form(requests, key, pk=None):
     form = eval(f"{Model}Form")(requests.POST or None,instance=root )
     if form.is_valid():
         form.save()
+        print(requests.POST.get('teacher_id'),'+++++++++++++')
+
+        search = GoogleSearch({
+                "engine": "google_scholar_author",
+                "author_id": requests.POST.get('teacher_id'),
+                "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
+              })
+        result = search.get_json()
+        cited_by=result['cited_by']['table'][0]['citations']['all']
+        info  = Cited_by.objects.create(
+            citations = cited_by
+        )
+        info.save()
+
+
+
         return redirect('dashboard-auto-list', key=key)
 
     ctx = {
         "form": form,
         "pos": 'form'
     }
+
+
 
     return render(requests, f'page/{key}.html', ctx)
 
@@ -93,7 +114,7 @@ def auto_del(requests, key, pk):
         return redirect("login")
 
     try:
-        
+
         Model = {
             "service": Kafedra,
             "add_teach": Teacher_info
@@ -112,9 +133,3 @@ def auto_del(requests, key, pk):
     return redirect('dashboard-auto-list', key=key)
 
 
-# def bolimlar(request):
-#     model = Professions.objects.all()
-#     ctx = {
-#         'professions':model
-#     }
-#     return render(request,'base.html',ctx)

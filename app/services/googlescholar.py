@@ -1,18 +1,21 @@
 from serpapi import GoogleSearch
 from pprint import pprint
 # from app.models.doctor import Cited_by,Teacher_info
-from app.models import *
-
+# from app.models import *
 
 
 search = GoogleSearch({
         "engine": "google_scholar_author",
-        "author_id": 'yQqpjPMAAAAJ&hl',
+        "author_id": 'TOlLXVMAAAAJ&hl',
         "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
       })
-result = search.get_dict()
-
-pprint(result)
+result = search.get_json()
+pprint(result['cited_by']['table'][0]['citations']['all'])
+# print(len(result['articles']),'==================')
+# for i in range(len(result['articles'])):
+#     pprint(result['articles'][i]['title'])
+#     pprint(result['articles'][i]['cited_by']['value'])
+#     pprint(result['articles'][i]['year'])
 
 
 
@@ -29,7 +32,7 @@ pprint(result)
 
 # search = GoogleSearch({
 #     "engine": "google_scholar_profiles",
-#     "mauthors": "tashkent university of information technologies",
+#     "mauthors": "Khabibullo Kh. Nosirov",
 #     "api_key": "acca4dcb415645c1b19ed5cc6ba845fb2df00b00925bb1545d4005f842030f46"
 #   })
 #
@@ -59,3 +62,13 @@ pprint(result)
 #
 # # pprint(result['profiles'][0]['interests'])
 #
+
+
+
+
+# def gogle_search(request):
+#     model = Teacher_info.objects.all()
+#     print(model)
+#
+#
+# gogle_search()
