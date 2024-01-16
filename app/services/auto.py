@@ -86,12 +86,38 @@ def auto_form(requests, key, pk=None):
                 "author_id": requests.POST.get('teacher_id'),
                 "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
               })
+
         result = search.get_json()
+        name = result['author']['name']
         cited_by=result['cited_by']['table'][0]['citations']['all']
+        since_2019c = result['cited_by']['table'][0]['citations']['since_2019']
+        since_2019h = result['cited_by']['table'][1]['h_index']['since_2019']
+        since_2019h10 = result['cited_by']['table'][2]['i10_index']['since_2019']
+        h_index = result['cited_by']['table'][1]['h_index']['all']
+        i10_index = result['cited_by']['table'][2]['i10_index']['all']
+
         info  = Cited_by.objects.create(
-            citations = cited_by
+            name = name,
+            citations=cited_by,
+            h_index=h_index,
+            i10_index=i10_index,
+            since_2019c = since_2019c,
+            since_2019h = since_2019h,
+            since_2019h10 = since_2019h10,
+            teacher_info = Teacher_info.objects.filter(teacher_id=requests.POST.get('teacher_id')).first()
+
         )
-        info.save()
+        # data = result['cited_by']['graph']
+        # for i in range(len(data)):
+        #
+        #
+        #     graph = Graph.objects.create(
+        #         citations = citations,
+        #         year = year,
+        #         teacher_info=Teacher_info.objects.filter(teacher_id=requests.POST.get('teacher_id')).first()
+        #
+        #     )
+        #     graph.save()
 
 
 

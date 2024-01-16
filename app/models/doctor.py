@@ -58,8 +58,16 @@ class Cited_by(models.Model):
     citations = models.CharField(max_length=10, blank=True, null=True)
     h_index = models.CharField(max_length=10, blank=True, null=True)
     i10_index = models.CharField(max_length=10, blank=True, null=True)
-    article = models.CharField(max_length=500, blank=True, null=True)
-    look = models.CharField(max_length=100,blank=True, null=True)
+    since_2019c = models.CharField(max_length=20, blank=True, null=True)
+    since_2019h = models.CharField(max_length=20, blank=True, null=True)
+    since_2019h10 = models.CharField(max_length=20, blank=True, null=True)
+    year = models.CharField(max_length=20,blank=True, null=True)
+    year_look = models.CharField(max_length=100, blank=True, null=True)
+
+
+class Graph(models.Model):
+    teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
+    citations = models.CharField(max_length=10, blank=True, null=True)
     year = models.CharField(max_length=20,blank=True, null=True)
 
 

@@ -10,7 +10,8 @@ search = GoogleSearch({
         "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
       })
 result = search.get_json()
-pprint(result['cited_by']['table'][0]['citations']['all'])
+# pprint(result)
+pprint(result['cited_by']['graph'])
 # print(len(result['articles']),'==================')
 # for i in range(len(result['articles'])):
 #     pprint(result['articles'][i]['title'])
