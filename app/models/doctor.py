@@ -51,6 +51,10 @@ class Teacher_info(models.Model):
     teacher_id = models.CharField(max_length=250,unique=True,blank=True,null=True)
     kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
 
+class Graph(models.Model):
+    teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
+    citations = models.CharField(max_length=10, blank=True, null=True)
+    year = models.CharField(max_length=20,blank=True, null=True)
 
 class Cited_by(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
@@ -61,14 +65,9 @@ class Cited_by(models.Model):
     since_2019c = models.CharField(max_length=20, blank=True, null=True)
     since_2019h = models.CharField(max_length=20, blank=True, null=True)
     since_2019h10 = models.CharField(max_length=20, blank=True, null=True)
-    year = models.CharField(max_length=20,blank=True, null=True)
-    year_look = models.CharField(max_length=100, blank=True, null=True)
+    graph = models.ForeignKey(Graph,on_delete=models.CASCADE,blank=True,null=True)
 
 
-class Graph(models.Model):
-    teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
-    citations = models.CharField(max_length=10, blank=True, null=True)
-    year = models.CharField(max_length=20,blank=True, null=True)
 
 
 

@@ -27,11 +27,11 @@
     </div>
 </div><div class="card mb-4 border-left-warning">
     <div class="card-body">
-        <h4>Teacher id : <mark><i>{{ root.teacher_id }}</i></mark></h4>
+        <h4>Teacher id : <mark><i>{{ root.teacher_info.teacher_id }}</i></mark></h4>
     </div>
 </div><div class="card mb-4 border-left-warning">
     <div class="card-body">
-        <h4>Teacher kafedra : <mark><i>{{ root.kafedra }}</i></mark></h4>
+        <h4>Teacher kafedra : <mark><i>{{ root.teacher_info.kafedra }}</i></mark></h4>
     </div>
 </div>
 {#<div class="card mb-4 border-left-warning">#}
@@ -230,8 +230,8 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ i.name }}</td>
-                    <td>{{ i.teacher_id }}</td>
-                    <td>{{ i.kafedra}}</td>
+                    <td>{{ i.teacher_info.teacher_id }}</td>
+                    <td>{{ i.teacher_info.kafedra}}</td>
                     <td>
                         <a href="{% url 'dashboard-auto-detail' key='add_teach' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-info-circle"></i>

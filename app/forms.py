@@ -15,3 +15,4 @@ class Teacher_infoForm(forms.ModelForm):
     class Meta:
         fields = ['teacher_id','kafedra']
         model = Teacher_info
+

@@ -12,6 +12,8 @@ search = GoogleSearch({
 result = search.get_json()
 # pprint(result)
 pprint(result['cited_by']['graph'])
+for i in range(len(result['cited_by']['graph'])):
+    print(result['cited_by']['graph'][i]['citations'])
 # print(len(result['articles']),'==================')
 # for i in range(len(result['articles'])):
 #     pprint(result['articles'][i]['title'])
