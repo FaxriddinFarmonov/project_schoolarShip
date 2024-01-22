@@ -53,8 +53,9 @@ class Teacher_info(models.Model):
 
 class Graph(models.Model):
     teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
-    citations = models.CharField(max_length=10, blank=True, null=True)
-    year = models.CharField(max_length=20,blank=True, null=True)
+    title = models.CharField(max_length=1000,blank=True, null=True)
+    value = models.CharField(max_length=1000,blank=True, null=True)
+    year = models.CharField(max_length=100,blank=True, null=True)
 
 class Cited_by(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)

@@ -2,18 +2,18 @@ from serpapi import GoogleSearch
 from pprint import pprint
 # from app.models.doctor import Cited_by,Teacher_info
 # from app.models import *
-
+# 'https://serpapi.com/search.json?author_id=TOlLXVMAAAAJ%26hl&engine=google_scholar_author&hl=en&start=20'}
 
 search = GoogleSearch({
         "engine": "google_scholar_author",
-        "author_id": 'TOlLXVMAAAAJ&hl',
+            "author_id": 'TOlLXVMAAAAJ&hl',
         "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
       })
 result = search.get_json()
-# pprint(result)
-pprint(result['cited_by']['graph'])
-for i in range(len(result['cited_by']['graph'])):
-    print(result['cited_by']['graph'][i]['citations'])
+pprint(result['articles'])
+# pprint(result['cited_by']['graph'])
+# for i in range(len(result['cited_by']['graph'])):
+#     print(result['cited_by']['graph'][i]['citations'])
 # print(len(result['articles']),'==================')
 # for i in range(len(result['articles'])):
 #     pprint(result['articles'][i]['title'])

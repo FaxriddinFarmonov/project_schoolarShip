@@ -225,10 +225,13 @@
                 <thead>
                 <tr>
                     <th>№</th>
-                    <th>Doctor</th>
-                    <th>Bo'lim</th>
-                    <th>Narx</th>
-                    <th>Data</th>
+                    <th>Full_name</th>
+                    <th>H-index</th>
+                    <th>I10-index</th>
+                    <th>Citations</th>
+                    <th>Citations_Since 2019</th>
+                    <th>Citations_H-index</th>
+                    <th>Citations_I10-index</th>
                     <th>Taxrirlash</th>
                 </tr>
                 </thead>
@@ -236,10 +239,14 @@
                 {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ i.doc}}</td>
-                    <td>{{ i.service }}</td>
-                    <td>{{ i.price }}</td>
-                    <td>{{ i.data }}</td>
+                    <td>{{ i.name}}</td>
+                    <td>{{ i.h_index }}</td>
+                    <td>{{ i.i10_index }}</td>
+                    <td>{{ i.citations }}</td>
+                    <td>{{ i.since_2019c }}</td>
+                    <td>{{ i.since_2019h }}</td>
+                    <td>{{ i.since_2019h10 }}</td>
+
                     <td>
                         <a href="{% url 'dashboard-auto-detail' key='pr' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">
                             <i class="fas fa-info-circle"></i>

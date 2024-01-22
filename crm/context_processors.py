@@ -6,8 +6,9 @@ from django.db import connection
 from django.shortcuts import redirect,render
 from methodism import dictfetchone
 from app.models.doctor import Spam,Kafedra
-
-
+from app.models.books import Books
+import random
+from django.db import  connection
 
 
 def user_type(request):
@@ -64,6 +65,20 @@ def count(request):
 #         return  {'spam':True,"spam_user":spam_user}
 #     return {'spam':False,"spam_user":{}}
 #
+
+def my_scheduled_job():
+     number = random.randint(2,1000)
+     book= Books.objects.create(
+          number=number
+      )
+     book.save()
+
+
+
+
+
+
+
 def sektion(request):
     model = Kafedra.objects.all()
     ctx = {

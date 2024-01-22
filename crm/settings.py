@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "app",
     "rest_framework.authtoken",
     "bootstrap4",
+    'django_crontab',
+
 ]
 
 AUTH_USER_MODEL = "app.User"
@@ -143,5 +145,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DASHBOARD_URL = os.getenv("DASHBOARD_URL")
 API_URL = os.getenv("API_URL")
 
-PAGINATE_BY = 4
+PAGINATE_BY = 7
 
+CRONJOBS = [
+    ('*/1 * * * *', 'context_processors.my_scheduled_job')
+]
