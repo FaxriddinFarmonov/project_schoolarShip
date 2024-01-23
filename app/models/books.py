@@ -1,3 +1,3 @@
 from django.db import models
-class Books(models.Model):
+class  Books(models.Model):
     number = models.IntegerField()

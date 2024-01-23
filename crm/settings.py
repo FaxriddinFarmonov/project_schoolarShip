@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 import os.path
 from pathlib import Path
 from dotenv import load_dotenv
@@ -42,7 +43,7 @@ INSTALLED_APPS = [
     "app",
     "rest_framework.authtoken",
     "bootstrap4",
-    'django_crontab',
+    "django_crontab",
 
 ]
 
@@ -73,6 +74,7 @@ TEMPLATES = [
                 'crm.context_processors.user_type',
                 'crm.context_processors.count',
                 'crm.context_processors.sektion',
+
                 # external
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -148,5 +150,5 @@ API_URL = os.getenv("API_URL")
 PAGINATE_BY = 7
 
 CRONJOBS = [
-    ('*/1 * * * *', 'context_processors.my_scheduled_job')
+    ('*/1 * * * *', 'app.cron.hello')
 ]
