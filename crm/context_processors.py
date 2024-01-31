@@ -70,15 +70,18 @@ from django.db import  connection
 
 
 
-def hello(request):
-    otp = Books.objects.filter(id=1)
-    if (datetime.datetime.now() - otp.created).total_seconds() >= 20:
-        number = random.randint(2, 1000)
-        book = Books.objects.create(
-            number=number
-        )
-        book.save()
-
+# def hello(request):
+#
+#         number = random.randint(1, 1000)
+#         book = Books.objects.create(
+#             number=number
+#         )
+#         book.save()
+#         ctx = {
+#         'vsdvsdv':number
+#              }
+#
+#         return ctx
 
 
 

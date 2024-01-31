@@ -145,20 +145,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <a href="{% url 'dashboard-auto-list' key='add_teach' %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Google scholar</p>
+                  <p>Google scholar add +</p>
                 </a>
               </li>
              <li class="nav-item">
                 <a href="{% url 'dashboard-auto-list' key='service' %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Scopus</p>
+                  <p>Scopus add +</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{% url 'dashboard-auto-list' key='pr' %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Prices</p>
+                  <p>Google scholar get</p>
+                </a>
+              </li>
+                <li class="nav-item">
+                <a href="{% url 'dashboard-auto-list' key='pr' %}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Scopus get</p>
                 </a>
               </li>
             </ul>
@@ -178,7 +184,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="nav nav-treeview">
               <li class="nav-item">
             {% for prof in professions %}
-                <a href="{% url 'dashboard-auto-list' key='service' %}" class="nav-link active">
+                <a href="{% url 'get_fak' key=prof.name  %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>{{ prof.name }}</p>
                 </a>

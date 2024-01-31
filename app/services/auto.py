@@ -13,6 +13,8 @@ from app.models.doctor import Kafedra
 
 @login_required(login_url='login')
 def gets(requests, key, pk=None):
+    print(key,'======')
+
 
     if requests.user.ut not in  [1,2]:
         return redirect("login")
@@ -20,7 +22,8 @@ def gets(requests, key, pk=None):
         Model = {
             "service": Kafedra,
             "add_teach" : Teacher_info,
-            'pr': Cited_by
+            'pr': Cited_by,
+
 
 
         }[key]
@@ -37,7 +40,7 @@ def gets(requests, key, pk=None):
         if not root:
             ctx['error'] = 404
     else:
-        pagination = Model.objects.all().order_by('-pk')
+        pagination = Model.objects.filter().order_by('-pk')
         paginator = Paginator(pagination, settings.PAGINATE_BY)
         page_number = requests.GET.get("page", 1)
         paginated = paginator.get_page(page_number)
@@ -161,3 +164,14 @@ def auto_del(requests, key, pk):
     return redirect('dashboard-auto-list', key=key)
 
 
+def get_fak(request,key):
+    try:
+        model = Cited_by.objects.filter(teacher_info__kafedra__name=key)
+        print(model)
+    except:
+        return render(request, f'page/pr.html', {"error": 404})
+    ctx = {
+        'roots' : model,
+        'error' : 404
+    }
+    return render(request, f'page/pr.html', ctx)

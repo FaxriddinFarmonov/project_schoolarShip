@@ -74,6 +74,7 @@ TEMPLATES = [
                 'crm.context_processors.user_type',
                 'crm.context_processors.count',
                 'crm.context_processors.sektion',
+                # 'crm.context_processors.hello',
 
                 # external
                 'django.template.context_processors.debug',

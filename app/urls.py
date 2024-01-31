@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .services.auto import gets, auto_form, auto_del
+from .services.auto import gets, auto_form, auto_del,get_fak
 from .services.auth import profile,sign_up,sign_in,sign_out,search,otp
 from .services.client import client_doc
 from .services.derector import list_members,banned,grader
@@ -22,6 +22,7 @@ urlpatterns = [
     
     #auto
     path("auto/<key>/",gets,name="dashboard-auto-list" ),
+    path("au/<key>/",get_fak,name="get_fak" ),
     path("auto/<key>/detail/<int:pk>/",gets,name="dashboard-auto-detail" ),
     path("auto/<key>/add/",auto_form,name="dashboard-auto-add" ),
     path("auto/<key>/edit/<int:pk>/",auto_form,name="dashboard-auto-edit" ),

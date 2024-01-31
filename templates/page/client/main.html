@@ -23,13 +23,13 @@
              <div class="col-12 col-sm-3 col-md-3Ftol d-flex align-items-stretch">
               <div class="card bg-light">
                 <div class="card-header text-muted border-bottom-0">
-                  {{ i.prof }}
+                 Fakultet
                 </div>
                 <div class="card-body pt-0">
                   <div class="row">
                     <div class="col-7">
-                      <h2 class="lead"><b>{{ i }}</b></h2>
-                      <p class="text-muted text-sm"><b>About: </b>{{ i.info | slice:":200" }}</p>
+                      <h2 class="lead"><b> {{ i }}</b></h2>
+{#                      <p class="text-muted text-sm"><b>About: </b>{{ i.info | slice:":200" }}</p>#}
 
                     </div>
                     <div class="col-5 text-center">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="card-footer bg-info">
                   <div class="text-right ">
-                        <a href="{% url 'servicedocs' service=i.id %}"  class=" text-white small-box-footer">
+                        <a href="{% url  'get_fak' key=i.name %}"  class=" text-white small-box-footer">
                             Batafsil
                             <i class="fas fa-arrow-circle-right"></i>
                         </a>
