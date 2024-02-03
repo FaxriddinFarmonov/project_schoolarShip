@@ -6,7 +6,7 @@ from pprint import pprint
 
 search = GoogleSearch({
         "engine": "google_scholar_author",
-            "author_id": 'TOlLXVMAAAAJ&hl',
+            "author_id": 'EivNM54AAAAJ&hl',
         "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
       })
 result = search.get_json()

@@ -86,6 +86,7 @@ def auto_form(requests, key, pk=None):
         form.save()
 
         if eval(f"{Model}Form") == Teacher_infoForm:
+
             search = GoogleSearch({
                     "engine": "google_scholar_author",
                     "author_id": requests.POST.get('teacher_id'),
@@ -94,12 +95,14 @@ def auto_form(requests, key, pk=None):
             result = search.get_json()
 
             name = result['author']['name']
+            autor_id =result['search_parameters']['author_id']
             cited_by=result['cited_by']['table'][0]['citations']['all']
             since_2019c = result['cited_by']['table'][0]['citations']['since_2019']
             since_2019h = result['cited_by']['table'][1]['h_index']['since_2019']
             since_2019h10 = result['cited_by']['table'][2]['i10_index']['since_2019']
             h_index = result['cited_by']['table'][1]['h_index']['all']
             i10_index = result['cited_by']['table'][2]['i10_index']['all']
+            Teacher_info.objects.filter(teacher_id=autor_id).update(name=name)
 
             info  = Cited_by.objects.create(
                 name = name,
@@ -119,6 +122,7 @@ def auto_form(requests, key, pk=None):
                     title = result['articles'][i]['title'],
                     value = result['articles'][i]['cited_by']['value'],
                     year = result['articles'][i]['year'],
+                    links= result['articles'][i]['link'],
                     teacher_info = Teacher_info.objects.filter(teacher_id=requests.POST.get('teacher_id')).first(),
 
 

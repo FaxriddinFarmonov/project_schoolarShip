@@ -48,6 +48,7 @@ class Spam(models.Model):
 
 
 class Teacher_info(models.Model):
+    name = models.CharField(max_length=250, blank=True, null=True)
     teacher_id = models.CharField(max_length=250,unique=True,blank=True,null=True)
     kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
 
@@ -56,6 +57,7 @@ class Graph(models.Model):
     title = models.CharField(max_length=1000,blank=True, null=True)
     value = models.CharField(max_length=1000,blank=True, null=True)
     year = models.CharField(max_length=100,blank=True, null=True)
+    links = models.CharField(max_length=2000,blank=True, null=True)
 
 class Cited_by(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
