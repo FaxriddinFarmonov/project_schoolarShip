@@ -4,7 +4,7 @@ from .services.auto import gets, auto_form, auto_del,get_fak
 from .services.auth import profile,sign_up,sign_in,sign_out,search,otp,resent_otp
 from .services.client import client_doc
 from .services.derector import list_members,banned,grader
-from .export_exel import export_data_to_excel
+from .export_exel import export_data_to_excel,export_data_to_excel_fak
 from .views import index,search_results
 
 
@@ -32,6 +32,7 @@ urlpatterns = [
 
     #member
     path("export_data_to_excel/<key>/", export_data_to_excel, name='export_data_excel'),
+    path("export_data_to_excel_fak/<key>/", export_data_to_excel_fak, name='export_data_to_excel_fak'),
     path("member/<int:tpe>/",list_members,name='members'),
     path("member/new/<int:new>/",list_members,name='members-new'),
     path("banner/u-<int:user_id>/t-<int:tpe>/s-<int:status>/",banned,name='banned'),

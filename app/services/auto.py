@@ -33,8 +33,9 @@ def gets(requests, key, pk=None):
         ctx = {
             "pos": "one",
             'root': root,
-
+           
         }
+        
         if not root:
             ctx['error'] = 404
     else:
@@ -47,9 +48,12 @@ def gets(requests, key, pk=None):
         ctx = {
             "roots": paginated,
             "pos": "list",
+            'key' :key
+            
+            
 
         }
-
+        k = Model.objects.filter(id=1).first()
     return render(requests, f'page/{key}.html', ctx)
 
 
@@ -176,6 +180,7 @@ def get_fak(request,key):
         return render(request, f'page/pr.html', {"error": 404})
     ctx = {
         'roots' : model,
+        'key':key
 
     }
     return render(request, f'page/pr.html', ctx)

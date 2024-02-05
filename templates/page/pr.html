@@ -267,12 +267,27 @@
 
                 </tr>
                 {% endfor %}
-                {% else %}
-              <h3 class="text-danger">Uzur bu bo'limda malumotlar yoq  </h3>
-             {% endif %}
                 </tbody>
 
-              </table>
+              </table><br>
+              {% if key and key != 'pr' %}
+              <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand">Barcha ma'lumotlarni yuklab olish:</a>
+                <form class="form-inline">
+                  
+                  <button class="btn btn-outline-success my-2 my-sm-0 mr-5" type="submit">
+                    <a href="{% url 'export_data_to_excel_fak'  key=key   %}" title="exel" class="btn btn-success btn-circle btn-sm">
+                      <i class="fas fa-file-excel"></i>
+                  </a>
+                  </button>
+                </form>
+              </nav>
+              {% endif %}
+              {% else %}
+              <h3 class="text-danger">Uzur bu bo'limda malumotlar yoq  </h3>
+             {% endif %}
+             
+
                 <br>
                 <hr>
                 <div class="pagination">

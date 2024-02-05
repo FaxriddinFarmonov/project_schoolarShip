@@ -153,5 +153,8 @@ PAGINATE_BY = 7
 
 
 CRONJOBS = [
-    ('0 0 */10 * *', 'app.cron.hello')
+    ('0 0 */10 * *', 'app.cron.scholar_cron')
 ]
+# CRONJOBS = [
+#     ('*/2 * * * *', 'app.cron.scholar_cron')
+# ]

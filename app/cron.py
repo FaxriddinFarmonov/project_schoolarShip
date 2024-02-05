@@ -49,6 +49,7 @@ def scholar_cron():
                 value=result['articles'][j]['cited_by']['value'],
                 year=result['articles'][j]['year'],
                 teacher_info=Teacher_info.objects.filter(teacher_id=i.teacher_id).first(),
+                links= result['articles'][j]['link'],
 
             ).save()
 
