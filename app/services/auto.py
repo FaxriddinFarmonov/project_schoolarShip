@@ -13,8 +13,6 @@ from app.models.doctor import Kafedra
 
 @login_required(login_url='login')
 def gets(requests, key, pk=None):
-    print(key,'======')
-
 
     if requests.user.ut not in  [1,2]:
         return redirect("login")
@@ -178,6 +176,6 @@ def get_fak(request,key):
         return render(request, f'page/pr.html', {"error": 404})
     ctx = {
         'roots' : model,
-        'error' : 404
+
     }
     return render(request, f'page/pr.html', ctx)

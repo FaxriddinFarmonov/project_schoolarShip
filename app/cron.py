@@ -18,7 +18,7 @@ def scholar_cron():
         search = GoogleSearch({
             "engine": "google_scholar_author",
             "author_id": i.teacher_id,
-            "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
+            "api_key": "8a781032fba81c6826c0f57bf96ada4883e4b6ba8ce5b5c775c57323108b0d00"
         })
         result = search.get_json()
 
@@ -38,12 +38,13 @@ def scholar_cron():
             since_2019c=since_2019c,
             since_2019h=since_2019h,
             since_2019h10=since_2019h10,
-            teacher_info=Teacher_info.objects.filter(teacher_id=i.teacher_id)
+            teacher_info=Teacher_info.objects.filter(teacher_id=i.teacher_id).first()
 
         ).save()
 
         for j in range(len(result['articles'])):
             Graph.objects.create(
+                name=name,
                 title=result['articles'][j]['title'],
                 value=result['articles'][j]['cited_by']['value'],
                 year=result['articles'][j]['year'],

@@ -226,7 +226,7 @@
 
                 </thead>
                 <tbody>
-            {% if roots  %}
+            {% if error2 %}
 
 
 
@@ -237,9 +237,9 @@
 {#                        <a href="{% url 'dashboard-auto-edit' key='pr' pk=i.id %}" title="O'zgartirish" class="btn btn-warning btn-circle btn-sm">#}
 {#                            <i class="fas fa-pen"></i>#}
 {#                        </a>#}
-                        <a href="{% url 'export_data_excel' key=i.name  %}" title="exel" class="btn btn-success btn-circle btn-sm">
-                            <i class="fas fa-file-excel"></i>
-                        </a>
+{#                        <a href="{% url 'export_data_excel' key=i.name  %}" title="exel" class="btn btn-success btn-circle btn-sm">#}
+{#                            <i class="fas fa-file-excel"></i>#}
+{#                        </a>#}
 {#                        <a href="{% url 'dashboard-auto-edit' key='pr' pk=i.id %}" title="exel" class="btn btn-info btn-circle btn-sm">#}
 {#                            <i class="fas fa-file-pdf"></i>#}
 {#                        </a>#}

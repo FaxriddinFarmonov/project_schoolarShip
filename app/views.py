@@ -34,7 +34,8 @@ def index212(request):
 def search_results(request):
     query = request.GET.get('q')
     results =Cited_by.objects.filter(name=query)  # Misolcha, o'zgartiring
-    if results is None:
+    print(results is not None)
+    if results :
         context = {
             'roots': results,
             'query': query,
@@ -42,4 +43,4 @@ def search_results(request):
         }
         return render(request, 'page/pr.html', context)
     else:
-        return render(request, 'page/pr.html',{'error':query})
+        return render(request, 'page/search.html',{'error':query})

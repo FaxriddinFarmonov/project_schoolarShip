@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .services.auto import gets, auto_form, auto_del,get_fak
-from .services.auth import profile,sign_up,sign_in,sign_out,search,otp
+from .services.auth import profile,sign_up,sign_in,sign_out,search,otp,resent_otp
 from .services.client import client_doc
 from .services.derector import list_members,banned,grader
 from .export_exel import export_data_to_excel
@@ -13,13 +13,15 @@ urlpatterns = [
 
     path("", index, name="home"),
     path('otp/',otp ,name='otp'),
+    path('resent_otp/',resent_otp ,name='resent_otp'),
+
 
     # user
     path("auth/",sign_in, name="login"),
     path("auto/regis/", sign_up, name="regis"),
     path("auto/logout/", sign_out, name="logout"),
     path("auto/profile/", profile, name="profile"),
-    
+
     #auto
     path("auto/<key>/",gets,name="dashboard-auto-list" ),
     path("au/<key>/",get_fak,name="get_fak" ),

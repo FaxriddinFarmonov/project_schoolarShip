@@ -187,4 +187,31 @@ def otp(request):
     return render(request, "page/auth/otp.html")
 
 
+def resent_otp(request):
+    print('fafaf')
+    if not request.session.get("otp_token"):
+        return redirect("login")
 
+    old = OTP.objects.filter(key=request.session["otp_token"]).first()
+    old.step = 'failed'
+    old.is_expire = True
+    old.save()
+
+    code = random.randint(100000, 999999)
+    # send_sms(998951808802,code)
+    key = code_decoder(code)
+
+    otp = OTP.objects.create(
+        key=key,
+        phone=old.phone,
+        step='login' if old.by == 2 else 'regis',
+        by=old.by,
+        extra=old.extra
+    )
+    otp.save()
+
+    request.session["code"] = code
+    request.session["phone"] = otp.phone
+    request.session["otp_token"] = otp.key
+
+    return redirect("otp")

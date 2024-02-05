@@ -150,6 +150,8 @@ API_URL = os.getenv("API_URL")
 
 PAGINATE_BY = 7
 
+
+
 CRONJOBS = [
-    ('*/1 * * * *', 'app.cron.hello')
+    ('0 0 */10 * *', 'app.cron.hello')
 ]
