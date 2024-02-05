@@ -118,15 +118,17 @@ def auto_form(requests, key, pk=None):
 
 
             for i in range(len(result['articles'])):
-                Graph.objects.create(
-                    title = result['articles'][i]['title'],
-                    value = result['articles'][i]['cited_by']['value'],
-                    year = result['articles'][i]['year'],
-                    links= result['articles'][i]['link'],
-                    teacher_info = Teacher_info.objects.filter(teacher_id=requests.POST.get('teacher_id')).first(),
+                if result['articles'][i]['cited_by']['value'] is not None:
+                    Graph.objects.create(
+                        name=name,
+                        title = result['articles'][i]['title'],
+                        value = result['articles'][i]['cited_by']['value'],
+                        year = result['articles'][i]['year'],
+                        links= result['articles'][i]['link'],
+                        teacher_info = Teacher_info.objects.filter(teacher_id=requests.POST.get('teacher_id')).first(),
 
 
-                ).save()
+                    ).save()
 
 
         return redirect('dashboard-auto-list', key=key)

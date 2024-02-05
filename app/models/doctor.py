@@ -51,8 +51,10 @@ class Teacher_info(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
     teacher_id = models.CharField(max_length=250,unique=True,blank=True,null=True)
     kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
-
+    def __str__(self):
+        return f"{self.name}"
 class Graph(models.Model):
+    name = models.CharField(max_length=250, blank=True, null=True)
     teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=1000,blank=True, null=True)
     value = models.CharField(max_length=1000,blank=True, null=True)

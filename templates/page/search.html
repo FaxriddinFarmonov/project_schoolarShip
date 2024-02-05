@@ -16,7 +16,7 @@
     <br>
 <div class="card mb-4 border-left-warning bg-info">
         <div class="card-body text-center">
-            <h4></h4>
+            <h4>Dorining ma'lumotlari sahifasi</h4>
         </div>
     </div>
 
@@ -223,32 +223,12 @@
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
-                {% if roots  %}
-                <tr>
-                    <th>№</th>
-                    <th>Full_name</th>
-                    <th>H-index</th>
-                    <th>I10-index</th>
-                    <th>Citations</th>
-                    <th>Citations_Since 2019</th>
-                    <th>Citations_H-index</th>
-                    <th>Citations_I10-index</th>
-                    <th>Taxrirlash</th>
-                </tr>
+
                 </thead>
                 <tbody>
+            {% if roots  %}
 
 
-                {% for i in roots %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ i.name}}</td>
-                    <td>{{ i.h_index }}</td>
-                    <td>{{ i.i10_index }}</td>
-                    <td>{{ i.citations }}</td>
-                    <td>{{ i.since_2019c }}</td>
-                    <td>{{ i.since_2019h }}</td>
-                    <td>{{ i.since_2019h10 }}</td>
 
                     <td>
 {#                        <a href="{% url 'dashboard-auto-detail' key='pr' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">#}
@@ -266,9 +246,9 @@
                     </td>
 
                 </tr>
-                {% endfor %}
+
                 {% else %}
-              <h3 class="text-danger">Uzur siz qidirgan malumot topilmadi  </h3>
+              <h3 class="text-danger">Uzur siz qidirgan  malumot topilmadi qayta urinib ko'ring </h3>
              {% endif %}
                 </tbody>
 

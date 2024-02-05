@@ -4,8 +4,8 @@ from .services.auto import gets, auto_form, auto_del,get_fak
 from .services.auth import profile,sign_up,sign_in,sign_out,search,otp
 from .services.client import client_doc
 from .services.derector import list_members,banned,grader
-
-from .views import index
+from .export_exel import export_data_to_excel
+from .views import index,search_results
 
 
 
@@ -29,6 +29,7 @@ urlpatterns = [
     path("auto/<key>/del/<int:pk>/",auto_del,name="dashboard-auto-delete" ),
 
     #member
+    path("export_data_to_excel/<key>/", export_data_to_excel, name='export_data_excel'),
     path("member/<int:tpe>/",list_members,name='members'),
     path("member/new/<int:new>/",list_members,name='members-new'),
     path("banner/u-<int:user_id>/t-<int:tpe>/s-<int:status>/",banned,name='banned'),
@@ -36,7 +37,7 @@ urlpatterns = [
     # path("spammer/<int:pk>/<int:dut>/",spammer,name='spammer'),
 
     #search
-    path("search/",search,name="search_wor"),
+    path("search_results/",search_results,name="search_results"),
 
     #client
     path("client/doc/<int:service>/",client_doc,name='servicedocs')
