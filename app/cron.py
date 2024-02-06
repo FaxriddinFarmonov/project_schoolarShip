@@ -43,15 +43,16 @@ def scholar_cron():
         ).save()
 
         for j in range(len(result['articles'])):
-            Graph.objects.create(
-                name=name,
-                title=result['articles'][j]['title'],
-                value=result['articles'][j]['cited_by']['value'],
-                year=result['articles'][j]['year'],
-                teacher_info=Teacher_info.objects.filter(teacher_id=i.teacher_id).first(),
-                links= result['articles'][j]['link'],
+            if result['articles'][j]['cited_by']['value'] is not None:
+                Graph.objects.create(
+                    name=name,
+                    title=result['articles'][j]['title'],
+                    value=result['articles'][j]['cited_by']['value'],
+                    year=result['articles'][j]['year'],
+                    teacher_info=Teacher_info.objects.filter(teacher_id=i.teacher_id).first(),
+                    links= result['articles'][j]['link'],
 
-            ).save()
+                ).save()
 
 
 
