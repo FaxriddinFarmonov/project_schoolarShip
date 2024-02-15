@@ -118,7 +118,6 @@ def auto_form(requests, key, pk=None):
 
             ).save()
 
-
             for i in range(len(result['articles'])):
                 if result['articles'][i]['cited_by']['value'] is not None:
                     Graph.objects.create(
@@ -127,6 +126,7 @@ def auto_form(requests, key, pk=None):
                         value = result['articles'][i]['cited_by']['value'],
                         year = result['articles'][i]['year'],
                         links= result['articles'][i]['link'],
+                        publication= result['articles'][i]['publication'][0:-6],
                         teacher_info = Teacher_info.objects.filter(teacher_id=requests.POST.get('teacher_id')).first(),
 
 

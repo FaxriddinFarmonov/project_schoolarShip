@@ -6,12 +6,14 @@ from pprint import pprint
 
 search = GoogleSearch({
         "engine": "google_scholar_author",
-            "author_id": 'EivNM54AAAAJ&hl',
+            "author_id": 'dzMOlfYAAAAJ',
         "api_key": "8a781032fba81c6826c0f57bf96ada4883e4b6ba8ce5b5c775c57323108b0d00"
       })
 result = search.get_json()
-
-pprint(result)
+a=result['articles'][5]['publication'][0:-6]
+pprint(a)
+# b = int(len(a))
+# print(a[0:len(a)-6])
 # for i in range(len(result['cited_by']['graph'])):
 #     print(result['cited_by']['graph'][i]['citations'])
 # print(len(result['articles']),'==================')

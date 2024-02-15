@@ -60,6 +60,8 @@ class Graph(models.Model):
     value = models.CharField(max_length=1000,blank=True, null=True)
     year = models.CharField(max_length=100,blank=True, null=True)
     links = models.CharField(max_length=2000,blank=True, null=True)
+    publication = models.CharField(max_length=2000,blank=True, null=True)
+
 
 class Cited_by(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
