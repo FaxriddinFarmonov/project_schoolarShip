@@ -119,7 +119,8 @@ def auto_form(requests, key, pk=None):
             ).save()
 
             for i in range(len(result['articles'])):
-                if result['articles'][i]['cited_by']['value'] is not None:
+                if result['articles'][i]['cited_by'] is not None and 'publication' in result['articles'][i] and \
+                        result['articles'][i]['publication'] is not None:
                     Graph.objects.create(
                         name=name,
                         title = result['articles'][i]['title'],

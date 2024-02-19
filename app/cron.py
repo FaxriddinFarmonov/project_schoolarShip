@@ -43,7 +43,8 @@ def scholar_cron():
         ).save()
 
         for j in range(len(result['articles'])):
-            if result['articles'][j]['cited_by']['value'] is not None:
+            if result['articles'][i]['cited_by'] is not None and 'publication' in result['articles'][i] and \
+                    result['articles'][i]['publication'] is not None:
                 Graph.objects.create(
                     name=name,
                     title=result['articles'][j]['title'],
