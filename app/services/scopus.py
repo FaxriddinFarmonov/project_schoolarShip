@@ -4,18 +4,20 @@ import json
 
 SCOPUS_API_KEY='2883c1a19ce507c0ced7b6487e35851b'
 
+import requests
+from pprint import pprint
 
+url = 'https://api.elsevier.com/content/search/scopus'
+headers = {
+    'X-ELS-APIKey': '285fbb82ea7717b8bc6b7e0f9d2b422d',
+}
 
-scopus_author_search_url = 'http://api.elsevier.com/content/search/author?'
-headers = {'Accept':'application/json', 'X-ELS-APIKey': SCOPUS_API_KEY}
-search_query = 'query=AUTHFIRST(%) AND AUTHLASTNAME(%s) AND SUBJAREA(%s)'
+params = {
+    'query': 'AU-ID(57205465027)',
 
-# api_resource = "http://api.elsevier.com/content/search/author?apiKey=%s&" % (SCOPUS_API_KEY)
+}
 
-# request with first searching page
-page_request = requests.get(scopus_author_search_url + search_query, headers=headers)
-print( page_request.url)
-
-# response to json
-page = json.loads(page_request.content.decode("utf-8"))
-print( page)
+response = requests.get(url, headers=headers, params=params)
+print(response, '====')
+data = response.json()
+pprint(data)

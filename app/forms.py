@@ -1,6 +1,6 @@
 from django import forms
 
-from app.models import Kafedra,Teacher_info
+from app.models import Kafedra,Teacher_info,Teacher_scopus
 
 
 class KafedraForm(forms.ModelForm):
@@ -13,6 +13,11 @@ class KafedraForm(forms.ModelForm):
 class Teacher_infoForm(forms.ModelForm):
 
     class Meta:
-        fields = ['teacher_id','kafedra']
+        fields = ['teacher_id_scholar','kafedra']
         model = Teacher_info
+class Teacher_scopusForm(forms.ModelForm):
+
+    class Meta:
+        fields = ['teacher_id_scopus','kafedra']
+        model = Teacher_scopus
 

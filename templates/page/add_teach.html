@@ -1,4 +1,4 @@
-{#bismillahirrohmaniyrohim#}
+d{#bismillahirrohmaniyrohim#}
 {% extends 'base.html' %}
 
 
@@ -136,11 +136,11 @@
               <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Doctorlar formasi</h2>
+                    <h2 class="form-group text-center">Google Scholar</h2>
                     <div class="form-row">
 
                         <div class="form-group col-md-4">
-                            {% bootstrap_field form.teacher_id %}
+                            {% bootstrap_field form.teacher_id_scholar %}
                         </div>
                         <div class="form-group col-md-4">
                             {% bootstrap_field form.kafedra  %}
@@ -193,7 +193,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Teacher schoolar</h1>
+            <h1>Teacher Schoolar</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -231,7 +231,7 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ i.name }}</td>
-                    <td>{{ i.teacher_id }}</td>
+                    <td>{{ i.teacher_id_scholar }}</td>
                     <td>{{ i.kafedra}}</td>
                     <td>
                         <a href="{% url 'dashboard-auto-detail' key='add_teach' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">

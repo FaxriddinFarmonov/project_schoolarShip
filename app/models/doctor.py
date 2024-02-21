@@ -49,30 +49,75 @@ class Spam(models.Model):
 
 class Teacher_info(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
-    teacher_id = models.CharField(max_length=250,unique=True,blank=True,null=True)
+    teacher_id_scholar = models.CharField(max_length=250,unique=True,blank=True,null=True)
     kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
     def __str__(self):
         return f"{self.name}"
+
 class Graph(models.Model):
+        name = models.CharField(max_length=250, blank=True, null=True)
+        teacher_info = models.ForeignKey(Teacher_info, on_delete=models.CASCADE, blank=True, null=True)
+        title = models.CharField(max_length=1000, blank=True, null=True)
+        value = models.CharField(max_length=1000, blank=True, null=True)
+        year = models.CharField(max_length=100, blank=True, null=True)
+        links = models.CharField(max_length=2000, blank=True, null=True)
+        publication = models.CharField(max_length=2000, blank=True, null=True)
+
+        def __str__(self):
+            return f"{self.name}"
+
+
+class Cited_by(models.Model):
+        name = models.CharField(max_length=250, blank=True, null=True)
+        teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
+        citations = models.CharField(max_length=10, blank=True, null=True)
+        h_index = models.CharField(max_length=10, blank=True, null=True)
+        i10_index = models.CharField(max_length=10, blank=True, null=True)
+        since_2019c = models.CharField(max_length=20, blank=True, null=True)
+        since_2019h = models.CharField(max_length=20, blank=True, null=True)
+        since_2019h10 = models.CharField(max_length=20, blank=True, null=True)
+        graph = models.ForeignKey(Graph,on_delete=models.CASCADE,blank=True,null=True)
+
+
+        def __str__(self):
+            return f"{self.name}"
+
+class Teacher_scopus(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
-    teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
+    teacher_id_scopus = models.CharField(max_length=250,unique=True,blank=True,null=True)
+    kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
+    def __str__(self):
+        return f"{self.name}"
+
+
+
+
+
+class Graph_Scoupus(models.Model):
+    name = models.CharField(max_length=250, blank=True, null=True)
+    teacher_scopus = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=1000,blank=True, null=True)
     value = models.CharField(max_length=1000,blank=True, null=True)
     year = models.CharField(max_length=100,blank=True, null=True)
     links = models.CharField(max_length=2000,blank=True, null=True)
     publication = models.CharField(max_length=2000,blank=True, null=True)
+    def __str__(self):
+        return f"{self.name}"
 
 
-class Cited_by(models.Model):
+class Cited_by_Scopus(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
-    teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
+    teacher_scopus = models.ForeignKey(Teacher_scopus,on_delete=models.CASCADE,blank=True, null=True)
     citations = models.CharField(max_length=10, blank=True, null=True)
     h_index = models.CharField(max_length=10, blank=True, null=True)
-    i10_index = models.CharField(max_length=10, blank=True, null=True)
-    since_2019c = models.CharField(max_length=20, blank=True, null=True)
-    since_2019h = models.CharField(max_length=20, blank=True, null=True)
-    since_2019h10 = models.CharField(max_length=20, blank=True, null=True)
+    publications = models.CharField(max_length=10, blank=True, null=True)
     graph = models.ForeignKey(Graph,on_delete=models.CASCADE,blank=True,null=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+
 
 
 

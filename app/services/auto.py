@@ -21,6 +21,7 @@ def gets(requests, key, pk=None):
             "service": Kafedra,
             "add_teach" : Teacher_info,
             'pr': Cited_by,
+            'scopus': Teacher_scopus,
 
 
 
@@ -68,7 +69,8 @@ def auto_form(requests, key, pk=None):
         Model = {
             "service": "Kafedra",
             "pr": "Price",
-            "add_teach": "Teacher_info"
+            "add_teach": "Teacher_info",
+            "scopus": "Teacher_scopus"
 
         }[key]
 
@@ -132,7 +134,8 @@ def auto_form(requests, key, pk=None):
 
 
                     ).save()
-
+        elif eval(f"{Model}Form") == Teacher_scopusForm:
+            pass
 
         return redirect('dashboard-auto-list', key=key)
 
@@ -157,7 +160,8 @@ def auto_del(requests, key, pk):
 
         Model = {
             "service": Kafedra,
-            "add_teach": Teacher_info
+            "add_teach": Teacher_info,
+            'scopus':Teacher_scopus
 
         }[key]
 
@@ -173,6 +177,7 @@ def auto_del(requests, key, pk):
     return redirect('dashboard-auto-list', key=key)
 
 
+@login_required(login_url='login')
 def get_fak(request,key):
     try:
         model = Cited_by.objects.filter(teacher_info__kafedra__name=key)
