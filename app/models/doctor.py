@@ -95,7 +95,7 @@ class Teacher_scopus(models.Model):
 
 class Graph_Scoupus(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
-    teacher_scopus = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
+    teacher_scopus = models.ForeignKey(Teacher_scopus,on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=1000,blank=True, null=True)
     value = models.CharField(max_length=1000,blank=True, null=True)
     year = models.CharField(max_length=100,blank=True, null=True)

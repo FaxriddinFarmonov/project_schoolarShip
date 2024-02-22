@@ -16,46 +16,42 @@
     <br>
 <div class="card mb-4 border-left-warning bg-info">
         <div class="card-body text-center">
-            <h4>Teacher info </h4>
+            <h4></h4>
         </div>
     </div>
 
 
 <div class="card mb-4 border-left-warning">
     <div class="card-body">
-        <h4>Teacher name : <mark><i>{{ root.name }}</i></mark></h4>
-    </div>
-</div><div class="card mb-4 border-left-warning">
-    <div class="card-body">
-        <h4>Teacher id : <mark><i>{{ root.teacher_id_scopus }}</i></mark></h4>
-    </div>
-</div><div class="card mb-4 border-left-warning">
-    <div class="card-body">
-        <h4>Teacher kafedra : <mark><i>{{ root.kafedra }}</i></mark></h4>
+        <h4>Doctor: <mark><i>{{ root.doc.name }}</i></mark></h4>
     </div>
 </div>
-{#<div class="card mb-4 border-left-warning">#}
-{#    <div class="card-body">#}
-{#        <h4>Kafedra: <mark><i>{{ root.kafedra }}</i></mark></h4>#}
-{#    </div>#}
-{#</div>#}
-
-{#    <div class="card mb-4 border-left-warning">#}
-{#        <div class="card-body">#}
-{#            <h4>Rasm: <img src="{{ root.icon.url }}" alt="Rasm topilmadi!" width="150px"></h4>#}
-{#        </div>#}
-{#    </div>#}
+<div class="card mb-4 border-left-warning">
+    <div class="card-body">
+        <h4>Xizmat Turi: <mark><i>{{ root.service.name }}</i></mark></h4>
+    </div>
+</div>
+<div class="card mb-4 border-left-warning">
+    <div class="card-body">
+        <h4>Xizmat Narxi: <mark><i>{{ root.price  }}</i></mark></h4>
+    </div>
+</div>
+<div class="card mb-4 border-left-warning">
+    <div class="card-body">
+        <h4>Xizmat Narxi(sonlarda): <mark><i>{{ root.pr }}</i></mark></h4>
+    </div>
+</div>
 
 
 <div class="card mb-4 border-bottom-warning">
     <div class="card-body">
-        <a href="{% url 'dashboard-auto-edit' key='scopus' pk=root.id %}" class="btn btn-success btn-icon-split">
+        <a href="{% url 'dashboard-auto-edit' key='pr' pk=root.id %}" class="btn btn-success btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-edit"></i>
             </span>
             <span class="text">Tahrirlash</span>
         </a>
-        <a href="{% url 'dashboard-auto-list' key='scopus' %}" class="btn btn-warning btn-icon-split">
+        <a href="{% url 'dashboard-auto-list' key='pr' %}" class="btn btn-warning btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-arrow-left"></i>
             </span>
@@ -93,7 +89,7 @@
             <div class="modal-body">Ro'stdan ham ushbu {{ root.FIO }} ni o'chirmoqchimisz?</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Yo'q</button>
-                <a class="btn btn-primary" href="{% url 'dashboard-auto-delete' key='scopus' pk=root.id %}">Ha</a>
+                <a class="btn btn-primary" href="{% url 'dashboard-auto-delete' key='pr' pk=root.id %}">Ha</a>
             </div>
         </div>
     </div>
@@ -135,18 +131,28 @@
               <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Scopus</h2>
+                    <h2 class="form-group text-center">Xizmatlar Registratsiya</h2>
                     <div class="form-row">
 
                         <div class="form-group col-md-4">
-                            {% bootstrap_field form.teacher_id_scopus %}
+                            {% bootstrap_field form.name %}
                         </div>
                         <div class="form-group col-md-4">
-                            {% bootstrap_field form.kafedra  %}
+                            {% bootstrap_field form.last_name %}
                         </div>
-{#                        <div class="form-group col-md-4">#}
-{#                            {% bootstrap_field form.icon %}#}
-{#                        </div>#}
+                        <div class="form-group col-md-4">
+                            {% bootstrap_field form.year %}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {% bootstrap_field form.service %}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {% bootstrap_field form.doc %}
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            {% bootstrap_field form.price %}
+                        </div>
 
                     </div>
                     <div class="card-footer">
@@ -156,7 +162,7 @@
                                 <i class="fas fa-check"></i>O'zgarishlarni Saqlash
                               </button>
                         </div>
-                        <a href="{% url 'dashboard-auto-list' key='service' %}">
+                        <a href="{% url 'dashboard-auto-list' key='pr' %}">
                             <div class="card-action ml-1 right-align">
                                   <button type="button" class="btn btn-block btn-info">
                                         <i class="fas fa-home"></i> Listlarga qaytish
@@ -192,7 +198,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Teacher Scopus</h1>
+            <h1>Ko'rsatilgan xizmatlar</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -211,42 +217,72 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Xizmatlarlar ro'yxati </h3>
+              <h3 class="card-title">Xizmatlarlar ro'yxati ro'yxati</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
+                {% if roots  %}
                 <tr>
                     <th>№</th>
-                    <th>Teacher name</th>
-                    <th>Teacher id</th>
-                    <th>Kafedra</th>
-                    <th>taxrirlash</th>
+                    <th>Full_name</th>
+                    <th>H-index</th>
+                    <th>publications</th>
+                    <th>Citations</th>
+                    <th>Taxrirlash</th>
                 </tr>
                 </thead>
                 <tbody>
+
+
                 {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ i.name }}</td>
-                    <td>{{ i.teacher_id_scopus }}</td>
-                    <td>{{ i.kafedra}}</td>
+                    <td>{{ i.name}}</td>
+                    <td>{{ i.h_index }}</td>
+                    <td>{{ i.publications }}</td>
+                    <td>{{ i.citations }}</td>
+
+
                     <td>
-                        <a href="{% url 'dashboard-auto-detail' key='scopus' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">
-                            <i class="fas fa-info-circle"></i>
+{#                        <a href="{% url 'dashboard-auto-detail' key='pr' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">#}
+{#                            <i class="fas fa-info-circle"></i>#}
+{#                        </a>#}
+{#                        <a href="{% url 'dashboard-auto-edit' key='pr' pk=i.id %}" title="O'zgartirish" class="btn btn-warning btn-circle btn-sm">#}
+{#                            <i class="fas fa-pen"></i>#}
+{#                        </a>#}
+                        <a href="{% url 'export_data_excel' key=i.name  %}" title="exel" class="btn btn-success btn-circle btn-sm">
+                            <i class="fas fa-file-excel"></i>
                         </a>
-                        <a href="{% url 'dashboard-auto-edit' key='scopus' pk=i.id %}" title="O'zgartirish" class="btn btn-warning btn-circle btn-sm">
-                            <i class="fas fa-pen"></i>
-                        </a>
+{#                        <a href="{% url 'dashboard-auto-edit' key='pr' pk=i.id %}" title="exel" class="btn btn-info btn-circle btn-sm">#}
+{#                            <i class="fas fa-file-pdf"></i>#}
+{#                        </a>#}
                     </td>
 
                 </tr>
                 {% endfor %}
-
                 </tbody>
 
-              </table>
+              </table><br>
+              {% if key and key != 'pr' %}
+              <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand">Barcha ma'lumotlarni yuklab olish:</a>
+                <form class="form-inline">
+                  
+                  <button class="btn btn-outline-success my-2 my-sm-0 mr-5" type="submit">
+                    <a href="{% url 'export_data_to_excel_fak'  key=key   %}" title="exel" class="btn btn-success btn-circle btn-sm">
+                      <i class="fas fa-file-excel"></i>
+                  </a>
+                  </button>
+                </form>
+              </nav>
+              {% endif %}
+              {% else %}
+              <h3 class="text-danger">Uzur bu bo'limda malumotlar yoq  </h3>
+             {% endif %}
+             
+
                 <br>
                 <hr>
                 <div class="pagination">
@@ -260,6 +296,7 @@
                             Page {{ roots.number }} of {{ roots.paginator.num_pages }}.
                         </span>
 
+
                         {% if roots.has_next %}
                             <a href="?page={{ roots.next_page_number }}" class="btn btn-primary btn-sm">next</a>
                             <a href="?page={{ roots.paginator.num_pages }}" class="btn btn-primary btn-sm">last&raquo;</a>
@@ -269,12 +306,12 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
-                        <a href="{% url 'dashboard-auto-add' key='scopus' %}" class="btn btn-success" >
-                            <span class="icon text-white-50">
-                                <i class="fas fa-check"></i>
-                            </span>
-                            <span class="text">Teacher add + </span>
-                        </a>
+{#                        <a href="{% url 'dashboard-auto-add' key='pr' %}" class="btn btn-success" >#}
+{#                            <span class="icon text-white-50">#}
+{#                                <i class="fas fa-check"></i>#}
+{#                            </span>#}
+{#                            <span class="text">Xizmat Qo'shish</span>#}
+{#                        </a>#}
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">
                                 <i class="fas fa-home"></i>

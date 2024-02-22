@@ -1,4 +1,4 @@
-
+import requests
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -21,6 +21,7 @@ def gets(requests, key, pk=None):
             "service": Kafedra,
             "add_teach" : Teacher_info,
             'pr': Cited_by,
+            'scopus_pr': Cited_by_Scopus,
             'scopus': Teacher_scopus,
 
 
@@ -60,9 +61,9 @@ def gets(requests, key, pk=None):
 
 
 @login_required(login_url='login')
-def auto_form(requests, key, pk=None):
+def auto_form(request, key, pk=None):
 
-    if requests.user.ut not in  [1,2]:
+    if request.user.ut not in  [1,2]:
         return redirect("login")
 
     try:
@@ -76,16 +77,16 @@ def auto_form(requests, key, pk=None):
 
 
     except:
-        return render(requests, 'base.html', {"error": 404})
+        return render(request, 'base.html', {"error": 404})
     root = None
     if pk:
         root = eval(Model).objects.filter(pk=pk).first()
 
         if not root:
             ctx = {"error": 404}
-            return render(requests, f'pages/{key}.html', ctx)
+            return render(request, f'pages/{key}.html', ctx)
 
-    form = eval(f"{Model}Form")(requests.POST or None,instance=root )
+    form = eval(f"{Model}Form")(request.POST or None,instance=root )
     if form.is_valid():
         form.save()
 
@@ -93,7 +94,7 @@ def auto_form(requests, key, pk=None):
 
             search = GoogleSearch({
                     "engine": "google_scholar_author",
-                    "author_id": requests.POST.get('teacher_id'),
+                    "author_id": request.POST.get('teacher_id'),
                     "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
                   })
             result = search.get_json()
@@ -116,7 +117,7 @@ def auto_form(requests, key, pk=None):
                 since_2019c = since_2019c,
                 since_2019h = since_2019h,
                 since_2019h10 = since_2019h10,
-                teacher_info = Teacher_info.objects.filter(teacher_id=requests.POST.get('teacher_id')).first(),
+                teacher_info = Teacher_info.objects.filter(teacher_id=request.POST.get('teacher_id')).first(),
 
             ).save()
 
@@ -130,12 +131,50 @@ def auto_form(requests, key, pk=None):
                         year = result['articles'][i]['year'],
                         links= result['articles'][i]['link'],
                         publication= result['articles'][i]['publication'][0:-6],
-                        teacher_info = Teacher_info.objects.filter(teacher_id=requests.POST.get('teacher_id')).first(),
+                        teacher_info = Teacher_info.objects.filter(teacher_id=request.POST.get('teacher_id')).first(),
 
 
                     ).save()
         elif eval(f"{Model}Form") == Teacher_scopusForm:
-            pass
+
+            url = 'https://api.elsevier.com/content/search/scopus'
+            link = 'https://www.scopus.com/authid/detail.uri?authorId='
+            author_id =  request.POST.get('teacher_id_scopus')
+            count = 0
+
+            headers = {
+                'X-ELS-APIKey': '285fbb82ea7717b8bc6b7e0f9d2b422d',
+            }
+            params = {
+                'query': f'AU-ID({author_id})',
+                'count': 'all'
+            }
+            print()
+            response = requests.get(url, headers=headers, params=params)
+            data = response.json()
+
+            for j in range(len(data['search-results']['entry'])):
+                if 'citedby-count' in data['search-results']['entry'][j] and data['search-results']['entry'][j]['citedby-count'] is not '0':
+                    count = count + int(data['search-results']['entry'][j]['citedby-count'])
+                    Graph_Scoupus.objects.create(
+                        # name=name,
+                        title =data['search-results']['entry'][j]['dc:title'],
+                        value = data['search-results']['entry'][j]['citedby-count'],
+                        publication = data['search-results']['entry'][j]['prism:publicationName'],
+                        year = data['search-results']['entry'][j]['prism:coverDate'][0:4],
+                        links = f" {link}+{author_id}",
+                        teacher_scopus =  Teacher_scopus.objects.filter(teacher_id_scopus=author_id).first(),
+
+                    ).save()
+            Cited_by_Scopus.objects.create(
+                # name=name,
+                # h_index=h_index,
+                citations=count,
+                publications=len(data['search-results']['entry']),
+                teacher_scopus=Teacher_scopus.objects.filter(
+                    teacher_id_scopus=request.POST.get('teacher_id_scopus')).first(),
+
+            )
 
         return redirect('dashboard-auto-list', key=key)
 
@@ -147,7 +186,7 @@ def auto_form(requests, key, pk=None):
 
 
 
-    return render(requests, f'page/{key}.html', ctx)
+    return render(request, f'page/{key}.html', ctx)
 
 
 @login_required(login_url='sign-in')
