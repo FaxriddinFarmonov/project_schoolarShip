@@ -137,7 +137,9 @@
                 <div class="card-body">
                     <h2 class="form-group text-center">Scopus</h2>
                     <div class="form-row">
-
+                        <div class="form-group col-md-4">
+                            {% bootstrap_field form.name%}
+                        </div>
                         <div class="form-group col-md-4">
                             {% bootstrap_field form.teacher_id_scopus %}
                         </div>
@@ -226,7 +228,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for i in roots %}
+                    {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ i.name }}</td>

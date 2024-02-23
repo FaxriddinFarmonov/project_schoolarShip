@@ -227,7 +227,7 @@
                 <tr>
                     <th>№</th>
                     <th>Full_name</th>
-                    <th>H-index</th>
+                    <th>teacher_id</th>
                     <th>publications</th>
                     <th>Citations</th>
                     <th>Taxrirlash</th>
@@ -239,8 +239,8 @@
                 {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ i.name}}</td>
-                    <td>{{ i.h_index }}</td>
+                    <td>{{ i.teacher_scopus.name}}</td>
+                    <td>{{ i.teacher_scopus.teacher_id_scopus }}</td>
                     <td>{{ i.publications }}</td>
                     <td>{{ i.citations }}</td>
 
@@ -252,7 +252,7 @@
 {#                        <a href="{% url 'dashboard-auto-edit' key='pr' pk=i.id %}" title="O'zgartirish" class="btn btn-warning btn-circle btn-sm">#}
 {#                            <i class="fas fa-pen"></i>#}
 {#                        </a>#}
-                        <a href="{% url 'export_data_excel' key=i.name  %}" title="exel" class="btn btn-success btn-circle btn-sm">
+                        <a href="{% url 'export_scopus_to_excel' key=i.teacher_scopus.name  %}" title="exel" class="btn btn-success btn-circle btn-sm">
                             <i class="fas fa-file-excel"></i>
                         </a>
 {#                        <a href="{% url 'dashboard-auto-edit' key='pr' pk=i.id %}" title="exel" class="btn btn-info btn-circle btn-sm">#}
@@ -267,15 +267,15 @@
               </table><br>
               {% if key and key != 'pr' %}
               <nav class="navbar navbar-light bg-light">
-                <a class="navbar-brand">Barcha ma'lumotlarni yuklab olish:</a>
-                <form class="form-inline">
-                  
-                  <button class="btn btn-outline-success my-2 my-sm-0 mr-5" type="submit">
-                    <a href="{% url 'export_data_to_excel_fak'  key=key   %}" title="exel" class="btn btn-success btn-circle btn-sm">
-                      <i class="fas fa-file-excel"></i>
-                  </a>
-                  </button>
-                </form>
+{#                <a class="navbar-brand">Barcha ma'lumotlarni yuklab olish:</a>#}
+{#                <form class="form-inline">#}
+
+{#                  <button class="btn btn-outline-success my-2 my-sm-0 mr-5" type="submit">#}
+{#                    <a href="{% url 'export_data_to_excel_fak'  key=key   %}" title="exel" class="btn btn-success btn-circle btn-sm">#}
+{#                      <i class="fas fa-file-excel"></i>#}
+{#                  </a>#}
+{#                  </button>#}
+{#                </form>#}
               </nav>
               {% endif %}
               {% else %}

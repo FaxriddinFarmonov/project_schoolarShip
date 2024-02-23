@@ -94,12 +94,13 @@ def auto_form(request, key, pk=None):
 
             search = GoogleSearch({
                     "engine": "google_scholar_author",
-                    "author_id": request.POST.get('teacher_id'),
+                    "author_id": request.POST.get('teacher_id_scholar'),
                     "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
                   })
             result = search.get_json()
+            print(result)
 
-            name = result['author']['name']
+            name =result['author']['name']
             autor_id =result['search_parameters']['author_id']
             cited_by=result['cited_by']['table'][0]['citations']['all']
             since_2019c = result['cited_by']['table'][0]['citations']['since_2019']
@@ -107,7 +108,7 @@ def auto_form(request, key, pk=None):
             since_2019h10 = result['cited_by']['table'][2]['i10_index']['since_2019']
             h_index = result['cited_by']['table'][1]['h_index']['all']
             i10_index = result['cited_by']['table'][2]['i10_index']['all']
-            Teacher_info.objects.filter(teacher_id=autor_id).update(name=name)
+            Teacher_info.objects.filter(teacher_id_scholar=autor_id).update(name=name)
 
             info  = Cited_by.objects.create(
                 name = name,
@@ -117,12 +118,12 @@ def auto_form(request, key, pk=None):
                 since_2019c = since_2019c,
                 since_2019h = since_2019h,
                 since_2019h10 = since_2019h10,
-                teacher_info = Teacher_info.objects.filter(teacher_id=request.POST.get('teacher_id')).first(),
+                teacher_info = Teacher_info.objects.filter(teacher_id_scholar=request.POST.get('teacher_id_scholar')).first(),
 
             ).save()
 
             for i in range(len(result['articles'])):
-                if result['articles'][i]['cited_by'] is not None and 'publication' in result['articles'][i] and \
+                if 'value' in result['articles'][i]['cited_by']  and 'publication' in result['articles'][i] and \
                         result['articles'][i]['publication'] is not None:
                     Graph.objects.create(
                         name=name,
@@ -131,7 +132,7 @@ def auto_form(request, key, pk=None):
                         year = result['articles'][i]['year'],
                         links= result['articles'][i]['link'],
                         publication= result['articles'][i]['publication'][0:-6],
-                        teacher_info = Teacher_info.objects.filter(teacher_id=request.POST.get('teacher_id')).first(),
+                        teacher_info = Teacher_info.objects.filter(teacher_id_scholar=request.POST.get('teacher_id')).first(),
 
 
                     ).save()
@@ -157,22 +158,21 @@ def auto_form(request, key, pk=None):
                 if 'citedby-count' in data['search-results']['entry'][j] and data['search-results']['entry'][j]['citedby-count'] is not '0':
                     count = count + int(data['search-results']['entry'][j]['citedby-count'])
                     Graph_Scoupus.objects.create(
-                        # name=name,
+                        name= request.POST.get('name'),
                         title =data['search-results']['entry'][j]['dc:title'],
                         value = data['search-results']['entry'][j]['citedby-count'],
                         publication = data['search-results']['entry'][j]['prism:publicationName'],
                         year = data['search-results']['entry'][j]['prism:coverDate'][0:4],
-                        links = f" {link}+{author_id}",
+                        links = f" {link}{author_id}",
                         teacher_scopus =  Teacher_scopus.objects.filter(teacher_id_scopus=author_id).first(),
 
                     ).save()
             Cited_by_Scopus.objects.create(
-                # name=name,
-                # h_index=h_index,
-                citations=count,
-                publications=len(data['search-results']['entry']),
+                name=request.POST.get('name'),
+                citations = count,
+                publications = len(data['search-results']['entry']),
                 teacher_scopus=Teacher_scopus.objects.filter(
-                    teacher_id_scopus=request.POST.get('teacher_id_scopus')).first(),
+                teacher_id_scopus=request.POST.get('teacher_id_scopus')).first(),
 
             )
 
@@ -216,16 +216,38 @@ def auto_del(requests, key, pk):
     return redirect('dashboard-auto-list', key=key)
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
+# def get_fak(request,key):
+#     try:
+#         model = Cited_by.objects.filter(teacher_info__kafedra__name=key)
+#         print(model)
+#     except:
+#         return render(request, f'page/pr.html', {"error": 404})
+#     ctx = {
+#         'roots' : model,
+#         'key':key
+#
+#     }
+#     return render(request, f'page/pr.html', ctx)
+
+
 def get_fak(request,key):
     try:
-        model = Cited_by.objects.filter(teacher_info__kafedra__name=key)
-        print(model)
-    except:
-        return render(request, f'page/pr.html', {"error": 404})
-    ctx = {
-        'roots' : model,
-        'key':key
+        # Birinchi ma'lumotlar bazasidan ma'lumotlarni olish
+        model1 = Cited_by.objects.filter(teacher_info__kafedra__name=key)
 
-    }
-    return render(request, f'page/pr.html', ctx)
+        # Ikkinchi ma'lumotlar bazasidan ma'lumotlarni olish
+        model2 = Cited_by_Scopus.objects.filter(teacher_scopus__kafedra__name=key)
+
+        # Ma'lumotlarni tekislaymiz va ularni bitta ro'yxatga qo'shamiz
+
+        # Foydalanuvchiga ma'lumotlarni ko'rsatish
+        ctx = {
+           'roots' : model1,
+           'roots2' : model2,
+
+            'key': key
+        }
+        return render(request, 'page/pr.html', ctx)
+    except:
+        return render(request, 'page/pr.html', {"error": 404})

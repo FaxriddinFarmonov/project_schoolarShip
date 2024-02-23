@@ -1,17 +1,17 @@
-# from serpapi import GoogleSearch
-# from pprint import pprint
-#
-# # from app.models import *
-# # 'https://serpapi.com/search.json?author_id=TOlLXVMAAAAJ%26hl&engine=google_scholar_author&hl=en&start=20'}
-#
-# search = GoogleSearch({
-#         "engine": "google_scholar_author",
-#             "author_id": 'A42IdcIAAAAJ',
-#         "api_key": "8a781032fba81c6826c0f57bf96ada4883e4b6ba8ce5b5c775c57323108b0d00"
-#       })
-# result = search.get_json()
-# a=result['articles']
-# pprint(a)
+from serpapi import GoogleSearch
+from pprint import pprint
+
+# from app.models import *
+# 'https://serpapi.com/search.json?author_id=TOlLXVMAAAAJ%26hl&engine=google_scholar_author&hl=en&start=20'}
+# c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91
+search = GoogleSearch({
+        "engine": "google_scholar_author",
+            "author_id": 'EivNM54AAAAJ',
+        "api_key": "8a781032fba81c6826c0f57bf96ada4883e4b6ba8ce5b5c775c57323108b0d00"
+      })
+result = search.get_json()
+a= result['articles']
+pprint(a)
 # b = int(len(a))
 # print(a[0:len(a)-6])
 # for i in range(len(result['cited_by']['graph'])):

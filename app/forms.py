@@ -18,6 +18,6 @@ class Teacher_infoForm(forms.ModelForm):
 class Teacher_scopusForm(forms.ModelForm):
 
     class Meta:
-        fields = ['teacher_id_scopus','kafedra']
+        fields = ['name','teacher_id_scopus','kafedra']
         model = Teacher_scopus
 

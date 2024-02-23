@@ -217,13 +217,13 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Xizmatlarlar ro'yxati ro'yxati</h3>
+              <h3 class="card-title">Google Schoolar</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
-                {% if roots  %}
+                {% if roots or roots2 %}
                 <tr>
                     <th>№</th>
                     <th>Full_name</th>
@@ -269,14 +269,122 @@
                 {% endfor %}
                 </tbody>
 
+{% if roots2 %}
+
+
               </table><br>
+                    Scopus
+                     <div class="card-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+
+                <tr>
+                    <th>№</th>
+                    <th>Full_name</th>
+                    <th>teacher_id</th>
+                    <th>publications</th>
+                    <th>Citations</th>
+                    <th>Taxrirlash</th>
+                </tr>
+                </thead>
+                <tbody>
+
+
+                {% for i in roots2 %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.teacher_scopus.name}}</td>
+                    <td>{{ i.teacher_scopus.teacher_id_scopus }}</td>
+                    <td>{{ i.publications }}</td>
+                    <td>{{ i.citations }}</td>
+
+
+                    <td>
+{#                        <a href="{% url 'dashboard-auto-detail' key='pr' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">#}
+{#                            <i class="fas fa-info-circle"></i>#}
+{#                        </a>#}
+{#                        <a href="{% url 'dashboard-auto-edit' key='pr' pk=i.id %}" title="O'zgartirish" class="btn btn-warning btn-circle btn-sm">#}
+{#                            <i class="fas fa-pen"></i>#}
+{#                        </a>#}
+                        <a href="{% url 'export_scopus_to_excel' key=i.teacher_scopus.name  %}" title="exel" class="btn btn-success btn-circle btn-sm">
+                            <i class="fas fa-file-excel"></i>
+                        </a>
+{#                        <a href="{% url 'dashboard-auto-edit' key='pr' pk=i.id %}" title="exel" class="btn btn-info btn-circle btn-sm">#}
+{#                            <i class="fas fa-file-pdf"></i>#}
+{#                        </a>#}
+                    </td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+              {% endif %}
+
+              </table><br>
+{#              {% if key and key != 'pr' %}#}
+{#              <nav class="navbar navbar-light bg-light">#}
+{#                <a class="navbar-brand">Barcha ma'lumotlarni yuklab olish:</a>#}
+{#                <form class="form-inline">#}
+{##}
+{#                  <button class="btn btn-outline-success my-2 my-sm-0 mr-5" type="submit">#}
+{#                    <a href="{% url 'export_data_to_excel_fak'  key=key   %}" title="exel" class="btn btn-success btn-circle btn-sm">#}
+{#                      <i class="fas fa-file-excel"></i>#}
+{#                  </a>#}
+{#                  </button>#}
+{#                </form>#}
+{#              </nav>#}
+{##}
+{#              {% else %}#}
+{#              <h3 class="text-danger">Uzur bu bo'limda malumotlar yoq  </h3>#}
+{#             {% endif %}#}
+
+
+{#                <br>#}
+{#                <hr>#}
+{#                <div class="pagination">#}
+{#                    <span class="step-links">#}
+{#                        {% if roots.has_previous %}#}
+{#                            <a href="?page=1" class="btn btn-primary btn-sm">&laquo;first</a>#}
+{#                            <a href="?page={{ roots.previous_page_number }}"  class="btn btn-primary btn-sm">prev</a>#}
+{#                        {% endif %}#}
+{##}
+{#                        <span class="current">#}
+{#                            Page {{ roots.number }} of {{ roots.paginator.num_pages }}.#}
+{#                        </span>#}
+{##}
+{##}
+{#                        {% if roots.has_next %}#}
+{#                            <a href="?page={{ roots.next_page_number }}" class="btn btn-primary btn-sm">next</a>#}
+{#                            <a href="?page={{ roots.paginator.num_pages }}" class="btn btn-primary btn-sm">last&raquo;</a>#}
+{#                        {% endif %}#}
+{#                    </span>#}
+{#                </div>#}
+{#                <hr>#}
+{#                <div class="row">#}
+{#                    <div class="col-xl-6 col-md-6 mb-4">#}
+{#                        <a href="{% url 'dashboard-auto-add' key='pr' %}" class="btn btn-success" >#}
+{#                            <span class="icon text-white-50">#}
+{#                                <i class="fas fa-check"></i>#}
+{#                            </span>#}
+{#                            <span class="text">Xizmat Qo'shish</span>#}
+{#                        </a>#}
+{#                        <a href="{% url 'home' %}"  class="btn btn-info" >#}
+{#                           <span class="icon text-white-50">#}
+{#                                <i class="fas fa-home"></i>#}
+{#                            </span>#}
+{#                            <span class="text">Bosh Menu</span>#}
+{#                       </a>#}
+{#                    </div>#}
+                </div>
+            </div>
+
+
               {% if key and key != 'pr' %}
               <nav class="navbar navbar-light bg-light">
                 <a class="navbar-brand">Barcha ma'lumotlarni yuklab olish:</a>
                 <form class="form-inline">
                   
                   <button class="btn btn-outline-success my-2 my-sm-0 mr-5" type="submit">
-                    <a href="{% url 'export_data_to_excel_fak'  key=key   %}" title="exel" class="btn btn-success btn-circle btn-sm">
+                    <a href="{% url 'export_merged_data_to_excel'  key=key   %}" title="exel" class="btn btn-success btn-circle btn-sm">
                       <i class="fas fa-file-excel"></i>
                   </a>
                   </button>
@@ -288,27 +396,27 @@
              {% endif %}
              
 
-                <br>
-                <hr>
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if roots.has_previous %}
-                            <a href="?page=1" class="btn btn-primary btn-sm">&laquo;first</a>
-                            <a href="?page={{ roots.previous_page_number }}"  class="btn btn-primary btn-sm">prev</a>
-                        {% endif %}
-
-                        <span class="current">
-                            Page {{ roots.number }} of {{ roots.paginator.num_pages }}.
-                        </span>
-
-
-                        {% if roots.has_next %}
-                            <a href="?page={{ roots.next_page_number }}" class="btn btn-primary btn-sm">next</a>
-                            <a href="?page={{ roots.paginator.num_pages }}" class="btn btn-primary btn-sm">last&raquo;</a>
-                        {% endif %}
-                    </span>
-                </div>
-                <hr>
+{#                <br>#}
+{#                <hr>#}
+{#                <div class="pagination">#}
+{#                    <span class="step-links">#}
+{#                        {% if roots.has_previous %}#}
+{#                            <a href="?page=1" class="btn btn-primary btn-sm">&laquo;first</a>#}
+{#                            <a href="?page={{ roots.previous_page_number }}"  class="btn btn-primary btn-sm">prev</a>#}
+{#                        {% endif %}#}
+{##}
+{#                        <span class="current">#}
+{#                            Page {{ roots.number }} of {{ roots.paginator.num_pages }}.#}
+{#                        </span>#}
+{##}
+{##}
+{#                        {% if roots.has_next %}#}
+{#                            <a href="?page={{ roots.next_page_number }}" class="btn btn-primary btn-sm">next</a>#}
+{#                            <a href="?page={{ roots.paginator.num_pages }}" class="btn btn-primary btn-sm">last&raquo;</a>#}
+{#                        {% endif %}#}
+{#                    </span>#}
+{#                </div>#}
+{#                <hr>#}
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
 {#                        <a href="{% url 'dashboard-auto-add' key='pr' %}" class="btn btn-success" >#}

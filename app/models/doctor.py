@@ -111,7 +111,7 @@ class Cited_by_Scopus(models.Model):
     citations = models.CharField(max_length=10, blank=True, null=True)
     h_index = models.CharField(max_length=10, blank=True, null=True)
     publications = models.CharField(max_length=10, blank=True, null=True)
-    graph = models.ForeignKey(Graph,on_delete=models.CASCADE,blank=True,null=True)
+    graph_scopus = models.ForeignKey(Graph_Scoupus,on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self):
         return f"{self.name}"
