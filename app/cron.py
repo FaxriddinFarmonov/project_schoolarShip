@@ -5,7 +5,7 @@ from serpapi import GoogleSearch
 
 
 
-def scholar_cron():
+def scholar_cron(requst):
     try:
         cited_by = Cited_by.objects.all().delete()
         graph = Graph.objects.all().delete()
