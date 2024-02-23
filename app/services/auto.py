@@ -123,7 +123,7 @@ def auto_form(request, key, pk=None):
             ).save()
 
             for i in range(len(result['articles'])):
-                if 'value' in result['articles'][i]['cited_by']  and 'publication' in result['articles'][i] and \
+                if result['articles'][i]['cited_by']['value'] is not None and 'publication' in result['articles'][i] and \
                         result['articles'][i]['publication'] is not None:
                     Graph.objects.create(
                         name=name,
@@ -132,7 +132,7 @@ def auto_form(request, key, pk=None):
                         year = result['articles'][i]['year'],
                         links= result['articles'][i]['link'],
                         publication= result['articles'][i]['publication'][0:-6],
-                        teacher_info = Teacher_info.objects.filter(teacher_id_scholar=request.POST.get('teacher_id')).first(),
+                        teacher_info = Teacher_info.objects.filter(teacher_id_scholar=request.POST.get('teacher_id_scholar')).first(),
 
 
                     ).save()

@@ -10,7 +10,7 @@ search = GoogleSearch({
         "api_key": "8a781032fba81c6826c0f57bf96ada4883e4b6ba8ce5b5c775c57323108b0d00"
       })
 result = search.get_json()
-a= result['articles']
+a= result['articles'][3]['cited_by']
 pprint(a)
 # b = int(len(a))
 # print(a[0:len(a)-6])
