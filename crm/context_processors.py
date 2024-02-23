@@ -70,18 +70,18 @@ from django.db import  connection
 
 
 
-# def hello(request):
-#
-#         number = random.randint(1, 1000)
-#         book = Books.objects.create(
-#             number=number
-#         )
-#         book.save()
-#         ctx = {
-#         'vsdvsdv':number
-#              }
-#
-#         return ctx
+def hello(request):
+
+        number = random.randint(1, 1000)
+        book = Books.objects.create(
+            number=number
+        )
+        book.save()
+        ctx = {
+        'vsdvsdv':number
+             }
+
+        return ctx
 
 
 

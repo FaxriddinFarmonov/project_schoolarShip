@@ -63,8 +63,7 @@ class Graph(models.Model):
         links = models.CharField(max_length=2000, blank=True, null=True)
         publication = models.CharField(max_length=2000, blank=True, null=True)
 
-        def __str__(self):
-            return f"{self.name}"
+
 
 
 class Cited_by(models.Model):
