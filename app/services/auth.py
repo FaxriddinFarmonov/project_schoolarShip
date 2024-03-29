@@ -56,7 +56,7 @@ def sign_in(request):
         request.session["email"] = user.email
         request.session["otp_token"] = otp.key
 
-        return redirect("otp")
+        # return redirect("otp")
 
         login(request, user)
         return redirect("home")
@@ -109,7 +109,7 @@ def sign_up(request):
         request.session["phone"] = otp.phone
         request.session["otp_token"] = otp.key
 
-        return redirect("otp")
+        # return redirect("otp")
         authenticate(request)
         login(request, user)
         return redirect('home')

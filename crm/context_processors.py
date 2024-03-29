@@ -66,7 +66,7 @@ def count(request):
 
 from app.models.books import Books
 import random
-from django.db import  connection
+# from django.db import  connection
 
 
 
@@ -130,10 +130,10 @@ from django.db import  connection
 #         }
 #     return ctx
 #
-# def sektion(request):
-#     model = Kafedra.objects.all()
-#     ctx = {
-#         'professions':model
-#     }
-#
-#     return ctx
+def sektion(request):
+    model = Kafedra.objects.all()
+    ctx = {
+        'professions':model
+    }
+
+    return ctx
