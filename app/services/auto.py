@@ -95,7 +95,7 @@ def auto_form(request, key, pk=None):
             search = GoogleSearch({
                     "engine": "google_scholar_author",
                     "author_id": request.POST.get('teacher_id_scholar'),
-                    "api_key": "8a781032fba81c6826c0f57bf96ada4883e4b6ba8ce5b5c775c57323108b0d00"
+                    "api_key": "acca4dcb415645c1b19ed5cc6ba845fb2df00b00925bb1545d4005f842030f46"
                   })
             result = search.get_json()
             print(result)
