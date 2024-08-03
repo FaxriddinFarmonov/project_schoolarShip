@@ -7,7 +7,7 @@ from pprint import pprint
 search = GoogleSearch({
         "engine": "google_scholar_author",
             "author_id": 'EivNM54AAAAJ',
-        "api_key": "c6787a50d55d9d782a5ba3f339c4b63d8ffe7a9bb21678db6e53029e63e63f91"
+        "api_key": "acca4dcb415645c1b19ed5cc6ba845fb2df00b00925bb1545d4005f842030f46"
       })
 result = search.get_json()
 a= result['articles'][3]['cited_by']
