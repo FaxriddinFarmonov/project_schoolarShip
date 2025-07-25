@@ -5,9 +5,9 @@ from django.contrib.auth import logout
 from django.db import connection
 from django.shortcuts import redirect,render
 from methodism import dictfetchone
-from app.models.doctor import Spam, Kafedra, Teacher_info, Teacher_scopus, Cited_by, Graph
+from app.models.doctor import Spam, Kafedra
 from serpapi import GoogleSearch
-
+# Teacher_info, Teacher_scopus, Cited_by, Graph
 
 def user_type(request):
    try:

@@ -1,3 +1,5 @@
+from symtable import Class
+
 from django.db import models
 from app.models.auth import *
 import datetime
@@ -46,103 +48,110 @@ class Spam(models.Model):
             self.date = datetime.datetime.now().strftime(f"%Y-%m-%d {soat}:{minut}:%S.%f")
         return super(Spam,self).save(*args,**kwargs)
 
-
-class Teacher_info(models.Model):
-    name = models.CharField(max_length=250, blank=True, null=True)
-    teacher_id_scholar = models.CharField(max_length=250,unique=True,blank=True,null=True)
-    kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return f"{self.name}"
-
-class Graph(models.Model):
-        name = models.CharField(max_length=250, blank=True, null=True)
-        teacher_info = models.ForeignKey(Teacher_info, on_delete=models.CASCADE, blank=True, null=True)
-        title = models.CharField(max_length=1000, blank=True, null=True)
-        value = models.CharField(max_length=1000, blank=True, null=True)
-        year = models.CharField(max_length=100, blank=True, null=True)
-        links = models.CharField(max_length=2000, blank=True, null=True)
-        publication = models.CharField(max_length=2000, blank=True, null=True)
-
-
-
-
-class Cited_by(models.Model):
-        name = models.CharField(max_length=250, blank=True, null=True)
-        teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
-        citations = models.CharField(max_length=10, blank=True, null=True)
-        h_index = models.CharField(max_length=10, blank=True, null=True)
-        i10_index = models.CharField(max_length=10, blank=True, null=True)
-        since_2019c = models.CharField(max_length=20, blank=True, null=True)
-        since_2019h = models.CharField(max_length=20, blank=True, null=True)
-        since_2019h10 = models.CharField(max_length=20, blank=True, null=True)
-        graph = models.ForeignKey(Graph,on_delete=models.CASCADE,blank=True,null=True)
-
-
-        def __str__(self):
-            return f"{self.name}"
-
-class Teacher_scopus(models.Model):
-    name = models.CharField(max_length=250, blank=True, null=True)
-    teacher_id_scopus = models.CharField(max_length=250,unique=True,blank=True,null=True)
-    kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
-    def __str__(self):
-        return f"{self.name}"
-
-
-
-
-
-class Graph_Scoupus(models.Model):
-    name = models.CharField(max_length=250, blank=True, null=True)
-    teacher_scopus = models.ForeignKey(Teacher_scopus,on_delete=models.CASCADE,blank=True, null=True)
-    title = models.CharField(max_length=1000,blank=True, null=True)
-    value = models.CharField(max_length=1000,blank=True, null=True)
-    year = models.CharField(max_length=100,blank=True, null=True)
-    links = models.CharField(max_length=2000,blank=True, null=True)
-    publication = models.CharField(max_length=2000,blank=True, null=True)
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Cited_by_Scopus(models.Model):
-    name = models.CharField(max_length=250, blank=True, null=True)
-    teacher_scopus = models.ForeignKey(Teacher_scopus,on_delete=models.CASCADE,blank=True, null=True)
-    citations = models.CharField(max_length=10, blank=True, null=True)
-    h_index = models.CharField(max_length=10, blank=True, null=True)
-    publications = models.CharField(max_length=10, blank=True, null=True)
-    graph_scopus = models.ForeignKey(Graph_Scoupus,on_delete=models.CASCADE,blank=True,null=True)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-
-
-
-
-
-
-
-
-
-# class ServiceDoc(models.Model):
-#     doc  = models.ForeignKey(User,on_delete=models.CASCADE ,limit_choices_to = {
-#         "ut" :3
-#     })
 #
+# class Teacher_info(models.Model):
+#     name = models.CharField(max_length=250, blank=True, null=True)
+#     teacher_id_scholar = models.CharField(max_length=250,unique=True,blank=True,null=True)
+#     kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
+#     created = models.DateTimeField(auto_now_add=True)
+#     def __str__(self):
+#         return f"{self.name}"
+#
+# class Graph(models.Model):
+#         name = models.CharField(max_length=250, blank=True, null=True)
+#         teacher_info = models.ForeignKey(Teacher_info, on_delete=models.CASCADE, blank=True, null=True)
+#         title = models.CharField(max_length=1000, blank=True, null=True)
+#         value = models.CharField(max_length=1000, blank=True, null=True)
+#         year = models.CharField(max_length=100, blank=True, null=True)
+#         links = models.CharField(max_length=2000, blank=True, null=True)
+#         publication = models.CharField(max_length=2000, blank=True, null=True)
+#
+#
+#
+#
+# class Cited_by(models.Model):
+#         name = models.CharField(max_length=250, blank=True, null=True)
+#         teacher_info = models.ForeignKey(Teacher_info,on_delete=models.CASCADE,blank=True, null=True)
+#         citations = models.CharField(max_length=10, blank=True, null=True)
+#         h_index = models.CharField(max_length=10, blank=True, null=True)
+#         i10_index = models.CharField(max_length=10, blank=True, null=True)
+#         since_2019c = models.CharField(max_length=20, blank=True, null=True)
+#         since_2019h = models.CharField(max_length=20, blank=True, null=True)
+#         since_2019h10 = models.CharField(max_length=20, blank=True, null=True)
+#         graph = models.ForeignKey(Graph,on_delete=models.CASCADE,blank=True,null=True)
+#
+#
+#         def __str__(self):
+#             return f"{self.name}"
+#
+# class Teacher_scopus(models.Model):
+#     name = models.CharField(max_length=250, blank=True, null=True)
+#     teacher_id_scopus = models.CharField(max_length=250,unique=True,blank=True,null=True)
+#     kafedra = models.ForeignKey(Kafedra,on_delete=models.CASCADE,blank=True,null=True)
+#     def __str__(self):
+#         return f"{self.name}"
+#
+#
+#
+#
+#
+# class Graph_Scoupus(models.Model):
+#     name = models.CharField(max_length=250, blank=True, null=True)
+#     teacher_scopus = models.ForeignKey(Teacher_scopus,on_delete=models.CASCADE,blank=True, null=True)
+#     title = models.CharField(max_length=1000,blank=True, null=True)
+#     value = models.CharField(max_length=1000,blank=True, null=True)
+#     year = models.CharField(max_length=100,blank=True, null=True)
+#     links = models.CharField(max_length=2000,blank=True, null=True)
+#     publication = models.CharField(max_length=2000,blank=True, null=True)
+#     def __str__(self):
+#         return f"{self.name}"
+#
+#
+# class Cited_by_Scopus(models.Model):
+#     name = models.CharField(max_length=250, blank=True, null=True)
+#     teacher_scopus = models.ForeignKey(Teacher_scopus,on_delete=models.CASCADE,blank=True, null=True)
+#     citations = models.CharField(max_length=10, blank=True, null=True)
+#     h_index = models.CharField(max_length=10, blank=True, null=True)
+#     publications = models.CharField(max_length=10, blank=True, null=True)
+#     graph_scopus = models.ForeignKey(Graph_Scoupus,on_delete=models.CASCADE,blank=True,null=True)
 #
 #     def __str__(self):
-#         return f"{self.doc.name}"
+#         return f"{self.name}"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# # class ServiceDoc(models.Model):
+# #     doc  = models.ForeignKey(User,on_delete=models.CASCADE ,limit_choices_to = {
+# #         "ut" :3
+# #     })
+# #
+# #
+# #     def __str__(self):
+# #         return f"{self.doc.name}"
+#
+# # class Rating(models.Model):
+# #     # user = models.ForeignKey(User ,on_delete=models.SET_NULL)
+# #     # doc = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+# #     star = models.SmallIntegerField(choices=[
+# #         (1, " * "),
+# #         (2, " ** "),
+# #         (3, " *** "),
+# #         (4, " **** "),
+# #         (5, " ***** "),
+# #     ])
+# #     feed = models.TextField()
 
-# class Rating(models.Model):
-#     # user = models.ForeignKey(User ,on_delete=models.SET_NULL)
-#     # doc = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-#     star = models.SmallIntegerField(choices=[
-#         (1, " * "),
-#         (2, " ** "),
-#         (3, " *** "),
-#         (4, " **** "),
-#         (5, " ***** "),
-#     ])
-#     feed = models.TextField()
+
+
+
+class Get_Balance(models.Model):
+    NumVal = models.CharField(max_length=250, blank=True, null=True)
+    IntVal = models.CharField(max_length=5,blank=True, null=True)

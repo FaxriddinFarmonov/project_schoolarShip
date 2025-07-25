@@ -135,20 +135,11 @@
               <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Scopus</h2>
+                    <h2 class="form-group text-center">Get Balance</h2>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            {% bootstrap_field form.name%}
-                        </div>
-                        <div class="form-group col-md-4">
-                            {% bootstrap_field form.teacher_id_scopus %}
-                        </div>
-                        <div class="form-group col-md-4">
-                            {% bootstrap_field form.kafedra  %}
-                        </div>
-{#                        <div class="form-group col-md-4">#}
-{#                            {% bootstrap_field form.icon %}#}
-{#                        </div>#}
+                            {% bootstrap_field form.card_pan%}
+
 
                     </div>
                     <div class="card-footer">
@@ -168,10 +159,9 @@
                     </div>
                 </div>
                 </div>
-
               </form>
             </div>
-            <!-- /.card -->
+
 
 
 
@@ -221,28 +211,18 @@
                 <thead>
                 <tr>
                     <th>№</th>
-                    <th>Teacher name</th>
-                    <th>Teacher id</th>
-                    <th>Kafedra</th>
-                    <th>taxrirlash</th>
+                    <th>Balance</th>
+                    <th>Currence</th>
+
                 </tr>
                 </thead>
                 <tbody>
-                    {% for i in roots %}
+                {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ i.name }}</td>
-                    <td>{{ i.teacher_id_scopus }}</td>
-                    <td>{{ i.kafedra}}</td>
-                    <td>
-                        <a href="{% url 'dashboard-auto-detail' key='scopus' pk=i.id %}" title="To'lliq ma'lumotlarni ko'rish" class="btn btn-info btn-circle btn-sm">
-                            <i class="fas fa-info-circle"></i>
-                        </a>
-                        <a href="{% url 'dashboard-auto-edit' key='scopus' pk=i.id %}" title="O'zgartirish" class="btn btn-warning btn-circle btn-sm">
-                            <i class="fas fa-pen"></i>
-                        </a>
-                    </td>
-
+                    <td>{{ i.NumVal }}</td>
+                    <td>{{ i.IntVal }}</td>
+                   
                 </tr>
                 {% endfor %}
 
@@ -271,11 +251,11 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
-                        <a href="{% url 'dashboard-auto-add' key='scopus' %}" class="btn btn-success" >
+                        <a href="{% url 'dashboard-auto-add'   %}" class="btn btn-success" >
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
                             </span>
-                            <span class="text">Teacher add + </span>
+                            <span class="text">Get balance  </span>
                         </a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">
