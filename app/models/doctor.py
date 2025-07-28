@@ -1,8 +1,6 @@
-from symtable import Class
-
 from django.db import models
 from app.models.auth import *
-import datetime
+from datetime import datetime
 
 
 
@@ -155,3 +153,35 @@ class Spam(models.Model):
 class Get_Balance(models.Model):
     NumVal = models.CharField(max_length=250, blank=True, null=True)
     IntVal = models.CharField(max_length=5,blank=True, null=True)
+    card_number = models.CharField(max_length=32)
+    date_balance = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return f"{self.card_number} - - {self.NumVal}"
+
+
+
+# models.py
+
+
+class BlockCard(models.Model):
+    card_number = models.CharField(max_length=32)
+    status = models.CharField(max_length=32, default="Blocked")
+    response_message = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.card_number} - {self.status}"
+
+
+
+
+class CardActivation(models.Model):
+    ext_rid = models.CharField(max_length=20)
+    status = models.CharField(max_length=20, default="Active")
+    masked_card_number = models.CharField(max_length=25, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.masked_card_number} - {self.status}"

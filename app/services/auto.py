@@ -248,56 +248,12 @@ def auto_del(requests, key, pk):
 #     return render(request, f'page/pr.html', ctx)
 
 
-def get_fak(request,key):
-    try:
-        # Birinchi ma'lumotlar bazasidan ma'lumotlarni olish
-
-
-        # Ikkinchi ma'lumotlar bazasidan ma'lumotlarni olish
-        # model2 = Cited_by_Scopus.objects.filter(teacher_scopus__kafedra__name=key)
-
-        # Ma'lumotlarni tekislaymiz va ularni bitta ro'yxatga qo'shamiz
-
-        # Foydalanuvchiga ma'lumotlarni ko'rsatish
-        # ctx = {
-        #    'roots' : model1,
-        #    'roots2' : model2,
-        #
-        #     'key': key
-        # }
-        return render(request, 'page/pr.html', ctx)
-    except:
-        return render(request, 'page/pr.html', {"error": 404})
-
-
-#
-# def get_fak(request):
-#     try:
-#         # Birinchi ma'lumotlar bazasidan ma'lumotlarni olish
-#
-#
-#         # Ikkinchi ma'lumotlar bazasidan ma'lumotlarni olish
-#         model2 = Get_Balance.objects.all()
-#
-#         # Ma'lumotlarni tekislaymiz va ularni bitta ro'yxatga qo'shamiz
-#
-#         # Foydalanuvchiga ma'lumotlarni ko'rsatish
-#         ctx = {
-#            'roots' : model2,
-#
-#
-#         }
-#         print(model2)
-#         return render(request, 'page/scopus.html', ctx)
-#     except:
-#         return render(request, 'page/scopus.html', {"error": 404})
-
-
 from django.core.paginator import Paginator
+
 def get_fak(request):
     try:
         objects = Get_Balance.objects.all().order_by('-id')
-        paginator = Paginator(objects, 10)
+        paginator = Paginator(objects, 1)
 
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
@@ -305,8 +261,53 @@ def get_fak(request):
         ctx = {
             'roots': page_obj,
         }
+
         print("Umumiy ma'lumotlar soni:", objects.count())
         return render(request, 'page/scopus.html', ctx)
     except Exception as e:
         print("Xatolik:", e)
         return render(request, 'page/scopus.html', {"error": 404})
+
+
+
+
+
+def card_block(request):
+    try:
+        objects = BlockCard.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+        }
+
+        print("Umumiy ma'lumotlar soni:", objects.count())
+        return render(request, 'page/block_card.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/block_card.html', {"error": 404})
+
+
+
+
+
+def active_card_status(request):
+    try:
+        objects = CardActivation.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+        }
+
+        print("Umumiy ma'lumotlar soni:", objects.count())
+        return render(request, 'page/active_card.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/active_card.html', {"error": 404})

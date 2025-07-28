@@ -135,26 +135,28 @@
                 <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Get Balance</h2>
+                    <h2 class="form-group text-center">Activate Card Status </h2>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            {% bootstrap_field form.card_pan%}
+                            {% bootstrap_field form.card_number %}
+
+
                         </div>
                         <div class="card-footer ">
-                <div class="form-row">
-                    <div class="card-action right-align">
-                         <button type="submit" class="btn btn-block btn-success">
-                            <i class="fas fa-check"></i> See Card Balance
-                          </button>
-                    </div>
-                    <a href="{% url 'dashboard-auto-list' key='service' %}">
-                        <div class="card-action ml-1 right-align">
-                              <button type="button" class="btn btn-block btn-info">
-                                    <i class="fas fa-home"></i> Home
-                              </button>
+                        <div class="form-row">
+                            <div class="card-action right-align">
+                                 <button type="submit" class="btn btn-block btn-success">
+                                    <i class="fas fa-check"></i> Active Card
+                                  </button>
+                            </div>
+                            <a href="{% url 'dashboard-auto-list' key='service' %}">
+                                <div class="card-action ml-1 right-align">
+                                      <button type="button" class="btn btn-block btn-info">
+                                            <i class="fas fa-home"></i> Home
+                                      </button>
+                                </div>
+                            </a>
                         </div>
-                    </a>Balance
-                </div>
                     </div>
                     </div>
                   </form>
@@ -182,7 +184,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Teacher Scopus</h1>
+            <h1>Activate Card Status</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -209,10 +211,9 @@
                 <thead>
                 <tr>
                     <th>№</th>
-                    <th>card_number</th>
-                    <th>Balance</th>
-                    <th>Currence</th>
-                    <th>date_balance</th>
+                    <th>Card Number</th>
+                    <th>Status</th>
+                    <th>Date</th>
 
                 </tr>
                 </thead>
@@ -220,10 +221,9 @@
                 {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ i.card_number }}</td>
-                    <td>{{ i.NumVal }}</td>
-                    <td>{{ i.IntVal }}</td>
-                    <td>{{ i.date_balance }}</td>
+                    <td>{{ i.masked_card_number }}</td>
+                    <td>{{ i.status }}</td>
+                     <td>{{ i.created_at }}</td>
 
                 </tr>
                 {% endfor %}
@@ -257,7 +257,7 @@
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
                             </span>
-                            <span class="text">Get balance  </span>
+                            <span class="text">Block Card  add  </span>
                         </a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">

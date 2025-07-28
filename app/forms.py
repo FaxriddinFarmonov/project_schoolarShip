@@ -9,7 +9,7 @@ class KafedraForm(forms.ModelForm):
         fields = ['name']
         model =Kafedra
 
-#
+
 # class Teacher_infoForm(forms.ModelForm):
 #
 #     class Meta:
@@ -42,3 +42,21 @@ class CardPanForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '16 xonali karta raqami'})
     )
 
+
+
+
+class BlockCardForm(forms.Form):
+    card_pan = forms.CharField(
+        max_length=16,
+        min_length=16,
+        label="CARD PAN",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': '16 xonali karta raqami'
+        })
+    )
+
+
+
+class CardActivationForm(forms.Form):
+    card_number = forms.CharField(label="Card Number", max_length=20)
