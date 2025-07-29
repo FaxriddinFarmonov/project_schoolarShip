@@ -1,13 +1,21 @@
-import requests
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
 
-from app.forms import CardPanForm
+from django.contrib.auth.decorators import login_required
+
 from app.models import Kafedra
-# from app.models.doctor import Cited_by
 from app.services.derector import notifis
+import requests
 import xml.etree.ElementTree as ET
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from app.forms import CardActivationForm
+from app.models import CardActivation
+from django.shortcuts import render
+from .forms import BalanceUpdateForm
+import requests
+
+
+
+
 
 
 # Create your views here.
@@ -147,7 +155,6 @@ def mask_card_number(pan):
     if len(pan) >= 10:
         return pan[:6] + '*' * (len(pan) - 10) + pan[-4:]
     return pan  # agar pan qisqa bo‘lsa, o‘zgarmaydi
-
 def block_card_view(request):
     form = CardPanForm()
 
@@ -156,6 +163,13 @@ def block_card_view(request):
         if form.is_valid():
             card_pan = form.cleaned_data["card_pan"]
             masked_pan = mask_card_number(card_pan)  # kartani mask qilish
+
+            # ✅ SHART: oldin "Blocked" bo'lganmi?
+            # if BlockCard.objects.filter(card_number=masked_pan, status="Blocked").exists():
+            #     request.session["result"] = {"Xatolik": "Bu karta allaqachon bloklangan."}
+            #     request.session["soap_raw"] = ""
+            #     request.session["show_form"] = False
+            #     return redirect(reverse("card_block"))
 
             # SOAP XML tayyorlash
             xml_data = f"""<?xml version="1.0"?>
@@ -254,10 +268,7 @@ def block_card_view(request):
 
 
 
-import requests
-import xml.etree.ElementTree as ET
-from django.shortcuts import render, redirect
-from django.urls import reverse
+
 from .forms import CardPanForm
 from .models import Get_Balance
 
@@ -357,12 +368,14 @@ def get_balance_view(request):
     })
 
 
-import requests
-import xml.etree.ElementTree as ET
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from app.forms import CardActivationForm
-from app.models import CardActivation
+
+
+
+
+
+
+
+
 
 def activate_card(request):
     form = CardActivationForm()
@@ -373,13 +386,14 @@ def activate_card(request):
             card_number = form.cleaned_data['card_number']
 
             # ❗ Oldin active qilinganmi, tekshiramiz
-            existing = CardActivation.objects.filter(ext_rid=card_number, status="Active").first()
-            if existing:
+            # existing = CardActivation.objects.filter(ext_rid=card_number, status="Active").first()
+            # if BlockCard.objects.filter(card_number=masked_pan, status="Blocked").exists():Active
+            # if existing:
                 # ❗ Sessionga xabar
-                request.session["result"] = {"Xatolik": "Bu karta allaqachon Active qilingan"}
-                request.session["soap_raw"] = ""
-                request.session["show_form"] = False
-                return redirect(reverse("active_card_status"))
+                # request.session["result"] = {"Xatolik": "Bu karta allaqachon Active qilingan"}
+                # request.session["soap_raw"] = ""
+                # request.session["show_form"] = False
+                # return redirect(reverse("active_card_status"))
 
             # 🧾 SOAP XML tayyorlash
             xml_data = f"""<?xml version="1.0"?>
@@ -428,7 +442,7 @@ def activate_card(request):
 
                     # ✅ Masked card number saqlash
                     masked_card = f"{card_number[:6]}******{card_number[-4:]}" if len(card_number) >= 10 else "****MASK ERROR"
-                    CardActivation.objects.create(ext_rid=card_number, masked_card_number=masked_card)
+                    CardActivation.objects.create(ext_rid=card_number,masked_card_number=masked_card)
 
                 # 🔄 Sessionga joylash
                 request.session["result"] = result
@@ -454,3 +468,57 @@ def activate_card(request):
         "show_form": show_form,
         "pos": "form"
     })
+
+
+
+
+
+def balance_update_view(request):
+    message = ""
+    if request.method == 'POST':
+        form = BalanceUpdateForm(request.POST)
+        if form.is_valid():
+            instance = form.save()
+
+            xml_payload = f"""<?xml version="1.0"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <tw:Tran xmlns:tw="http://schemas.tranzaxis.com/tran.wsdl"
+             xmlns:tran="http://schemas.tranzaxis.com/tran.xsd">
+      <tran:Request xmlns="http://schemas.tranzaxis.com/contracts-admin.xsd"
+                    xmlns:tran="http://schemas.tranzaxis.com/tran.xsd"
+                    LifePhase="Single"
+                    InitiatorRid="TURON"
+                    Kind="ModifyContract">
+        <tran:Specific>
+          <tran:Admin ObjectMustExist="true"
+                      LastImpactedDay="2024-08-29T00:00:00"
+                      LastImpactedTranId="0">
+            <tran:Contract Rid="{instance.contract_rid}">
+              <Accounts>
+                <Account Ccy="{instance.currency}" Role="{instance.role}">
+                  <Balance>{instance.balance}</Balance>
+                </Account>
+              </Accounts>
+            </tran:Contract>
+          </tran:Admin>
+        </tran:Specific>
+      </tran:Request>
+    </tw:Tran>
+  </soap:Body>
+</soap:Envelope>
+"""
+
+            headers = {
+                "Content-Type": "text/xml; charset=utf-8",
+            }
+
+            url = "https://your-soap-endpoint-url"  # <-- bu yerga to‘g‘ri URL qo‘ying
+            response = requests.post(url, data=xml_payload.encode('utf-8'), headers=headers)
+
+            message = f"Status: {response.status_code}\nResponse: {response.text}"
+
+    else:
+        form = BalanceUpdateForm()
+
+    return render(request, 'page/payment.html', {'form': form, 'message': message})

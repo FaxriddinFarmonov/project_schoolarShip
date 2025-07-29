@@ -5,7 +5,7 @@ from .services.client import client_doc
 from .services.derector import list_members,banned,grader
 # from .services.get_balance import get_balance_view
 # from .export_exel import export_data_to_excel,export_data_to_excel_fak,export_scopus_to_excel,export_merged_data_to_excel
-from .views import index, get_balance_view, block_card_view, activate_card
+from .views import index, get_balance_view, block_card_view, activate_card, balance_update_view
 
 urlpatterns = [
 
@@ -35,6 +35,7 @@ urlpatterns = [
 
     path('get_balance/', get_balance_view, name='dashboard-auto-add'),
     path('block-card/', block_card_view, name='block_card'),
+    path('payment-card/', balance_update_view, name='payment_card'),
 
     # path("auto/<key>/edit/<int:pk>/",auto_form,name="dashboard-auto-edit" ),
     path("auto/<key>/del/<int:pk>/",auto_del,name="dashboard-auto-delete" ),

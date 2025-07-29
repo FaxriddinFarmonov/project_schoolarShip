@@ -60,3 +60,18 @@ class BlockCardForm(forms.Form):
 
 class CardActivationForm(forms.Form):
     card_number = forms.CharField(label="Card Number", max_length=20)
+
+
+
+
+from django import forms
+from .models import BalanceUpdate
+
+class BalanceUpdateForm(forms.ModelForm):
+    class Meta:
+        model = BalanceUpdate
+        fields = ['contract_rid', 'currency', 'role', 'balance']
+        widgets = {
+            'currency': forms.Select(choices=[('860', 'UZS'), ('840', 'USD')]),
+            'role': forms.TextInput(attrs={'value': 'Current'}),
+        }

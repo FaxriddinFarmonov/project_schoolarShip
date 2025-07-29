@@ -185,3 +185,17 @@ class CardActivation(models.Model):
 
     def __str__(self):
         return f"{self.masked_card_number} - {self.status}"
+
+
+
+from django.db import models
+
+class BalanceUpdate(models.Model):
+    contract_rid = models.CharField(max_length=100)
+    currency = models.CharField(max_length=3, choices=[('860', 'UZS'), ('840', 'USD')])
+    role = models.CharField(max_length=20, default='Current')
+    balance = models.DecimalField(max_digits=15, decimal_places=4)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.contract_rid} - {self.balance} {self.currency}"
