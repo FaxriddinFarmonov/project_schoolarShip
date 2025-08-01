@@ -12,6 +12,7 @@ from app.models import CardActivation
 from django.shortcuts import render
 from .forms import BalanceUpdateForm
 import requests
+from app.forms import SubjectUpdateForm
 
 
 
@@ -42,103 +43,6 @@ def index212(request):
         ctx.update(notifis())
 
     return render(request, "page/index.html",ctx)
-
-
-
-
-
-
-from app.models import Get_Balance  # modelni import qilishni unutmang
-#
-# def get_balance_view(request):
-#     form = CardPanForm()
-#
-#     if request.method == "POST":
-#         form = CardPanForm(request.POST)
-#         if form.is_valid():
-#             card_pan = form.cleaned_data["card_pan"]
-#
-#             # SOAP XML tayyorlash
-#             xml_data = f"""<?xml version="1.0" encoding="UTF-8"?>
-# <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-#                   xmlns:tran="http://schemas.tranzaxis.com/tran.wsdl"
-#                   xmlns:tran1="http://schemas.tranzaxis.com/tran.xsd"
-#                   xmlns:common="http://schemas.tranzaxis.com/tran-common.xsd">
-#    <soapenv:Header/>
-#    <soapenv:Body>
-#       <tran:Tran>
-#          <tran1:Request xmlns:tran1="http://schemas.tranzaxis.com/tran.xsd"
-#                         xmlns:common="http://schemas.tranzaxis.com/tran-common.xsd"
-#                         InitiatorRid="TURON"
-#                         LifePhase="Single"
-#                         Kind="GetContractInfo">
-#             <tran1:Parties>
-#                <tran1:Cust AuthChecked="true">
-#                   <tran1:Token Kind="Card">
-#                      <common:Card Pan="{card_pan}"/>
-#                   </tran1:Token>
-#                </tran1:Cust>
-#             </tran1:Parties>
-#             <tran1:Specific>
-#                <tran1:CustInfo Kinds="ContractAvailBalance ContractCcy"/>
-#             </tran1:Specific>
-#          </tran1:Request>
-#       </tran:Tran>
-#    </soapenv:Body>
-# </soapenv:Envelope>"""
-#
-#             headers = {"Content-Type": "text/xml;charset=UTF-8"}
-#
-#             try:
-#                 response = requests.post("http://172.31.77.12:10011", data=xml_data.encode("utf-8"), headers=headers)
-#
-#                 tree = ET.fromstring(response.text)
-#                 body = tree.find(".//{http://schemas.xmlsoap.org/soap/envelope/}Body")
-#
-#                 fault = body.find(".//{http://schemas.xmlsoap.org/soap/envelope/}Fault")
-#                 if fault is not None:
-#                     result = {"Xato": fault.findtext("faultstring", default="Nomaʼlum xatolik")}
-#                 else:
-#                     result = {}
-#                     for elem in body.iter():
-#                         tag = elem.tag.split("}")[-1]
-#                         if elem.text and elem.text.strip():
-#                             result[tag] = elem.text.strip()
-#
-#                     print("🔁 SOAP javobi:", result)
-#
-#                     # 🔽 MODELGA SAQLAYMIZ
-#                     numval = result.get("NumVal")
-#                     intval = result.get("IntVal")
-#                     if numval or intval:
-#                         Get_Balance.objects.create(NumVal=numval, IntVal=intval)
-#
-#                 request.session["result"] = result
-#                 request.session["soap_raw"] = response.text
-#                 request.session["show_form"] = False
-#
-#             except Exception as e:
-#                 print("❌ SOAP xatolik:", e)
-#                 request.session["result"] = {"Xatolik": str(e)}
-#                 request.session["show_form"] = False
-#
-#             return redirect(reverse("get_fak"))
-#
-#     # GET
-#     result = request.session.pop("result", None)
-#     soap_raw = request.session.pop("soap_raw", None)
-#     show_form = request.session.pop("show_form", True)
-#
-#     return render(request, "page/scopus.html", {
-#         "form": form,
-#         "result": result,
-#         "soap_raw": soap_raw,
-#         "show_form": show_form,
-#         "pos": "form"
-#     })
-
-
-
 
 
 
@@ -473,14 +377,142 @@ def activate_card(request):
 
 
 
+
+
+
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from .forms import BalanceUpdateForm
+from .models import BalanceUpdate
+import requests
+import xml.etree.ElementTree as ET
+
+# def balance_update_view(request):
+#     form = BalanceUpdateForm()
+#
+#     if request.method == 'POST':
+#         form = BalanceUpdateForm(request.POST)
+#         if form.is_valid():
+#             contract_rid = form.cleaned_data['contract_rid']
+#             currency = form.cleaned_data['currency']
+#             role = form.cleaned_data['role']
+#             balance = form.cleaned_data['balance']
+#
+#             # SOAP XML tayyorlash
+#             xml_data = f"""<?xml version="1.0"?>
+# <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+#   <soap:Body>
+#     <tw:Tran xmlns:tw="http://schemas.tranzaxis.com/tran.wsdl"
+#              xmlns:tran="http://schemas.tranzaxis.com/tran.xsd">
+#       <tran:Request xmlns="http://schemas.tranzaxis.com/contracts-admin.xsd"
+#                     xmlns:tran="http://schemas.tranzaxis.com/tran.xsd"
+#                     LifePhase="Single"
+#                     InitiatorRid="TURON"
+#                     Kind="ModifyContract">
+#         <tran:Specific>
+#           <tran:Admin ObjectMustExist="true"
+#                       LastImpactedDay="2024-08-29T00:00:00"
+#                       LastImpactedTranId="0">
+#             <tran:Contract Rid="{contract_rid}">
+#               <Accounts>
+#                 <Account Ccy="{currency}" Role="{role}">
+#                   <Balance>{balance}</Balance>
+#                 </Account>
+#               </Accounts>
+#             </tran:Contract>
+#           </tran:Admin>
+#         </tran:Specific>
+#       </tran:Request>
+#     </tw:Tran>
+#   </soap:Body>
+# </soap:Envelope>"""
+#
+#             headers = {
+#                 "Content-Type": "text/xml; charset=utf-8",
+#             }
+#
+#             try:
+#                 response = requests.post("http://172.31.77.12:10011", data=xml_data.encode("utf-8"), headers=headers)
+#                 tree = ET.fromstring(response.text)
+#                 body = tree.find(".//{http://schemas.xmlsoap.org/soap/envelope/}Body")
+#
+#                 fault = body.find(".//{http://schemas.xmlsoap.org/soap/envelope/}Fault")
+#                 if fault is not None:
+#                     result = {"Xato": fault.findtext("faultstring", default="Nomaʼlum xatolik")}
+#                 else:
+#                     result = {}
+#                     for elem in body.iter():
+#                         tag = elem.tag.split("}")[-1]
+#                         if elem.text and elem.text.strip():
+#                             result[tag] = elem.text.strip()
+#
+#                     # 🧾 Maʼlumotni bazaga yozish
+#                     BalanceUpdate.objects.create(
+#                         contract_rid=contract_rid,
+#                         currency=currency,
+#                         role=role,
+#                         balance=balance
+#                     )
+#
+#                 # 🔄 Sessionga saqlash
+#                 request.session["result"] = result
+#                 request.session["soap_raw"] = response.text
+#                 request.session["show_form"] = False
+#
+#             except Exception as e:
+#                 print("❌ SOAP xatolik:", e)
+#                 request.session["result"] = {"Xatolik": str(e)}
+#                 request.session["soap_raw"] = ""
+#                 request.session["show_form"] = False
+#
+#             return redirect(reverse("payment_status"))
+#
+#     # GET
+#     result = request.session.pop("result", None)
+#     soap_raw = request.session.pop("soap_raw", None)
+#     show_form = request.session.pop("show_form", True)
+#
+#     return render(request, "page/payment.html", {
+#         "form": form,
+#         "result": result,
+#         "soap_raw": soap_raw,
+#         "show_form": show_form,
+#         "pos": "form"
+#     })
+
+
+
+
+
+
+import pprint
+import requests
+import xml.etree.ElementTree as ET
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+
+from .forms import BalanceUpdateForm
+from .models import BalanceUpdate
+
+
 def balance_update_view(request):
-    message = ""
+    form = BalanceUpdateForm()
+
     if request.method == 'POST':
         form = BalanceUpdateForm(request.POST)
         if form.is_valid():
-            instance = form.save()
+            contract_rid = form.cleaned_data['contract_rid']
+            currency = form.cleaned_data['currency']
+            balance = str(form.cleaned_data['balance'])
 
-            xml_payload = f"""<?xml version="1.0"?>
+            print("✅ Kiritilgan maʼlumotlar:")
+            print("Contract RID:", contract_rid)
+            print("Currency:", currency)
+            print("Balance:", balance)
+
+            xml_data = f"""<?xml version="1.0"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
   <soap:Body>
     <tw:Tran xmlns:tw="http://schemas.tranzaxis.com/tran.wsdl"
@@ -494,10 +526,10 @@ def balance_update_view(request):
           <tran:Admin ObjectMustExist="true"
                       LastImpactedDay="2024-08-29T00:00:00"
                       LastImpactedTranId="0">
-            <tran:Contract Rid="{instance.contract_rid}">
+            <tran:Contract Rid="{contract_rid}">
               <Accounts>
-                <Account Ccy="{instance.currency}" Role="{instance.role}">
-                  <Balance>{instance.balance}</Balance>
+                <Account Ccy="{currency}" Role="Current">
+                  <Balance>{balance}</Balance>
                 </Account>
               </Accounts>
             </tran:Contract>
@@ -506,19 +538,87 @@ def balance_update_view(request):
       </tran:Request>
     </tw:Tran>
   </soap:Body>
-</soap:Envelope>
-"""
+</soap:Envelope>"""
 
             headers = {
                 "Content-Type": "text/xml; charset=utf-8",
             }
 
-            url = "https://your-soap-endpoint-url"  # <-- bu yerga to‘g‘ri URL qo‘ying
-            response = requests.post(url, data=xml_payload.encode('utf-8'), headers=headers)
+            try:
+                response = requests.post("http://172.31.77.12:10011", data=xml_data.encode("utf-8"), headers=headers)
 
-            message = f"Status: {response.status_code}\nResponse: {response.text}"
+                print("🔷 STATUS CODE:", response.status_code)
+                print("🟢 HEADERS:")
+                pprint.pprint(dict(response.headers))
+                print("📦 SOAP JAVOBI:")
+                pprint.pprint(response.text)
 
-    else:
-        form = BalanceUpdateForm()
+                tree = ET.fromstring(response.text)
+                body = tree.find(".//{http://schemas.xmlsoap.org/soap/envelope/}Body")
 
-    return render(request, 'page/payment.html', {'form': form, 'message': message})
+                fault = body.find(".//{http://schemas.xmlsoap.org/soap/envelope/}Fault")
+                if fault is not None:
+                    result = {"Xato": fault.findtext("faultstring", default="Nomaʼlum xatolik")}
+                else:
+                    result = {}
+                    for elem in body.iter():
+                        tag = elem.tag.split("}")[-1]
+                        if elem.text and elem.text.strip():
+                            result[tag] = elem.text.strip()
+
+                    # SOAP'dan kerakli qiymatlarni ajratib olish
+                    ns = {
+                        'con': 'http://schemas.tranzaxis.com/contracts-admin.xsd'
+                    }
+
+                    branch_name = tree.findtext(".//con:BranchName", default="", namespaces=ns)
+                    client_rid = tree.findtext(".//con:ClientRid", default="", namespaces=ns)
+                    soap_balance = tree.findtext(".//con:Balance", default="0", namespaces=ns)
+                    status = tree.findtext(".//con:Status", default="", namespaces=ns)
+
+                    # PlanItemGuid atribut sifatida
+                    plan_item_guid = ""
+                    account_element = tree.find(".//con:Account", namespaces=ns)
+                    if account_element is not None:
+                        plan_item_guid = account_element.attrib.get("PlanItemGuid", "")
+
+                    # Bazaga to‘liq ma’lumotlarni saqlash
+                    BalanceUpdate.objects.create(
+                        contract_rid=contract_rid,
+                        currency=currency,
+                        role='Current',
+                        balance=soap_balance,
+                        BranchName=branch_name,
+                        ClientRid=client_rid,
+                        Status=status,
+                        PlanItemGuid=plan_item_guid
+                    )
+
+                request.session["result"] = result
+                request.session["soap_raw"] = response.text
+                request.session["show_form"] = False
+
+            except Exception as e:
+                print("❌ SOAP xatolik:", e)
+                request.session["result"] = {"Xatolik": str(e)}
+                request.session["soap_raw"] = ""
+                request.session["show_form"] = False
+
+            return redirect(reverse("payment_status"))
+
+    # GET
+    result = request.session.pop("result", None)
+    soap_raw = request.session.pop("soap_raw", None)
+    show_form = request.session.pop("show_form", True)
+
+    return render(request, "page/payment.html", {
+        "form": form,
+        "result": result,
+        "soap_raw": soap_raw,
+        "show_form": show_form,
+        "pos": "form"
+    })
+
+
+# views.py
+

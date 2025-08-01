@@ -1,11 +1,14 @@
 from django.urls import path
-from .services.auto import gets, auto_del, get_fak, card_block, active_card_status
+
+from .services.auto import gets, auto_del, get_fak, card_block, active_card_status, payment_status
 from .services.auth import profile,sign_up,sign_in,sign_out,search,otp,resent_otp
 from .services.client import client_doc
 from .services.derector import list_members,banned,grader
 # from .services.get_balance import get_balance_view
 # from .export_exel import export_data_to_excel,export_data_to_excel_fak,export_scopus_to_excel,export_merged_data_to_excel
 from .views import index, get_balance_view, block_card_view, activate_card, balance_update_view
+from app.bank_services.create_customer_view import subject_update_view
+
 
 urlpatterns = [
 
@@ -26,6 +29,8 @@ urlpatterns = [
     path("card_block/",card_block,name="card_block" ),
     path("active_card_status/",active_card_status,name="active_card_status" ),
     path('activate-card/', activate_card, name='activate_card'),
+    path('payment_status/', payment_status, name='payment_status'),
+    path('SubjectUpdate/', subject_update_view, name='subject_update_view'),
 
     path("auto/<key>/detail/<int:pk>/",gets,name="dashboard-auto-detail" ),
     # path("auto/<key>/add/",auto_form,name="dashboard-auto-add" ),

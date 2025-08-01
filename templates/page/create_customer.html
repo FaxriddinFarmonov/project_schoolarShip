@@ -135,9 +135,35 @@
                 <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Block Cards </h2>
-                    <div class="form-row">
-                            {% bootstrap_field form.card_pan%}
+                    <h2 class="form-group text-center">Create Customer </h2>
+                            {% bootstrap_field form.first_name %}
+                            {% bootstrap_field form.last_name %}
+                            {% bootstrap_field form.birth_name %}
+
+                            {% bootstrap_field form.rid %}
+                            {% bootstrap_field form.birth_date %}
+                            {% bootstrap_field form.gender %}
+
+                            {% bootstrap_field form.marital_status %}
+<!--                            {% bootstrap_field form.birth_place %}-->
+                            {% bootstrap_field form.mobile %}
+
+                            {% bootstrap_field form.inn %}
+                            {% bootstrap_field form.passport %}
+<!--                            {% bootstrap_field form.residence_country_id %}-->
+
+<!--                            {% bootstrap_field form.home_flat %}-->
+<!--                            {% bootstrap_field form.home_building %}-->
+<!--                            {% bootstrap_field form.home_house %}-->
+
+<!--                            {% bootstrap_field form.home_street %}-->
+<!--                            {% bootstrap_field form.home_city %}-->
+<!--                            {% bootstrap_field form.home_city %}-->
+
+<!--                            {% bootstrap_field form.income %}-->
+<!--                            {% bootstrap_field form.is_vip %}-->
+                            {% bootstrap_field form.question %}
+                            {% bootstrap_field form.answer %}
 
 
                         </div>
@@ -145,7 +171,7 @@
                         <div class="form-row">
                             <div class="card-action right-align">
                                  <button type="submit" class="btn btn-block btn-success">
-                                    <i class="fas fa-check"></i> Block Card
+                                    <i class="fas fa-check"></i> create customer
                                   </button>
                             </div>
                             <a href="{% url 'dashboard-auto-list' key='service' %}">
@@ -183,7 +209,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Block Cards</h1>
+            <h1>Activate Card Status</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -210,10 +236,14 @@
                 <thead>
                 <tr>
                     <th>№</th>
-                    <th>Card Number</th>
-                    <th>Status</th>
-                    <th>Response message</th>
-                    <th>Date</th>
+                    <th>Contract_rid</th>
+                    <th>currency</th>
+                    <th>Pament</th>
+                    <th>Branch</th>
+                    <th>ClientRid</th>
+                    <th>PlanItemGuid</th>
+                    <th>Created_at</th>
+
 
                 </tr>
                 </thead>
@@ -221,10 +251,13 @@
                 {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ i.card_number }}</td>
-                    <td>{{ i.status }}</td>
-                    <td>{{ i.response_message }}</td>
-                    <td>{{ i.created_at }}</td>
+                    <td>{{ i.contract_rid }}</td>
+                    <td>{{ i.currency }}</td>
+                    <td>{{ i.balance }}</td>
+                    <td>{{ i.BranchName }}</td>
+                    <td>{{ i.ClientRid }}</td>
+                    <td>{{ i.PlanItemGuid }}</td>
+                     <td>{{ i.created_at }}</td>
 
                 </tr>
                 {% endfor %}
@@ -254,11 +287,11 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
-                        <a href="{% url 'block_card'   %}" class="btn btn-success" >
+                        <a href="{% url 'activate_card'   %}" class="btn btn-success" >
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
                             </span>
-                            <span class="text">Block Card  add  </span>
+                            <span class="text"> Payment card  </span>
                         </a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">

@@ -311,3 +311,26 @@ def active_card_status(request):
     except Exception as e:
         print("Xatolik:", e)
         return render(request, 'page/active_card.html', {"error": 404})
+
+
+
+
+
+
+def payment_status(request):
+    try:
+        objects = BalanceUpdate.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+        }
+
+        print("Umumiy ma'lumotlar soni:", objects.count())
+        return render(request, 'page/payment.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/payment.html', {"error": 404})

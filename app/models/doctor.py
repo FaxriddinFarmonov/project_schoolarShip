@@ -188,14 +188,20 @@ class CardActivation(models.Model):
 
 
 
-from django.db import models
 
 class BalanceUpdate(models.Model):
     contract_rid = models.CharField(max_length=100)
-    currency = models.CharField(max_length=3, choices=[('860', 'UZS'), ('840', 'USD')])
+    currency = models.CharField(max_length=3)
     role = models.CharField(max_length=20, default='Current')
     balance = models.DecimalField(max_digits=15, decimal_places=4)
+    BranchName =  models.CharField(max_length=20)
+    ClientRid =  models.CharField(max_length=20)
+    Status =  models.CharField(max_length=20)
+    PlanItemGuid =  models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.contract_rid} - {self.balance} {self.currency}"
+
+
+
