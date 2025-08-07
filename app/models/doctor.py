@@ -154,6 +154,12 @@ class Get_Balance(models.Model):
     NumVal = models.CharField(max_length=250, blank=True, null=True)
     IntVal = models.CharField(max_length=5,blank=True, null=True)
     card_number = models.CharField(max_length=32)
+
+    response_id = models.CharField(max_length=100, blank=True, null=True)
+    approval_code = models.CharField(max_length=50, blank=True, null=True)
+    card_id = models.CharField(max_length=50, blank=True, null=True)
+    result = models.CharField(max_length=50, blank=True, null=True)
+
     date_balance = models.DateTimeField(auto_now_add=True)
 
 
@@ -164,11 +170,17 @@ class Get_Balance(models.Model):
 
 # models.py
 
-
 class BlockCard(models.Model):
     card_number = models.CharField(max_length=32)
     status = models.CharField(max_length=32, default="Blocked")
     response_message = models.TextField(blank=True, null=True)
+
+    # 🔽 Yangi maydonlar
+    response_id = models.CharField(max_length=100, blank=True, null=True)
+    approval_code = models.CharField(max_length=50, blank=True, null=True)
+    card_id = models.CharField(max_length=50, blank=True, null=True)
+    result = models.CharField(max_length=50, blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -176,11 +188,17 @@ class BlockCard(models.Model):
 
 
 
-
 class CardActivation(models.Model):
     ext_rid = models.CharField(max_length=20)
     status = models.CharField(max_length=20, default="Active")
     masked_card_number = models.CharField(max_length=25, blank=True)
+
+    # 🔽 Yangi maydonlar
+    response_id = models.CharField(max_length=100, blank=True, null=True)
+    approval_code = models.CharField(max_length=50, blank=True, null=True)
+    card_id = models.CharField(max_length=50, blank=True, null=True)
+    result = models.CharField(max_length=50, blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

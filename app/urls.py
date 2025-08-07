@@ -1,13 +1,23 @@
+from django.shortcuts import render
 from django.urls import path
 
-from .services.auto import gets, auto_del, get_fak, card_block, active_card_status, payment_status
+from app.bank_services.link_schot import contract_update_view
+from .bank_services.upload_file import upload_file_view
+from .services.auto import gets, auto_del, get_fak, card_block, active_card_status, payment_status, get_customers, \
+    get_file
 from .services.auth import profile,sign_up,sign_in,sign_out,search,otp,resent_otp
 from .services.client import client_doc
 from .services.derector import list_members,banned,grader
 # from .services.get_balance import get_balance_view
 # from .export_exel import export_data_to_excel,export_data_to_excel_fak,export_scopus_to_excel,export_merged_data_to_excel
-from .views import index, get_balance_view, block_card_view, activate_card, balance_update_view
+from .views import index,  balance_update_view
 from app.bank_services.create_customer_view import subject_update_view
+from app.bank_services.get_schot import get_schot
+from app.bank_services.active_card import activate_card
+from app.bank_services.block_card import block_card_view
+from app.bank_services.get_balance import get_balance_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -29,7 +39,17 @@ urlpatterns = [
     path("card_block/",card_block,name="card_block" ),
     path("active_card_status/",active_card_status,name="active_card_status" ),
     path('activate-card/', activate_card, name='activate_card'),
+    path('contract_update_view/', contract_update_view, name='contract_update_view'),
+
+
+    path('upload/', upload_file_view, name='upload_file'),
+    path('upload/success/', lambda request: render(request, 'success.html'), name='file_upload_success'),
+
+
     path('payment_status/', payment_status, name='payment_status'),
+    path('get_schot/', get_schot, name='get_schot'),
+    path('get_customers/', get_customers, name='get_customers'),
+    path('get_file/', get_file, name='get_file'),
     path('SubjectUpdate/', subject_update_view, name='subject_update_view'),
 
     path("auto/<key>/detail/<int:pk>/",gets,name="dashboard-auto-detail" ),
@@ -69,3 +89,4 @@ urlpatterns = [
     path("client/doc/<int:service>/",client_doc,name='servicedocs')
 
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

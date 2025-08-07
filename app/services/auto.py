@@ -3,12 +3,12 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
-from app.models import *
+from app.models.create_customer import SubjectUpdate
 from app.forms import *
 from serpapi import GoogleSearch
 from pprint import pprint
-from app.models.doctor import Kafedra
-
+from app.models.doctor import Kafedra, CardActivation, BlockCard, Get_Balance
+from app.models.upload_file import UploadedFile
 
 
 @login_required(login_url='login')
@@ -334,3 +334,45 @@ def payment_status(request):
     except Exception as e:
         print("Xatolik:", e)
         return render(request, 'page/payment.html', {"error": 404})
+
+
+
+
+def get_customers(request):
+    try:
+        objects = SubjectUpdate.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+        }
+
+        print("Umumiy ma'lumotlar soni:", objects.count())
+        return render(request, 'page/create_customer.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/create_customer.html', {"error": 404})
+
+
+
+
+
+def get_file(request):
+    try:
+        objects = UploadedFile.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+            "pos": "files",  # bu flag HTMLda tekshirish uchun
+        }
+        return render(request, 'page/exel_file.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/exel_file.html', {"error": 404})

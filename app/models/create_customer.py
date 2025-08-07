@@ -58,6 +58,7 @@ class SubjectUpdate(models.Model):
     doc_id_1 = models.CharField(max_length=100, blank=True, null=True)
     doc_id_2 = models.CharField(max_length=100, blank=True, null=True)
     authqa_id = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

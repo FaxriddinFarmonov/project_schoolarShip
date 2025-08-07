@@ -1,7 +1,11 @@
 from django.contrib import admin
-from .models import *
+from app.models.doctor import *
+from app.models.create_schot import LinkSchot
+from app.models.create_customer import SubjectUpdate
+from app.models.auth import *
+from app.models.upload_file import UploadedFile
 
-# Register your models here.
+
 admin.site.register(User)
 admin.site.register(Kafedra)
 admin.site.register(OTP)
@@ -11,6 +15,9 @@ admin.site.register(BlockCard)
 admin.site.register(CardActivation)
 admin.site.register(BalanceUpdate)
 admin.site.register(SubjectUpdate)
+admin.site.register(LinkSchot)
+admin.site.register(UploadedFile)
+
 # admin.site.register(Teacher_info)
 # admin.site.register(Teacher_scopus)
 # admin.site.register(Cited_by)

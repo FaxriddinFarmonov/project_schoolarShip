@@ -132,32 +132,21 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-                <form role="form" method="post" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Get Balance</h2>
-                    <div class="form-row">
-                            {% bootstrap_field form.card_pan%}
-                        </div>
-
-
-                <div class="form-row">
-                    <div class="card-action right-align">
-                         <button type="submit" class="btn btn-block btn-success">
-                            <i class="fas fa-check"></i> See Card Balance
-                          </button>
-                    </div>
-                    <a href="{% url 'dashboard-auto-list' key='service' %}">
-                        <div class="card-action ml-1 right-align">
-                              <button type="button" class="btn btn-block btn-info">
-                                    <i class="fas fa-home"></i> Home
-                              </button>
-                        </div>
-                    </a>
+                  {% bootstrap_field form.title %}
+                  {% bootstrap_field form.file %}
                 </div>
-                    </div>
-                    </div>
-                  </form>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-success">
+                    <i class="fas fa-upload"></i> Yuklash
+                  </button>
+                  <a href="{% url 'home' %}" class="btn btn-secondary ml-2">
+                    <i class="fas fa-home"></i> Bosh sahifa
+                  </a>
+                </div>
+              </form>
                 </div>
 
 
@@ -182,7 +171,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Teacher Scopus</h1>
+            <h1>Customers</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -209,13 +198,20 @@
                 <thead>
                 <tr>
                     <th>№</th>
-                    <th>card_number</th>
+                    <th>customer</th>
+                    <th>ClientRid</th>
+                    <th>Rid</th>
+                    <th>TypeRid</th>
+                    <th>BranchName</th>
+                    <th>BranchCode</th>
+                    <th>InstName</th>
+                    <th>ContractRid</th>
+                    <th>ClientId</th>
+                    <th>Currency</th>
                     <th>Balance</th>
-                    <th>Currence</th>
-                     <th>Response_id</th>
-                    <th>approval_code</th>
-                    <th>result</th>
-                    <th>date_balance</th>
+                    <th>CreditHold</th>
+                    <th>Created_at</th>
+
 
                 </tr>
                 </thead>
@@ -223,13 +219,19 @@
                 {% for i in roots %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ i.card_number }}</td>
-                    <td>{{ i.NumVal }}</td>
-                    <td>{{ i.IntVal }}</td>
-                     <td>{{ i.response_id }}</td>
-                    <td>{{ i.approval_code }}</td>
-                    <td>{{ i.result }}</td>
-                    <td>{{ i.date_balance }}</td>
+                    <td>{{ i.customer }}</td>
+                    <td>{{ i.ClientRid }}</td>
+                    <td>{{ i.Rid }}</td>
+                    <td>{{ i.TypeRid }}</td>
+                    <td>{{ i.BranchName }}</td>
+                    <td>{{ i.BranchCode }}</td>
+                    <td>{{ i.InstName }}</td>
+                    <td>{{ i.ContractRid }}</td>
+                    <td>{{ i.ClientId}}</td>
+                    <td>{{ i.Currency }}</td>
+                    <td>{{ i.Balance }}</td>
+                    <td>{{ i.CreditHold }}</td>
+                     <td>{{ i.created_at }}</td>
 
                 </tr>
                 {% endfor %}
@@ -259,11 +261,11 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
-                        <a href="{% url 'dashboard-auto-add'   %}" class="btn btn-success" >
+                        <a href="{% url 'activate_card'   %}" class="btn btn-success" >
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
                             </span>
-                            <span class="text">Get balance  </span>
+                            <span class="text"> Create Customer  </span>
                         </a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">

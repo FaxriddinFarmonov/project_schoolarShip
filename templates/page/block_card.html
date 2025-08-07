@@ -209,10 +209,13 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>№</th>
+                     <th>№</th>
                     <th>Card Number</th>
+                    <th>Response_id</th>
+                    <th>approval_code</th>
+                    <th>card_id</th>
+                    <th>result</th>
                     <th>Status</th>
-                    <th>Response message</th>
                     <th>Date</th>
 
                 </tr>
@@ -222,9 +225,12 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ i.card_number }}</td>
+                    <td>{{ i.response_id }}</td>
+                    <td>{{ i.approval_code }}</td>
+                    <td>{{ i.card_id }}</td>
+                    <td>{{ i.result }}</td>
                     <td>{{ i.status }}</td>
-                    <td>{{ i.response_message }}</td>
-                    <td>{{ i.created_at }}</td>
+                     <td>{{ i.created_at }}</td>
 
                 </tr>
                 {% endfor %}

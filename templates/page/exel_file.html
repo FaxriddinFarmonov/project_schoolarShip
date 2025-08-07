@@ -135,26 +135,27 @@
                 <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Get Balance</h2>
+                    <h2 class="form-group text-center">Block Cards </h2>
                     <div class="form-row">
                             {% bootstrap_field form.card_pan%}
-                        </div>
 
 
-                <div class="form-row">
-                    <div class="card-action right-align">
-                         <button type="submit" class="btn btn-block btn-success">
-                            <i class="fas fa-check"></i> See Card Balance
-                          </button>
-                    </div>
-                    <a href="{% url 'dashboard-auto-list' key='service' %}">
-                        <div class="card-action ml-1 right-align">
-                              <button type="button" class="btn btn-block btn-info">
-                                    <i class="fas fa-home"></i> Home
-                              </button>
                         </div>
-                    </a>
-                </div>
+                        <div class="card-footer ">
+                        <div class="form-row">
+                            <div class="card-action right-align">
+                                 <button type="submit" class="btn btn-block btn-success">
+                                    <i class="fas fa-check"></i> Block Card
+                                  </button>
+                            </div>
+                            <a href="{% url 'dashboard-auto-list' key='service' %}">
+                                <div class="card-action ml-1 right-align">
+                                      <button type="button" class="btn btn-block btn-info">
+                                            <i class="fas fa-home"></i> Home
+                                      </button>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                     </div>
                   </form>
@@ -182,7 +183,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Teacher Scopus</h1>
+            <h1>Block Cards</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -208,31 +209,31 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>№</th>
-                    <th>card_number</th>
-                    <th>Balance</th>
-                    <th>Currence</th>
-                     <th>Response_id</th>
-                    <th>approval_code</th>
-                    <th>result</th>
-                    <th>date_balance</th>
+                     <th>№</th>
+                    <th>Title</th>
+                    <th>File</th>
+                    <th>Date</th>
+                    <th>Download Exel</th>
 
                 </tr>
                 </thead>
                 <tbody>
-                {% for i in roots %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ i.card_number }}</td>
-                    <td>{{ i.NumVal }}</td>
-                    <td>{{ i.IntVal }}</td>
-                     <td>{{ i.response_id }}</td>
-                    <td>{{ i.approval_code }}</td>
-                    <td>{{ i.result }}</td>
-                    <td>{{ i.date_balance }}</td>
+               {% for i in roots %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.title }}</td>
+                        <td>{{ i.file.name }}</td>
+                        <td>{{ i.uploaded_at }}</td>
+                        <td>
+                            <a href="" title="exel" class="btn btn-info btn-circle btn-sm">
+                                <i class="fas fa-file-pdf"></i>
+                            </a>
+                        </td>
 
-                </tr>
-                {% endfor %}
+                    </tr>
+
+               {% endfor %}
+
 
                 </tbody>
 
@@ -259,11 +260,11 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
-                        <a href="{% url 'dashboard-auto-add'   %}" class="btn btn-success" >
+                        <a href="{% url 'block_card'   %}" class="btn btn-success" >
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
                             </span>
-                            <span class="text">Get balance  </span>
+                            <span class="text">Block Card  add  </span>
                         </a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">

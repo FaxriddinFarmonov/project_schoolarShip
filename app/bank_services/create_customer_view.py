@@ -39,24 +39,21 @@ def subject_update_view(request):
                     <tran1:Answer>{cd['answer']}</tran1:Answer>
                   </sub:AuthQA>
                 </sub:AuthQAs>
-                <sub:LastName>{cd['last_name']}</sub:LastName>
-                <sub:LastNameLat>{cd['last_name']}</sub:LastNameLat>
-                <sub:FirstName>{cd['first_name']}</sub:FirstName>
-                <sub:FirstNameLat>{cd['first_name']}</sub:FirstNameLat>
-                <sub:MiddleName>{cd['first_name']}</sub:MiddleName>
+                <sub:LastName>{cd['last_name'].capitalize()}</sub:LastName>
+                <sub:LastNameLat>{cd['last_name'].capitalize()}</sub:LastNameLat>
+                <sub:FirstName>{cd['first_name'].capitalize()}</sub:FirstName>
+                <sub:FirstNameLat>{cd['first_name'].capitalize()}</sub:FirstNameLat>
+                <sub:MiddleName>{cd['first_name'].capitalize()}</sub:MiddleName>
                 <sub:Gender>{cd['gender']}</sub:Gender>
                 <sub:MaritalStatus>{cd['marital_status']}</sub:MaritalStatus>
                 <sub:BirthDate>{cd['birth_date']}T00:00:00+05:00</sub:BirthDate>
-                <sub:BirthPlace>{cd['birth_place']}</sub:BirthPlace>
-                <sub:BirthName>{cd['birth_name']}</sub:BirthName>
+                <sub:BirthName>{cd['first_name'].capitalize()}</sub:BirthName>
                 <sub:EducationTypeRid>higer</sub:EducationTypeRid>
-                <sub:ResidenceCountryId>{cd['residence_country_id']}</sub:ResidenceCountryId>
-                <sub:HomeAddress Fax="{cd['home_fax']}" Phone="{cd['mobile']}" Flat="{cd['home_flat']}" Building="{cd['home_building']}" House="{cd['home_house']}" StreetTitle="{cd['home_street']}" CityTitle="{cd['home_city']}" CountryId="860" />
+                <sub:HomeAddress Fax="" Phone="{cd['mobile']}" Flat="{cd['home_flat']}" Building="{cd['home_building']}" House="{cd['home_house']}" StreetTitle="{cd['home_street']}" CityTitle="{cd['home_city']}" CountryId="860" />
                 <sub:Emails><sub:Email>{cd['email']}</sub:Email></sub:Emails>
                 <sub:MobilePhones><sub:MobilePhone>{cd['mobile']}</sub:MobilePhone></sub:MobilePhones>
-                <sub:WorkPhones><sub:WorkPhone>{cd['work_phone']}</sub:WorkPhone></sub:WorkPhones>
+                <sub:WorkPhones><sub:WorkPhone>{cd['mobile']}</sub:WorkPhone></sub:WorkPhones>
                 <sub:Income>{cd['income']}</sub:Income>
-                <sub:IncomeCcy>860</sub:IncomeCcy>
               </sub:Person>
             </tran:Subject>
           </tran:Admin>
@@ -101,51 +98,52 @@ def subject_update_view(request):
                     print("🟢 AuthQA ID:", authqa_tag.get("Id") if authqa_tag is not None else "Yo‘q")
 
                     # Ma'lumotlarni bazaga yozish
-                    # SubjectUpdate.objects.create(
-                    #     rid=cd['rid'],
-                    #     inn=cd['inn'],
-                    #     passport=cd['passport'],
-                    #
-                    #     last_name=cd['last_name'],
-                    #     last_name_lat=cd['last_name_lat'],
-                    #     first_name=cd['first_name'],
-                    #
-                    #     first_name_lat=cd['first_name_lat'],
-                    #     middle_name=cd.get('middle_name', ''),
-                    #     gender=cd['gender'],
-                    #
-                    #     marital_status=cd['marital_status'],
-                    #     birth_date=cd['birth_date'],
-                    #     birth_place=cd['birth_place'],
-                    #
-                    #     birth_name=cd['birth_name'],
-                    #     residence_country_id=cd['residence_country_id'],
-                    #     home_fax=cd['home_fax'],
-                    #
-                    #     home_phone=cd['home_phone'],
-                    #     home_flat=cd['home_flat'],
-                    #     home_building=cd['home_building'],
-                    #
-                    #     home_house=cd['home_house'],
-                    #     home_street=cd['home_street'],
-                    #     home_city=cd['home_city'],
-                    #
-                    #     email=cd['email'],
-                    #     mobile=cd['mobile'],
-                    #     work_phone=cd['work_phone'],
-                    #
-                    #     income=cd['income'],
-                    #     is_vip=cd['is_vip'],
-                    #     answer=cd['answer'],
-                    #
-                    #     response_id=response_tag.get("Id"),
-                    #     approval_code=response_tag.get("ApprovalCode"),
-                    #     person_id=person_tag.get("Id"),
-                    #
-                    #     doc_id_1=docs[0].get("Id") if len(docs) > 0 else None,
-                    #     doc_id_2=docs[1].get("Id") if len(docs) > 1 else None,
-                    #     authqa_id=authqa_tag.get("Id") if authqa_tag is not None else None,
-                    # )
+                    SubjectUpdate.objects.create(
+                        rid=cd['rid'],
+                        inn=cd['inn'],
+                        passport=cd['passport'],
+
+                        last_name=cd['last_name'].capitalize(),
+                        # last_name_lat=cd['last_name_lat'],
+                        first_name=cd['first_name'].capitalize(),
+
+                        # first_name_lat=cd['first_name_lat'],
+                        # middle_name=cd.get('middle_name', ''),
+                        gender=cd['gender'],
+
+                        marital_status=cd['marital_status'],
+                        birth_date=cd['birth_date'],
+                        # birth_place=cd['birth_place'],
+
+                        # birth_name=cd['birth_name'],
+                        # residence_country_id=cd['residence_country_id'],
+                        # home_fax=cd['home_fax'],
+
+                        # home_phone=cd['home_phone'],
+                        home_flat=cd['home_flat'],
+                        home_building=cd['home_building'],
+
+                        home_house=cd['home_house'],
+                        home_street=cd['home_street'],
+                        home_city=cd['home_city'],
+
+                        email=cd['email'],
+                        mobile=cd['mobile'],
+                        # work_phone=cd['work_phone'],
+
+                        income=cd['income'],
+                        # is_vip=cd['is_vip'],
+                        question=cd['question'],
+                        answer=cd['answer'],
+
+                        response_id=response_tag.get("Id"),
+                        approval_code=response_tag.get("ApprovalCode"),
+                        person_id=person_tag.get("Id"),
+
+                        doc_id_1=docs[0].get("Id") if len(docs) > 0 else None,
+                        doc_id_2=docs[1].get("Id") if len(docs) > 1 else None,
+                        authqa_id=authqa_tag.get("Id") if authqa_tag is not None else None,
+                    )
 
                     result = {"Success": "✅ Maʼlumotlar muvaffaqiyatli saqlandi."}
 
@@ -159,7 +157,7 @@ def subject_update_view(request):
                 request.session["soap_raw"] = ""
                 request.session["show_form"] = False
 
-            return redirect(reverse("subject_status"))
+            return redirect(reverse("get_customers"))
 
     result = request.session.pop("result", None)
     soap_raw = request.session.pop("soap_raw", None)
