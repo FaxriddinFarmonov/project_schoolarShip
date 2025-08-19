@@ -168,19 +168,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
                 <li class="nav-item">
-                <a href="{% url 'activate_card'  %}" class="nav-link active">
+                <a href="{% url 'card_block'  %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Active Card +</p>
                 </a>
               </li>
                 <li class="nav-item">
-                <a href="{% url 'block_card'  %}" class="nav-link active">
+                <a href="{% url 'card_block'  %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Block Card +</p>
                 </a>
               </li>
                  <li class="nav-item">
-                <a href="{% url 'dashboard-auto-add'   %}" class="nav-link active">
+                <a href="{% url 'get_cardbalance'   %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p> Balance Card </p>
                 </a>
@@ -196,9 +196,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <i class="far fa-circle nav-icon"></i>
                   <p>Change PIN Card </p>
                 </a>
+               <a href="{% url 'get_limit_card'  %}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Limit Card </p>
+                </a>
+                    <a href="{% url 'remove_limit'  %}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Delete Card Limet </p>
+                </a>
+                    <a href="{% url 'get_card_information'  %}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Get Card Information </p>
+                </a>
+                    <a href="{% url 'get_terminal_information'  %}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>ALL Terminal Information </p>
+                </a>
+                    </a>
+                    <a href="{% url 'read_terminal_information'  %}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> One Terminal information </p>
+                </a>
                  <a href="{% url 'upload_file'  %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>ADD FILE </p>
+                  <p>ADD ZIP FILE </p>
                 </a>
               </li>
 

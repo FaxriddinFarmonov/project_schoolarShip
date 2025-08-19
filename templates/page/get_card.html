@@ -135,9 +135,9 @@
                 <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Block Cards </h2>
+                    <h2 class="form-group text-center">Card Informations </h2>
                     <div class="form-row">
-                            {% bootstrap_field form.card_pan%}
+                            {% bootstrap_field form.card_ext_rid%}
 
 
                         </div>
@@ -145,7 +145,7 @@
                         <div class="form-row">
                             <div class="card-action right-align">
                                  <button type="submit" class="btn btn-block btn-success">
-                                    <i class="fas fa-check"></i> Block Card
+                                    <i class="fas fa-check"></i> Card Informations
                                   </button>
                             </div>
                             <a href="{% url 'dashboard-auto-list' key='service' %}">
@@ -183,7 +183,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Block Cards</h1>
+            <h1>Cards Informations</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -208,24 +208,67 @@
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
-                <tr>
-                     <th>№</th>
-                    <th>Title</th>
-                    <th>File</th>
-                    <th>Date</th>
-                    <th>Download zip file</th>
+<tr>
+    <th>№</th>
+    <th>Card ID</th>
+    <th>Card Number (PAN)</th>
+    <th>Result</th>
+    <th>Approval Code</th>
+    <th>Contract RID</th>
+    <th>Product RID</th>
+    <th>Status</th>
+    <th>Create Time</th>
+    <th>Activate Day</th>
+    <th>Activate Username</th>
+    <th>Exp Time</th>
+    <th>Max Val</th>
+    <th>CCY</th>
+    <th>PVV</th>
+    <th>Emboss Name</th>
+    <th>Track Name</th>
+    <th>Total Amt Up Lmt</th>
+    <th>Total Amt Lw Lmt</th>
+    <th>Total Cnt Up Lmt</th>
 
-                </tr>
-                </thead>
-                <tbody>
-               {% for i in roots %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ i.title }}</td>
-                        <td>{{ i.file.name }}</td>
-                        <td>{{ i.uploaded_at }}</td>
-                        <td>
-                            <style>
+    <th>Created At</th>
+</tr>
+</thead>
+<tbody>
+{% for i in roots %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ i.card_id }}</td>
+    <td>{{ i.pan }}</td>
+    <td>{{ i.result }}</td>
+    <td>{{ i.approval_code }}</td>
+    <td>{{ i.contract_rid }}</td>
+    <td>{{ i.product_rid }}</td>
+    <td>{{ i.status }}</td>
+    <td>{{ i.create_time }}</td>
+    <td>{{ i.activate_day }}</td>
+    <td>{{ i.activate_username }}</td>
+    <td>{{ i.exp_time }}</td>
+    <td>{{ i.max_val }}</td>
+    <td>{{ i.ccy }}</td>
+    <td>{{ i.pvv }}</td>
+    <td>{{ i.emboss_name }}</td>
+    <td>{{ i.track_name }}</td>
+    <td>{{ i.total_amt_up_lmt }}</td>
+    <td>{{ i.total_amt_lw_lmt }}</td>
+    <td>{{ i.total_cnt_up_lmt }}</td>
+
+    <td>{{ i.created_at }}</td>
+</tr>
+{% endfor %}
+</tbody>
+
+
+              </table>
+                <br>
+                <hr>
+                <div class="pagination">
+                    <span class="step-links">
+                        <style>
   .zip-btn {
     display: inline-flex;
     align-items: center;
@@ -245,24 +288,11 @@
   }
 </style>
 
-<a href="{% url 'export_cashwithdrawal_from_file' i.pk %}" class="zip-btn" title="ZIP bilan yuklab olish">
+<a href="{% url 'export_zip'  %}" class="zip-btn" title="ZIP bilan yuklab olish">
   <i class="fas fa-file-archive"></i>
   <span class="zip-label">ZIP</span>
 </a>
 
-                        </td>
-
-                    </tr>
-
-               {% endfor %}
-
-
-                </tbody>
-              </table>
-                <br>
-                <hr>
-                <div class="pagination">
-                    <span class="step-links">
                         {% if roots.has_previous %}
                             <a href="?page=1" class="btn btn-primary btn-sm">&laquo;first</a>
                             <a href="?page={{ roots.previous_page_number }}"  class="btn btn-primary btn-sm">prev</a>
@@ -281,11 +311,11 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
-                        <a href="{% url 'block_card'   %}" class="btn btn-success" >
+                        <a href="{% url 'card_lookup_view'   %}" class="btn btn-success" >
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
                             </span>
-                            <span class="text">Block Card  add  </span>
+                            <span class="text"> Card Informatioms  </span>
                         </a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">

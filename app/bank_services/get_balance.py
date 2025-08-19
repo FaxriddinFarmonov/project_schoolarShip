@@ -106,7 +106,7 @@ def get_balance_view(request):
                 request.session["result"] = {"Xatolik": str(e)}
                 request.session["show_form"] = False
 
-            return redirect(reverse("get_fak"))
+            return redirect(reverse("get_cardbalance"))
 
     # GET
     result = request.session.pop("result", None)

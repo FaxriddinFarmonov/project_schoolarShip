@@ -135,9 +135,13 @@
                 <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Block Cards </h2>
+                    <h2 class="form-group text-center">Add Card Number </h2>
                     <div class="form-row">
-                            {% bootstrap_field form.card_pan%}
+                            {% bootstrap_field form.card_number%}
+
+                            {% bootstrap_field form.max_value%}
+
+                            {% bootstrap_field form.currency%}
 
 
                         </div>
@@ -145,7 +149,7 @@
                         <div class="form-row">
                             <div class="card-action right-align">
                                  <button type="submit" class="btn btn-block btn-success">
-                                    <i class="fas fa-check"></i> Block Card
+                                    <i class="fas fa-check"></i> Add Limit Card
                                   </button>
                             </div>
                             <a href="{% url 'dashboard-auto-list' key='service' %}">
@@ -183,12 +187,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Block Cards</h1>
+            <h1>Limit Cards</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-              <li class="breadcrumb-item active">Xizmatlar</li>
+              <li class="breadcrumb-item active"></li>
             </ol>
           </div>
         </div>
@@ -202,67 +206,62 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Xizmatlarlar ro'yxati </h3>
+              <h3 class="card-title">Limit cards </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
-                <tr>
-                     <th>№</th>
-                    <th>Title</th>
-                    <th>File</th>
-                    <th>Date</th>
-                    <th>Download zip file</th>
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Card Number</th>
+            <th>Max Value</th>
+            <th>Currency</th>
+            <th>Result</th>
+            <th>Approval Code</th>
+            <th>Card ID</th>
+            <th>Restriction Guid</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for i in roots %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.card_number }}</td>
+            <td>{{ i.max_value }}</td>
+            <td>{{ i.currency }}</td>
+            <td>{{ i.result|default:"-" }}</td>
+            <td>{{ i.approval_code|default:"-" }}</td>
+            <td>{{ i.card_id|default:"-" }}</td>
+            <td>{{ i.restriction_guid|default:"-" }}</td>
+            <td>{{ i.status }}</td>
+            <td>{{ i.created_at }}</td>
+            <td>
+                  {% if i.status.strip == "No Limit" %}
+    <!-- 🔓 Ochiq qulflik icon (yashil) -->
+    <i class="fas fa-lock-open" style="color:green; font-size:18px;" title="No Limit"></i>
+{% else %}
+    <!-- 🔒 Yopiq qulflik icon (qizil) -->
+    <i class="fas fa-lock" style="color:red; font-size:18px;" title="Limited"></i>
+{% endif %}
 
-                </tr>
-                </thead>
-                <tbody>
-               {% for i in roots %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ i.title }}</td>
-                        <td>{{ i.file.name }}</td>
-                        <td>{{ i.uploaded_at }}</td>
-                        <td>
-                            <style>
-  .zip-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    background: linear-gradient(135deg,#2d8f2d,#1f7a1f); /* yashil */
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  }
-  .zip-btn i { font-size: 18px; }
-  .zip-label {
-    font-size: 13px;
-    line-height: 1;
-  }
-</style>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
-<a href="{% url 'export_cashwithdrawal_from_file' i.pk %}" class="zip-btn" title="ZIP bilan yuklab olish">
-  <i class="fas fa-file-archive"></i>
-  <span class="zip-label">ZIP</span>
-</a>
-
-                        </td>
-
-                    </tr>
-
-               {% endfor %}
-
-
-                </tbody>
               </table>
                 <br>
                 <hr>
                 <div class="pagination">
                     <span class="step-links">
+
+
                         {% if roots.has_previous %}
                             <a href="?page=1" class="btn btn-primary btn-sm">&laquo;first</a>
                             <a href="?page={{ roots.previous_page_number }}"  class="btn btn-primary btn-sm">prev</a>
@@ -281,12 +280,10 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
-                        <a href="{% url 'block_card'   %}" class="btn btn-success" >
-                            <span class="icon text-white-50">
-                                <i class="fas fa-check"></i>
-                            </span>
-                            <span class="text">Block Card  add  </span>
-                        </a>
+                       <a href="{% url 'send_card_restriction' %}" class="btn btn-success">
+    <i class="fas fa-edit"></i> Add Limit Card
+ard
+</a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">
                                 <i class="fas fa-home"></i>

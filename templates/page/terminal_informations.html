@@ -135,9 +135,9 @@
                 <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Block Cards </h2>
+                    <h2 class="form-group text-center">Card Informations </h2>
                     <div class="form-row">
-                            {% bootstrap_field form.card_pan%}
+                            {% bootstrap_field form.card_ext_rid%}
 
 
                         </div>
@@ -145,7 +145,7 @@
                         <div class="form-row">
                             <div class="card-action right-align">
                                  <button type="submit" class="btn btn-block btn-success">
-                                    <i class="fas fa-check"></i> Block Card
+                                    <i class="fas fa-check"></i> Card Informations
                                   </button>
                             </div>
                             <a href="{% url 'dashboard-auto-list' key='service' %}">
@@ -183,12 +183,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Block Cards</h1>
+            <h1>Terminals Information</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-              <li class="breadcrumb-item active">Xizmatlar</li>
+              <li class="breadcrumb-item active"></li>
             </ol>
           </div>
         </div>
@@ -202,30 +202,51 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Xizmatlarlar ro'yxati </h3>
+              <h3 class="card-title">Terminals Listzip </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
-                <tr>
-                     <th>№</th>
-                    <th>Title</th>
-                    <th>File</th>
-                    <th>Date</th>
-                    <th>Download zip file</th>
+<thead>
+<tr>
+    <th>№</th>
+    <th>Terminal ID</th>
+    <th>Terminal Inst ID</th>
+    <th>Class GUID</th>
+    <th>Class Title</th>
+    <th>Terminal Name</th>
+    <th>Status</th>
+    <th>Default CCY</th>
+    <th>Accept Cash</th>
+    <th>Address</th>
+    <th>Created At</th>
+</tr>
+</thead>
+<tbody>
+{% for i in roots %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ i.terminal_id }}</td>
+    <td>{{ i.terminal_inst_id }}</td>
+    <td>{{ i.terminal_class_guid }}</td>
+    <td>{{ i.terminal_class_title }}</td>
+    <td>{{ i.terminal_name }}</td>
+    <td>{{ i.terminal_status }}</td>
+    <td>{{ i.terminal_dflt_ccy }}</td>
+    <td>{% if i.terminal_accept_cash %} True{% else %} False{% endif %}</td>
+    <td>{{ i.terminal_address }}</td>
+    <td>{{ i.created_at }}</td>
+</tr>
+{% endfor %}
+</tbody>
 
-                </tr>
-                </thead>
-                <tbody>
-               {% for i in roots %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ i.title }}</td>
-                        <td>{{ i.file.name }}</td>
-                        <td>{{ i.uploaded_at }}</td>
-                        <td>
-                            <style>
+              </table>
+                <br>
+                <hr>
+                <div class="pagination">
+                    <span class="step-links">
+                        <style>
   .zip-btn {
     display: inline-flex;
     align-items: center;
@@ -245,24 +266,11 @@
   }
 </style>
 
-<a href="{% url 'export_cashwithdrawal_from_file' i.pk %}" class="zip-btn" title="ZIP bilan yuklab olish">
+<a href="{% url 'export_terminal_info'  %}" class="zip-btn" title="ZIP bilan yuklab olish">
   <i class="fas fa-file-archive"></i>
-  <span class="zip-label">ZIP</span>
+  <span class="zip-label">Download Exel Terminal Information</span>
 </a>
 
-                        </td>
-
-                    </tr>
-
-               {% endfor %}
-
-
-                </tbody>
-              </table>
-                <br>
-                <hr>
-                <div class="pagination">
-                    <span class="step-links">
                         {% if roots.has_previous %}
                             <a href="?page=1" class="btn btn-primary btn-sm">&laquo;first</a>
                             <a href="?page={{ roots.previous_page_number }}"  class="btn btn-primary btn-sm">prev</a>
@@ -281,12 +289,9 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
-                        <a href="{% url 'block_card'   %}" class="btn btn-success" >
-                            <span class="icon text-white-50">
-                                <i class="fas fa-check"></i>
-                            </span>
-                            <span class="text">Block Card  add  </span>
-                        </a>
+                       <a href="{% url 'terminal_information' %}" class="btn btn-success">
+    <i class="fas fa-edit"></i> Update
+</a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">
                                 <i class="fas fa-home"></i>

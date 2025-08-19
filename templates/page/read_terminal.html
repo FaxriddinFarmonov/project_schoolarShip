@@ -135,9 +135,9 @@
                 <form role="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card-body">
-                    <h2 class="form-group text-center">Block Cards </h2>
+                    <h2 class="form-group text-center">Card Informations </h2>
                     <div class="form-row">
-                            {% bootstrap_field form.card_pan%}
+                            {% bootstrap_field form.terminal_name%}
 
 
                         </div>
@@ -145,7 +145,7 @@
                         <div class="form-row">
                             <div class="card-action right-align">
                                  <button type="submit" class="btn btn-block btn-success">
-                                    <i class="fas fa-check"></i> Block Card
+                                    <i class="fas fa-check"></i> Terminal Information
                                   </button>
                             </div>
                             <a href="{% url 'dashboard-auto-list' key='service' %}">
@@ -183,12 +183,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Block Cards</h1>
+            <h1>Terminals Information</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-              <li class="breadcrumb-item active">Xizmatlar</li>
+              <li class="breadcrumb-item active"></li>
             </ol>
           </div>
         </div>
@@ -202,29 +202,74 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Xizmatlarlar ro'yxati </h3>
+              <h3 class="card-title">Terminals Listzip </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
-                <tr>
-                     <th>№</th>
-                    <th>Title</th>
-                    <th>File</th>
-                    <th>Date</th>
-                    <th>Download zip file</th>
-
-                </tr>
-                </thead>
-                <tbody>
-               {% for i in roots %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ i.title }}</td>
-                        <td>{{ i.file.name }}</td>
-                        <td>{{ i.uploaded_at }}</td>
-                        <td>
+<thead>
+<tr>
+    <th>№</th>
+    <th>Terminal ID</th>
+    <th>Terminal Name</th>
+    <th>Inst Name</th>
+    <th>Status</th>
+    <th>Title</th>
+    <th>Notes</th>
+    <th>Create Time</th>
+    <th>Activate Time</th>
+    <th>Default CCY</th>
+    <th>Default Language</th>
+    <th>Address</th>
+    <th>Branch ID</th>
+    <th>Branch RID</th>
+    <th>Branch Code</th>
+    <th>Owner RID</th>
+    <th>Last Rq Time</th>
+    <th>Last Resp Time</th>
+    <th>Last Online RRN</th>
+    <th>Mac Error Cnt</th>
+    <th>Issuer Cards</th>
+    <th>Created At</th>
+    <th>Download</th>
+</tr>
+</thead>
+<tbody>
+{% for i in roots %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ i.terminal_id }}</td>
+    <td>{{ i.terminal_name }}</td>
+    <td>{{ i.inst_name }}</td>
+    <td>{{ i.status }}</td>
+    <td>{{ i.title }}</td>
+    <td>{{ i.notes }}</td>
+    <td>{{ i.create_time }}</td>
+    <td>{{ i.activate_time }}</td>
+    <td>{{ i.default_ccy }}</td>
+    <td>{{ i.default_language }}</td>
+    <td>
+        {% if i.address %}
+            {{ i.address.CountryId|default:"" }},
+            {{ i.address.RegionTitle|default:"" }},
+            {{ i.address.CityTitle|default:"" }},
+            {{ i.address.StreetTitle|default:"" }}
+        {% else %}
+            -
+        {% endif %}
+    </td>
+    <td>{{ i.branch_id }}</td>
+    <td>{{ i.branch_rid }}</td>
+    <td>{{ i.branch_code }}</td>
+    <td>{{ i.owner_rid }}</td>
+    <td>{{ i.last_rq_time }}</td>
+    <td>{{ i.last_resp_time }}</td>
+    <td>{{ i.last_online_rrn }}</td>
+    <td>{{ i.mac_error_cnt }}</td>
+    <td>{% if i.issuer_cards %} ✅True {% else %} ❌False {% endif %}</td>
+    <td>{{ i.created_at }}</td>
+    <td>
                             <style>
   .zip-btn {
     display: inline-flex;
@@ -245,24 +290,23 @@
   }
 </style>
 
-<a href="{% url 'export_cashwithdrawal_from_file' i.pk %}" class="zip-btn" title="ZIP bilan yuklab olish">
+<a href="{% url 'export_terminal' i.pk  %}" class="zip-btn" title="ZIP bilan yuklab olish">
   <i class="fas fa-file-archive"></i>
-  <span class="zip-label">ZIP</span>
+  <span class="zip-label">Download Exel</span>
 </a>
-
-                        </td>
-
-                    </tr>
-
-               {% endfor %}
+</tr></td>
+{% endfor %}
+</tbody>
 
 
-                </tbody>
+
               </table>
                 <br>
                 <hr>
                 <div class="pagination">
                     <span class="step-links">
+
+
                         {% if roots.has_previous %}
                             <a href="?page=1" class="btn btn-primary btn-sm">&laquo;first</a>
                             <a href="?page={{ roots.previous_page_number }}"  class="btn btn-primary btn-sm">prev</a>
@@ -281,12 +325,9 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-6 col-md-6 mb-4">
-                        <a href="{% url 'block_card'   %}" class="btn btn-success" >
-                            <span class="icon text-white-50">
-                                <i class="fas fa-check"></i>
-                            </span>
-                            <span class="text">Block Card  add  </span>
-                        </a>
+                       <a href="{% url 'read_terminal_view' %}" class="btn btn-success">
+    <i class="fas fa-edit"></i> Add Terminal
+</a>
                         <a href="{% url 'home' %}"  class="btn btn-info" >
                            <span class="icon text-white-50">
                                 <i class="fas fa-home"></i>

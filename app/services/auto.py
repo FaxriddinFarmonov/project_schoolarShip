@@ -3,11 +3,16 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
+
+from app.models import CardRestriction
+from app.models.get_terminals import TerminalInfo
 from app.models.create_customer import SubjectUpdate
 from app.forms import *
 from serpapi import GoogleSearch
 from pprint import pprint
 from app.models.doctor import Kafedra, CardActivation, BlockCard, Get_Balance
+from app.models.get_card import CardInfo
+from app.models.read_terminal import TerminalRead
 from app.models.upload_file import UploadedFile
 
 
@@ -253,7 +258,7 @@ from django.core.paginator import Paginator
 def get_fak(request):
     try:
         objects = Get_Balance.objects.all().order_by('-id')
-        paginator = Paginator(objects, 1)
+        paginator = Paginator(objects, 5)
 
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
@@ -376,3 +381,84 @@ def get_file(request):
     except Exception as e:
         print("Xatolik:", e)
         return render(request, 'page/exel_file.html', {"error": 404})
+
+
+
+
+
+def get_card_information(request):
+    try:
+        objects = CardInfo.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+            "pos": "files",  # bu flag HTMLda tekshirish uchun
+        }
+        return render(request, 'page/get_card.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/get_card.html', {"error": 404})
+
+
+
+
+
+def get_terminal_information(request):
+    try:
+        objects = TerminalInfo.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+            "pos": "files",  # bu flag HTMLda tekshirish uchun
+        }
+        return render(request, 'page/terminal_informations.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/terminal_informations.html', {"error": 404})
+
+
+
+
+def read_terminal_information(request):
+    try:
+        objects = TerminalRead.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+            "pos": "files",  # bu flag HTMLda tekshirish uchun
+        }
+        return render(request, 'page/read_terminal.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/read_terminal.html', {"error": 404})
+
+
+
+def get_limit_card(request):
+    try:
+        objects = CardRestriction.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+            "pos": "files",  # bu flag HTMLda tekshirish uchun
+        }
+        return render(request, 'page/limit_card.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/limit_card.html', {"error": 404})
