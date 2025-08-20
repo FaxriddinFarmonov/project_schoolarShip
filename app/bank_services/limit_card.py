@@ -5,13 +5,12 @@ import xml.etree.ElementTree as ET
 from app.services.forms.limet_card import CardRestrictionForm
 
 
-
 def send_card_restriction(request):
     if request.method == "POST":
         form = CardRestrictionForm(request.POST)
         if form.is_valid():
             card_number = form.cleaned_data['card_number']
-            max_val = form.cleaned_data['max_value']   # ✅ to‘g‘rilandi
+            max_val = form.cleaned_data['max_value']   # limit summasi
             currency = form.cleaned_data['currency']   # masalan: 860 (UZS)
 
             # SOAP so‘rov yuborish
@@ -54,38 +53,64 @@ def send_card_restriction(request):
             """
 
             headers = {"Content-Type": "text/xml; charset=utf-8"}
-            response = requests.post("http://172.31.77.12:10011", data=soap_body, headers=headers)
 
-            # XML javobni parse qilish
-            tree = ET.fromstring(response.text)
-            ns = {
-                "tran": "http://schemas.tranzaxis.com/tran.xsd",
-                "tok": "http://schemas.tranzaxis.com/tokens-admin.xsd",
-            }
+            try:
+                response = requests.post("http://172.31.77.12:10011", data=soap_body, headers=headers, timeout=20)
 
-            result = tree.find(".//tran:Response", ns).attrib.get("Result")
-            approval_code = tree.find(".//tran:Response", ns).attrib.get("ApprovalCode")
-            card_id = tree.find(".//tok:CardVsdc", ns).attrib.get("Id") if tree.find(".//tok:CardVsdc", ns) is not None else None
-            restriction_guid = tree.find(".//tok:Restriction", ns).attrib.get("Guid") if tree.find(".//tok:Restriction", ns) is not None else None
+                # XML javobni parse qilish
+                tree = ET.fromstring(response.text)
+                ns = {
+                    "tran": "http://schemas.tranzaxis.com/tran.xsd",
+                    "tok": "http://schemas.tranzaxis.com/tokens-admin.xsd",
+                }
 
-            # Maskalash
-            def mask_card_number(num):
-                return num[0:4] + "*" * (len(num) - 8) + num[-4:]
+                response_node = tree.find(".//tran:Response", ns)
+                if response_node is not None:
+                    result = response_node.attrib.get("Result")
+                    approval_code = response_node.attrib.get("ApprovalCode")
+                else:
+                    result, approval_code = "Failed", None
 
-            # Statusni shart bilan aniqlash
-            status_value = "Limited" if approval_code == "Approved" else ""
+                card_id = tree.find(".//tok:CardVsdc", ns).attrib.get("Id") if tree.find(".//tok:CardVsdc", ns) is not None else None
+                restriction_guid = tree.find(".//tok:Restriction", ns).attrib.get("Guid") if tree.find(".//tok:Restriction", ns) is not None else None
 
-            # Modelga yozish
-            CardRestriction.objects.create(
-                card_number=mask_card_number(card_number),
-                result=result,
-                approval_code=approval_code,
-                card_id=card_id,
-                restriction_guid=restriction_guid,
-                status=status_value
-            )
+                # Maskalash funksiyasi
+                def mask_card_number(num):
+                    return num[0:4] + "*" * (len(num) - 8) + num[-4:]
+
+                # ✅ Statusni Result bo‘yicha aniqlash
+                if result == "Approved":
+                    status_value = "Limited"
+                else:
+                    status_value = "Failed"
+
+                # Modelga yozish
+                CardRestriction.objects.create(
+                    card_number=mask_card_number(card_number),
+                    result=result,
+                    max_value=max_val,
+                    currency=currency,
+                    approval_code=approval_code,
+                    card_id=card_id,
+                    restriction_guid=restriction_guid,
+                    status=status_value
+                )
+
+            except Exception as e:
+                # Xatolik bo‘lsa, log sifatida modelga yozish
+                CardRestriction.objects.create(
+                    card_number=card_number,
+                    max_value=max_val,
+                    currency=currency,
+                    result="Error",
+                    approval_code=None,
+                    card_id=None,
+                    restriction_guid=None,
+                    status=f"Exception: {str(e)}"
+                )
 
             return redirect("get_limit_card")
+
     else:
         form = CardRestrictionForm()
 

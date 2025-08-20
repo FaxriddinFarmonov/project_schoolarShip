@@ -2,7 +2,7 @@ import requests
 from django.shortcuts import render, redirect
 from app.models.limit_card import CardRestriction
 import xml.etree.ElementTree as ET
-from app.services.forms.limet_card import CardRestrictionForm, CardLimitRemoveForm
+from app.services.forms.limet_card import CardLimitRemoveForm
 
 
 def remove_limit(request):
@@ -11,7 +11,7 @@ def remove_limit(request):
         if form.is_valid():
             card_number = form.cleaned_data['card_number']
 
-            # SOAP so‘rov yuborish
+            # SOAP so‘rov (limitni o‘chirish)
             soap_body = f"""
             <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
                               xmlns:tran="http://schemas.tranzaxis.com/tran.wsdl"
@@ -47,39 +47,60 @@ def remove_limit(request):
             """
 
             headers = {"Content-Type": "text/xml; charset=utf-8"}
-            response = requests.post("http://172.31.77.12:10011", data=soap_body, headers=headers)
 
-            # XML javobni parse qilish
-            tree = ET.fromstring(response.text)
+            try:
+                response = requests.post("http://172.31.77.12:10011", data=soap_body, headers=headers, timeout=20)
 
-            ns = {
-                "tran": "http://schemas.tranzaxis.com/tran.xsd",
-                "tok": "http://schemas.tranzaxis.com/tokens-admin.xsd",
-            }
+                # XML javobni parse qilish
+                tree = ET.fromstring(response.text)
+                ns = {
+                    "tran": "http://schemas.tranzaxis.com/tran.xsd",
+                    "tok": "http://schemas.tranzaxis.com/tokens-admin.xsd",
+                }
 
-            result = tree.find(".//tran:Response", ns).attrib.get("Result")
-            approval_code = tree.find(".//tran:Response", ns).attrib.get("ApprovalCode")
-            card_id = tree.find(".//tok:CardVsdc", ns).attrib.get("Id") if tree.find(".//tok:CardVsdc", ns) is not None else None
-            restriction_guid = tree.find(".//tok:Restriction", ns).attrib.get("Guid") if tree.find(".//tok:Restriction", ns) is not None else None
+                response_node = tree.find(".//tran:Response", ns)
+                if response_node is not None:
+                    result = response_node.attrib.get("Result")
+                    approval_code = response_node.attrib.get("ApprovalCode")
+                else:
+                    result, approval_code = "Failed", None
 
-            # Maskalash funksiyasi
-            def mask_card_number(num):
-                return num[0:4] + "*" * (len(num) - 8) + num[-4:]
+                card_id = tree.find(".//tok:CardVsdc", ns).attrib.get("Id") if tree.find(".//tok:CardVsdc", ns) is not None else None
+                restriction_guid = tree.find(".//tok:Restriction", ns).attrib.get("Guid") if tree.find(".//tok:Restriction", ns) is not None else None
 
-            # Statusni shart bilan aniqlash
-            status_value = "No Limit" if approval_code == "Approved" else ""
+                # Maskalash funksiyasi
+                def mask_card_number(num):
+                    return num[0:4] + "*" * (len(num) - 8) + num[-4:]
 
-            # Modelga yozish
-            CardRestriction.objects.create(
-                card_number=mask_card_number(card_number),
-                result=result,
-                approval_code=approval_code,
-                card_id=card_id,
-                restriction_guid=restriction_guid,
-                status=status_value
-            )
+                # ✅ Statusni Result bo‘yicha aniqlash
+                if result == "Approved":
+                    status_value = "No Limit"
+                else:
+                    status_value = "Failed"
 
-            return redirect("get_limit_card")  # faqat muvaffaqiyatli bo'lsa redirect
+                # Modelga yozish
+                CardRestriction.objects.create(
+                    card_number=mask_card_number(card_number),
+                    result=result,
+                    approval_code=approval_code,
+                    card_id=card_id,
+                    restriction_guid=restriction_guid,
+                    status=status_value
+                )
+
+            except Exception as e:
+                # Xatolik bo‘lsa logga yozish
+                CardRestriction.objects.create(
+                    card_number=card_number,
+                    result="Error",
+                    approval_code=None,
+                    card_id=None,
+                    restriction_guid=None,
+                    status=f"Exception: {str(e)}"
+                )
+
+            return redirect("get_limit_card")  # ✅ faqat muvaffaqiyatli bo‘lsa redirect
+
     else:
         form = CardLimitRemoveForm()
 
