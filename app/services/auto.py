@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
-from app.models import CardRestriction
+from app.models import CardRestriction, CardModify
 from app.models.get_terminals import TerminalInfo
 from app.models.create_customer import SubjectUpdate
 from app.forms import *
@@ -462,3 +462,21 @@ def get_limit_card(request):
     except Exception as e:
         print("Xatolik:", e)
         return render(request, 'page/limit_card.html', {"error": 404})
+
+
+def get_create_card(request):
+    try:
+        objects = CardModify.objects.all().order_by('-id')
+        paginator = Paginator(objects, 5)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        ctx = {
+            'roots': page_obj,
+            "pos": "files",  # bu flag HTMLda tekshirish uchun
+        }
+        return render(request, 'page/create_card.html', ctx)
+    except Exception as e:
+        print("Xatolik:", e)
+        return render(request, 'page/create_card.html', {"error": 404})

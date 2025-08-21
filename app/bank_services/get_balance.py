@@ -9,8 +9,6 @@ import requests
 from app.forms import CardPanForm
 from app.models import Get_Balance
 
-
-
 def get_balance_view(request):
     form = CardPanForm()
 
@@ -51,7 +49,11 @@ def get_balance_view(request):
             headers = {"Content-Type": "text/xml;charset=UTF-8"}
 
             try:
-                response = requests.post("http://172.31.77.12:10011", data=xml_data.encode("utf-8"), headers=headers)
+                response = requests.post(
+                    "http://172.31.77.12:10011",
+                    data=xml_data.encode("utf-8"),
+                    headers=headers
+                )
 
                 tree = ET.fromstring(response.text)
                 body = tree.find(".//{http://schemas.xmlsoap.org/soap/envelope/}Body")
@@ -78,23 +80,25 @@ def get_balance_view(request):
                     }
                     response_tag = body.find(".//tran:Response", ns)
 
-                    response_id = response_tag.attrib.get("Id", "") if response_tag is not None else ""
-                    approval_code = response_tag.attrib.get("ApprovalCode", "") if response_tag is not None else ""
-                    result_status = response_tag.attrib.get("Result", "") if response_tag is not None else ""
+                    response_id = approval_code = result_status = ""
+                    if response_tag is not None:
+                        response_id = response_tag.attrib.get("Id", "")
+                        approval_code = response_tag.attrib.get("ApprovalCode", "")
+                        result_status = response_tag.attrib.get("Result", "")  # faqat shu kerak
 
-                    # 🔽 Bazaga saqlaymiz
+                    # 🔽 NumVal / IntVal bo‘lishi mumkin
                     numval = result.get("NumVal")
                     intval = result.get("IntVal")
 
-                    if numval or intval:
-                        Get_Balance.objects.create(
-                            card_number=masked_pan,
-                            NumVal=numval,
-                            IntVal=intval,
-                            response_id=response_id,
-                            approval_code=approval_code,
-                            result=result_status
-                        )
+                    # ✅ Bazaga saqlaymiz (TokenIsBlocked bo‘lsa ham)
+                    Get_Balance.objects.create(
+                        card_number=masked_pan,
+                        NumVal=numval,
+                        IntVal=intval,
+                        response_id=response_id,
+                        approval_code=approval_code,
+                        result=result_status  # faqat shu qoladi
+                    )
 
                 # Sessionga saqlaymiz
                 request.session["result"] = result

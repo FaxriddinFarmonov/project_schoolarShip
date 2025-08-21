@@ -6,6 +6,7 @@ from app.models.books import *
 from app.models.create_customer import SubjectUpdate
 from app.models.get_terminals import TerminalInfo
 from app.models.limit_card import CardRestriction
+from app.models.create_card import CardModify
 
 
 class LinkSchot:

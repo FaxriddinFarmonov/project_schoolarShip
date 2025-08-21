@@ -3,6 +3,7 @@ from django.urls import path
 
 from app.bank_services.link_schot import contract_update_view
 from .bank_services.card_information_exel import export_all_cardinfo_zip
+from .bank_services.craete_card import modify_card_view
 from .bank_services.doctor import translate_document_view
 from .bank_services.get_information import card_lookup_view
 from .bank_services.get_terminals import terminal_lookup_view
@@ -14,7 +15,7 @@ from .bank_services.remove_limit import remove_limit
 from .bank_services.terminal_information_exel import export_terminalinfo_to_excel
 from .bank_services.upload_file import upload_file_view
 from .services.auto import gets, auto_del, get_fak, card_block, active_card_status, payment_status, get_customers, \
-    get_file, get_card_information, get_terminal_information, read_terminal_information, get_limit_card
+    get_file, get_card_information, get_terminal_information, read_terminal_information, get_limit_card, get_create_card
 from .services.auth import profile,sign_up,sign_in,sign_out,search,otp,resent_otp
 from .services.client import client_doc
 from .services.derector import list_members,banned,grader
@@ -56,6 +57,8 @@ urlpatterns = [
     path('contract_update_view/', contract_update_view, name='contract_update_view'),
 
 
+    path("modify_card_view/", modify_card_view, name="modify_card_view"),
+    path("get_create_card/", get_create_card, name="get_create_card"),
     path("exportterminal-info/", export_terminalinfo_to_excel, name="export_terminal_info"),
     path('upload/', upload_file_view, name='upload_file'),
     path('send_card_restriction/', send_card_restriction, name='send_card_restriction'),
