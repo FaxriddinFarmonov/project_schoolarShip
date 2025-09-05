@@ -2,6 +2,18 @@ from django.shortcuts import render
 from django.urls import path
 
 from app.bank_services.link_schot import contract_update_view
+from .BankApi.P2P_card import PaymentAPIView
+from .BankApi.active_card import activate_card_api
+from .BankApi.block_card import block_card_api
+from .BankApi.card_information import CardLookupAPIView
+from .BankApi.create_card import modify_card_api
+from .BankApi.create_customer import subject_update_api
+from .BankApi.get_alance import CardBalanceAPIView
+from .BankApi.get_all_terminal import TerminalLookupAPIView
+from .BankApi.get_one_terminal import TerminalReadAPIView
+from .BankApi.limit_card import CardRestrictionAPIView
+from .BankApi.link_shoot import contract_update_api
+from .BankApi.remove_limit import CardLimitRemoveAPIView
 from .bank_services.card_information_exel import export_all_cardinfo_zip
 from .bank_services.craete_card import modify_card_view
 from .bank_services.doctor import translate_document_view
@@ -119,7 +131,20 @@ urlpatterns = [
     #path("search_results/",search_results,name="search_results"),
 
     #client
-    path("client/doc/<int:service>/",client_doc,name='servicedocs')
+    path("client/doc/<int:service>/",client_doc,name='servicedocs'),
 
+#     api
+    path("api/subject-update/", subject_update_api, name="subject_update_api"),
+    path("api/contract/update/", contract_update_api, name="contract_update_api"),
+    path("api/modify-card/", modify_card_api, name="modify-card"),
+    path("api/activate-card/", activate_card_api, name="activate_card_api"),
+    path("api/block-card/", block_card_api, name="block_card_api"),
+    path("api/limit-card/", CardRestrictionAPIView.as_view(), name="limit_card_api"),
+    path("api/remove-limit/", CardLimitRemoveAPIView.as_view(), name="remove_limit_api"),
+    path("api/card-lookup/", CardLookupAPIView.as_view(), name="card_lookup_api"),
+    path("api/card-balance/", CardBalanceAPIView.as_view(), name="card-balance"),
+    path("api/terminal-lookup/", TerminalLookupAPIView.as_view(), name="card-TerminalLookupAPIView"),
+    path("api/read-terminal/", TerminalReadAPIView.as_view(), name="api_read_terminal"),
+    path("api/payment/", PaymentAPIView.as_view(), name="api_payment"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
