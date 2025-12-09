@@ -26,6 +26,7 @@ from .bank_services.read_terminal_exel import export_terminal_to_excel_flat_addr
 from .bank_services.remove_limit import remove_limit
 from .bank_services.terminal_information_exel import export_terminalinfo_to_excel
 from .bank_services.upload_file import upload_file_view
+from .bank_services.view import soap_handler_view
 from .services.auto import gets, auto_del, get_fak, card_block, active_card_status, payment_status, get_customers, \
     get_file, get_card_information, get_terminal_information, read_terminal_information, get_limit_card, get_create_card
 from .services.auth import profile,sign_up,sign_in,sign_out,search,otp,resent_otp
@@ -146,5 +147,7 @@ urlpatterns = [
     path("api/terminal-lookup/", TerminalLookupAPIView.as_view(), name="card-TerminalLookupAPIView"),
     path("api/read-terminal/", TerminalReadAPIView.as_view(), name="api_read_terminal"),
     path("api/payment/", PaymentAPIView.as_view(), name="api_payment"),
+    path("workflow/", soap_handler_view),  # URL: http://127.0.0.1:8000/workflow/
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

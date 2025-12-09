@@ -1,17 +1,14 @@
-from django.shortcuts import render, redirect
-from .models import EmailLog
-from .tasks import send_email_task
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
-def send_email_view(request):
+from app.bank_services.createCCHCard import handle_request
+
+
+@csrf_exempt
+def soap_handler_view(request):
     if request.method == "POST":
-        email = request.POST.get("email")
-        message = request.POST.get("message")
+        xml_from_postman = request.body.decode("utf-8")  # Postmandan XML keladi
+        result = handle_request(xml_from_postman)  # Sizning funksiyangizni chaqiramiz
+        return JsonResponse(result, safe=False)  # Natijani JSON qaytaramiz
 
-        log = EmailLog.objects.create(email=email, message=message)
-
-        # Taskni fon rejimida Celery ga yuboramiz
-        send_email_task.delay(log.id)
-
-        return redirect("email_list")
-
-    return render(request, "send_email.html")
+    return JsonResponse({"error": "Only POST allowed"}, status=405)
